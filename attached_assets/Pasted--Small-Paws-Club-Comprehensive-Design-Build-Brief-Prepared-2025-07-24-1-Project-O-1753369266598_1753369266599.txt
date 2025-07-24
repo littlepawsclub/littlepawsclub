@@ -1,0 +1,150 @@
+# Small Paws Club – Comprehensive Design & Build Brief  
+*Prepared 2025-07-24*
+
+---
+
+## 1  Project Overview  
+Small Paws Club is a **UK‑based, custom‑coded dropshipping store** that brings comfort, joy and practical solutions to owners of small mammals – rabbits, guinea‑pigs, hamsters, rats and ferrets.    
+The goal for launch is a lean catalogue of 10 curated SKUs, fast UK shipping (1‑3 days on core items) and a simple, trust‑centric shopping experience optimised for Facebook / Instagram ads. Target revenue: a few hundred pounds per month while learning and refining.
+
+---
+
+## 2  Brand DNA  
+
+| Element | Definition |
+|---------|------------|
+| Mission | *“Comfort, joy, and little treats — for the pets who mean the most.”* |
+| Personality | Warm • Playful • Trustworthy • Knowledgeable |
+| Tagline | **Tiny paws, big love.** |
+| Values | Pet‑safety • Fast local fulfilment • Honest pricing • Community caring |
+
+### Audience Snapshot  
+Young UK pet parents (18‑40), apartment dwellers & families who treat pocket pets as family. They value cute aesthetics, convenience, and reassurance that products are safe and sized correctly for their little companions.
+
+---
+
+## 3  Unique Selling Propositions (USPs)  
+
+1. **UK Stock & 1‑3‑Day Delivery** on hero SKUs  
+2. **Curated, vet‑approved quality** – no generic junk  
+3. **Community vibe** – tips, user photos, rewards  
+4. **Secure checkout** – Stripe + PayPal + clear return policy
+
+---
+
+## 4  Visual Identity  
+
+| Asset | Spec |
+|-------|------|
+| **Colour Palette** | Cream `#FBF8F5` · Sage `#BFD8C2` · Blush `#F9D8D6` · Dusty Blue `#AEC9E2` · Accent (Dusty Orange) `#F4A269` |
+| **Typography** | *Poppins* 400/600/700, fallback system‑ui |
+| **Spacing Scale** | 4 px step ⇒ 4‑8‑12‑16‑24‑32‑48‑64 |
+| **Border Radius** | `0.75rem` all components |
+| **Imagery** | Soft‑lit photos of happy small pets interacting with products; encourage UGC; pastel backdrops |
+| **Iconography** | Thin‑line icons with rounded corners for trust badges |
+
+---
+
+## 5  Tone of Voice  
+
+Friendly mentor‑next‑door. Write like: *“Bunnies love to zoom – our foldable tunnel lets them explore safely (and looks cute in your living room!).”* Avoid jargon; emphasise empathy and practical benefits.
+
+---
+
+## 6  Site Architecture  
+
+```
+/
+├─ index.html
+├─ shop/
+│  └─ index.html
+├─ product/
+│  └─ {slug}.html
+├─ cart.html
+├─ checkout.html
+├─ about.html
+├─ faqs.html
+├─ contact.html
+├─ legal/
+│  ├─ privacy.html
+│  └─ shipping-returns.html
+├─ 404.html
+├─ assets/
+│  ├─ img/
+│  ├─ fonts/
+│  └─ icons/
+├─ data/
+│  └─ featured-products.json
+└─ css/ & scss/
+```
+
+See Phase 1 deliverable for detailed tree and partial structure.
+
+---
+
+## 7  Component Library (initial)  
+
+* `hero-banner`  
+* `nav-header` / `mobile-drawer`  
+* `product-card` (reusable grid)  
+* `trust-strip` (3 icon bullets)  
+* `email-optin-bar`  
+* `testimonial-slider` (future)  
+* `footer-basic`  
+
+Each component has its own SCSS partial and BEM classes.
+
+---
+
+## 8  Launch SKU Catalogue  
+
+| # | Product | Type | Retail (£) | Core Benefit | Supplier (target) |
+|---|---------|------|------------|--------------|-------------------|
+| 1 | Collapsible Small‑Pet Tunnel | Enrichment | 16–19 | Exercise & exploration | Avasam |
+| 2 | Variety Chew‑Toy Pack (10 pcs) | Dental toy set | 9–12 | Tooth health & boredom relief | Go Dropship |
+| 3 | Plush Cuddle Cup Bed | Comfort | 18–24 | Safe snuggle spot | Spocket UK |
+| 4 | Mini Grooming Kit (Brush + Nail Clippers) | Care tool | 14–17 | Shedding & nail control | Avasam |
+| 5 | Treat‑Dispensing Forage Ball | Puzzle toy | 11–15 | Mental stimulation | CJ UK Warehouse |
+| 6 | Harness & Leash (XS) | Outdoor | 13–16 | Safe outdoor exploration | CJ UK |
+| 7 | Seasonal Small‑Pet Costume (2‑pc) | Novelty | 8–10 | Shareable cuteness | CJ UK |
+| 8 | Foldable Indoor/Outdoor Playpen | Exercise run | 28–35 | Safe free‑roam area | Go Dropship |
+| 9 | Modular Rabbit Hutch (Flat‑pack) | Habitat | 45–49 | Stylish space‑saving home | Spocket EU (ships UK) |
+| 10| “Starter Fun Pack” Bundle | Multi‑bundle | 29 | Mixed enrichment kit (tunnel + chew + toy sampler) | Avasam |
+
+All SKUs under ~£50 retail, high visual appeal, short UK shipping.
+
+---
+
+## 9  Conversion & Trust Elements  
+
+* Above‑fold CTA + free‑shipping threshold banner (£40+)  
+* Review stars & UGC photos on product pages (Loox or static seed)  
+* 30‑Day Money‑Back Guarantee badge  
+* Livechat widget (Tidio) – optional after launch  
+* Clear VAT & shipping disclosure on checkout
+
+---
+
+## 10  Tech & Performance Notes  
+
+* **Tech**: Static HTML + vanilla JS, SCSS compiled on build; optional Node lightweight server.  
+* **Checkout**: Embed Snipcart *or* Stripe + PayPal buttons (decide by Phase 5).  
+* **Analytics**: Meta Pixel + Conversions API placeholder, Google Analytics.  
+* **Performance Budget**: First load < 1.2 sec on 4G; total JS < 35 KB; images lazy‑loaded.  
+* **Accessibility**: Focus styles, ARIA‑labels on nav toggles, alt tags descriptive.
+
+---
+
+## 11  Phase Roadmap  
+
+| Phase | Focus | Status |
+|-------|-------|--------|
+| 1 | File structure & page map | ✅ Complete |
+| 2 | Build responsive homepage | ⏳ In progress |
+| 3 | Product card + shop grid | Next |
+| 4 | Product page template | |
+| 5 | Cart / Checkout integration | |
+| 6 | Meta Pixel & analytics | |
+| 7 | Launch assets & ad creatives | |
+
+---
