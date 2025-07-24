@@ -3,7 +3,7 @@
 
 .hero-banner {
   padding: $spacing-16 0;
-  background: linear-gradient(135deg, $cream 0%, lighten($blush, 5%) 100%);
+  background: linear-gradient(135deg, $cream 0%, $blush 100%);
   
   &__container {
     @include container;
@@ -124,7 +124,7 @@
     width: 100%;
     max-width: 400px;
     aspect-ratio: 1;
-    background: linear-gradient(135deg, $sage, $dusty-blue);
+    background: linear-gradient(135deg, $sage, $blush);
     border-radius: $border-radius-lg;
     display: flex;
     flex-direction: column;

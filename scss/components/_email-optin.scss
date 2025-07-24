@@ -3,8 +3,8 @@
 
 .email-optin {
   padding: $spacing-16 0;
-  background: linear-gradient(135deg, $dusty-blue, $sage);
-  color: white;
+  background: linear-gradient(135deg, $sage, $cream);
+  color: $text-primary;
   
   &__container {
     @include container;
@@ -30,7 +30,7 @@
   
   &__text {
     font-size: $font-size-lg;
-    opacity: 0.9;
+    color: $text-secondary;
     margin: 0;
   }
   
@@ -90,7 +90,7 @@
     
     &:focus {
       outline: none;
-      border-color: white;
+      border-color: $accent;
     }
     
     svg {
@@ -118,8 +118,8 @@
   
   // Success message
   &__success {
-    background: rgba(white, 0.1);
-    border: 1px solid rgba(white, 0.2);
+    background: rgba($sage, 0.2);
+    border: 1px solid $sage;
     border-radius: $border-radius;
     padding: $spacing-4;
     margin-top: $spacing-4;
@@ -132,12 +132,13 @@
     p {
       margin: 0;
       font-weight: $font-weight-semibold;
+      color: darken($text-primary, 10%);
     }
   }
   
   // Error message
   &__error {
-    color: #fed7d7;
+    color: darken($accent, 20%);
     font-size: $font-size-sm;
     margin-top: $spacing-2;
     display: none;
