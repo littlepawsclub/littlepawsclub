@@ -82,6 +82,11 @@ if (!window.qtyNavHandlerAdded) {
   window.qtyNavHandlerAdded = true;
   
   document.addEventListener('click', e => {
+    // Debounce rapid clicks
+    if (e.timeStamp - (window.lastClickTime || 0) < 100) {
+      return;
+    }
+    window.lastClickTime = e.timeStamp;
     const plusBtn = e.target.closest('[data-plus]');
     const minusBtn = e.target.closest('[data-minus]');
     
