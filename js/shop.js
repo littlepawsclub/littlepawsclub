@@ -134,31 +134,33 @@ const Shop = {
     
     return `
       <article class="product-card ${isOutOfStock ? 'product-card--out-of-stock' : ''}" data-product-id="${product.id}">
-        <div class="product-card__image">
-          ${product.badge ? `<span class="product-card__badge">${product.badge}</span>` : ''}
-          <div class="product-card__image-placeholder">
-            <i data-feather="package"></i>
-          </div>
-        </div>
-        
-        <div class="product-card__content">
-          <div class="product-card__category">${product.category}</div>
-          <h3 class="product-card__title">${product.title}</h3>
-          <p class="product-card__description">${product.description}</p>
-          
-          <div class="product-card__footer">
-            <div class="product-card__price">
-              <span class="product-card__price-current">£${product.price}</span>
-              ${hasOriginalPrice ? `<span class="product-card__price-original">£${product.originalPrice}</span>` : ''}
+        <a href="product.html?id=${product.id}" class="product-card__link ${isOutOfStock ? 'product-card__link--disabled' : ''}" 
+           ${isOutOfStock ? 'aria-disabled="true"' : ''}>
+          <div class="product-card__image">
+            ${product.badge ? `<span class="product-card__badge">${product.badge}</span>` : ''}
+            <div class="product-card__image-placeholder">
+              <i data-feather="package"></i>
             </div>
-            
-            <a href="product.html?id=${product.id}" class="product-card__button ${isOutOfStock ? 'product-card__button--disabled' : ''}" 
-               ${isOutOfStock ? 'aria-disabled="true"' : ''}>
-              ${isOutOfStock ? 'Out of Stock' : 'View Product'}
-              ${!isOutOfStock ? '<i data-feather="eye"></i>' : ''}
-            </a>
           </div>
-        </div>
+          
+          <div class="product-card__content">
+            <div class="product-card__category">${product.category}</div>
+            <h3 class="product-card__title">${product.title}</h3>
+            <p class="product-card__description">${product.description}</p>
+            
+            <div class="product-card__footer">
+              <div class="product-card__price">
+                <span class="product-card__price-current">£${product.price}</span>
+                ${hasOriginalPrice ? `<span class="product-card__price-original">£${product.originalPrice}</span>` : ''}
+              </div>
+              
+              <span class="product-card__button ${isOutOfStock ? 'product-card__button--disabled' : ''}">
+                ${isOutOfStock ? 'Out of Stock' : 'View Product'}
+                ${!isOutOfStock ? '<i data-feather="arrow-right"></i>' : ''}
+              </span>
+            </div>
+          </div>
+        </a>
       </article>
     `;
   },
