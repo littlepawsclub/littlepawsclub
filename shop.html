@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop - Small Paws Club</title>
+    <meta name="description" content="Shop premium products for small mammals - rabbits, guinea pigs, hamsters, rats, and ferrets. Free UK shipping on orders over £25.">
+    
+    <!-- Preconnect for performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Feather Icons -->
+    <script src="https://unpkg.com/feather-icons"></script>
+    
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="css/main.css?v=999999">
+    
+    <!-- Pastel Color Override -->
+    <link rel="stylesheet" href="css/override.css?v=999999">
+    
+    <!-- NUCLEAR PASTEL COLOR FIX - INLINE STYLES -->
+    <style>
+      body {
+        background-color: #FBF8F5 !important;
+        color: #5A5A5A !important;
+      }
+      .hero-banner {
+        background: linear-gradient(to right, #FBF8F5, #F9D8D6) !important;
+      }
+      .trust-strip, .email-optin {
+        background: linear-gradient(135deg, #BFD8C2, #FBF8F5) !important;
+      }
+      .hero-banner__cta--primary, .email-optin__button, .featured-products__cta, .product-card__button {
+        background-color: #F4A269 !important;
+        color: white !important;
+      }
+      .nav-header {
+        background: #FBF8F5 !important;
+      }
+      .featured-products {
+        background: #FBF8F5 !important;
+      }
+      .shop-filters {
+        background: #FBF8F5 !important;
+        padding: 2rem 0;
+        border-bottom: 1px solid #E8E5E2;
+      }
+      .shop-header {
+        background: linear-gradient(135deg, #BFD8C2, #FBF8F5) !important;
+        padding: 3rem 0;
+      }
+    </style>
+    
+    <!-- Analytics Scripts (To be added in Phase 6) -->
+    <!-- Google Analytics will be added here -->
+    <!-- Meta Pixel (Facebook) will be added here -->
+</head>
+<body>
+    <!-- Navigation Header -->
+    <header class="nav-header">
+        <div class="nav-header__container">
+            <!-- Logo -->
+            <div class="nav-header__logo">
+                <a href="index.html" class="nav-header__logo-link">
+                    <span class="nav-header__logo-text">Small Paws Club</span>
+                </a>
+            </div>
+
+            <!-- Desktop Navigation -->
+            <nav class="nav-header__menu--desktop" role="navigation" aria-label="Main navigation">
+                <ul class="nav-header__list">
+                    <li class="nav-header__item">
+                        <a href="index.html" class="nav-header__link">Home</a>
+                    </li>
+                    <li class="nav-header__item">
+                        <a href="shop.html" class="nav-header__link" aria-current="page">Shop</a>
+                    </li>
+                    <li class="nav-header__item">
+                        <a href="#about" class="nav-header__link">About</a>
+                    </li>
+                    <li class="nav-header__item">
+                        <a href="#contact" class="nav-header__link">Contact</a>
+                    </li>
+                </ul>
+            </nav>
+
+            <!-- Header Actions -->
+            <div class="nav-header__actions">
+                <!-- Shopping Cart -->
+                <a href="#cart" class="nav-header__cart" aria-label="Shopping cart">
+                    <i data-feather="shopping-bag"></i>
+                    <span class="nav-header__cart-count">0</span>
+                </a>
+
+                <!-- Mobile Menu Toggle -->
+                <button class="nav-header__toggle" aria-label="Toggle mobile menu" aria-expanded="false">
+                    <i data-feather="menu"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Drawer -->
+        <div class="nav-header__drawer">
+            <nav class="nav-header__menu--mobile" role="navigation" aria-label="Mobile navigation">
+                <ul class="nav-header__list">
+                    <li class="nav-header__item">
+                        <a href="index.html" class="nav-header__link">Home</a>
+                    </li>
+                    <li class="nav-header__item">
+                        <a href="shop.html" class="nav-header__link" aria-current="page">Shop</a>
+                    </li>
+                    <li class="nav-header__item">
+                        <a href="#about" class="nav-header__link">About</a>
+                    </li>
+                    <li class="nav-header__item">
+                        <a href="#contact" class="nav-header__link">Contact</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Shop Header -->
+        <section class="shop-header">
+            <div class="container">
+                <div class="shop-header__content">
+                    <h1 class="shop-header__title">Shop Small Mammal Products</h1>
+                    <p class="shop-header__subtitle">Premium products for rabbits, guinea pigs, hamsters, rats, and ferrets</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Product Filters -->
+        <section class="shop-filters">
+            <div class="container">
+                <div class="shop-filters__container">
+                    <h2 class="shop-filters__title">Filter Products</h2>
+                    <div class="shop-filters__controls">
+                        <!-- Category Filter -->
+                        <div class="shop-filters__group">
+                            <label for="category-filter" class="shop-filters__label">Category</label>
+                            <select id="category-filter" class="shop-filters__select">
+                                <option value="all">All Categories</option>
+                                <option value="enrichment">Enrichment</option>
+                                <option value="grooming">Grooming</option>
+                                <option value="comfort">Comfort</option>
+                                <option value="feeding">Feeding</option>
+                                <option value="health">Health</option>
+                            </select>
+                        </div>
+
+                        <!-- Price Range Filter -->
+                        <div class="shop-filters__group">
+                            <label for="price-filter" class="shop-filters__label">Price Range</label>
+                            <select id="price-filter" class="shop-filters__select">
+                                <option value="all">All Prices</option>
+                                <option value="under-10">Under £10</option>
+                                <option value="10-20">£10 - £20</option>
+                                <option value="over-20">£20+</option>
+                            </select>
+                        </div>
+
+                        <!-- Clear Filters -->
+                        <button id="clear-filters" class="shop-filters__clear">Clear Filters</button>
+                    </div>
+
+                    <!-- Results Count -->
+                    <div class="shop-filters__results">
+                        <span id="results-count">Loading products...</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Products Grid -->
+        <section class="shop-products">
+            <div class="container">
+                <div id="products-grid" class="shop-products__grid">
+                    <!-- Products will be loaded here by JavaScript -->
+                    <div class="products-loading">
+                        <i data-feather="loader"></i>
+                        <span>Loading products...</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Email Signup -->
+    <section class="email-optin">
+        <div class="email-optin__container">
+            <div class="email-optin__content">
+                <h2 class="email-optin__title">Stay Updated</h2>
+                <p class="email-optin__text">Get the latest products and care tips for your small pets</p>
+            </div>
+            <form class="email-optin__form" id="newsletter-form">
+                <div class="email-optin__input-group">
+                    <input 
+                        type="email" 
+                        class="email-optin__input" 
+                        placeholder="Enter your email address"
+                        required
+                        aria-label="Email address for newsletter"
+                    >
+                    <button type="submit" class="email-optin__button">
+                        <span>Subscribe</span>
+                        <i data-feather="send"></i>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer__container">
+            <div class="footer__content">
+                <!-- Company Info -->
+                <div class="footer__section">
+                    <h3 class="footer__title">Small Paws Club</h3>
+                    <p class="footer__text">Premium products for small mammals across the UK</p>
+                </div>
+
+                <!-- Quick Links -->
+                <div class="footer__section">
+                    <h4 class="footer__subtitle">Quick Links</h4>
+                    <ul class="footer__links">
+                        <li><a href="index.html" class="footer__link">Home</a></li>
+                        <li><a href="shop.html" class="footer__link">Shop</a></li>
+                        <li><a href="#about" class="footer__link">About</a></li>
+                        <li><a href="#contact" class="footer__link">Contact</a></li>
+                    </ul>
+                </div>
+
+                <!-- Customer Care -->
+                <div class="footer__section">
+                    <h4 class="footer__subtitle">Customer Care</h4>
+                    <ul class="footer__links">
+                        <li><a href="#shipping" class="footer__link">Shipping Info</a></li>
+                        <li><a href="#returns" class="footer__link">Returns</a></li>
+                        <li><a href="#support" class="footer__link">Support</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Copyright -->
+            <div class="footer__bottom">
+                <p class="footer__copyright">&copy; 2025 Small Paws Club. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="js/main.js"></script>
+    <script src="js/shop.js"></script>
+    <script>
+        // Initialize Feather Icons
+        feather.replace();
+        
+        // Initialize Shop
+        if (typeof Shop !== 'undefined') {
+            Shop.init();
+        }
+    </script>
+</body>
+</html>

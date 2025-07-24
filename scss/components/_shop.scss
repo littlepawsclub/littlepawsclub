@@ -1,0 +1,221 @@
+// Small Paws Club - Shop Page Styles
+// Product grid, filters, and shop-specific components
+
+.shop-header {
+  padding: $spacing-12 0;
+  background: linear-gradient(135deg, $sage, $cream);
+  text-align: center;
+  
+  &__content {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  
+  &__title {
+    font-size: 2rem;
+    font-weight: $font-weight-bold;
+    color: $text-primary;
+    margin-bottom: $spacing-4;
+    
+    @include breakpoint(md) {
+      font-size: 2.5rem;
+    }
+  }
+  
+  &__subtitle {
+    font-size: $font-size-lg;
+    color: $text-secondary;
+    margin: 0;
+  }
+}
+
+.shop-filters {
+  padding: $spacing-8 0;
+  background: $cream;
+  border-bottom: 1px solid $border-light;
+  
+  &__container {
+    max-width: $container-max-width;
+    margin: 0 auto;
+    padding: 0 $spacing-4;
+    
+    @include breakpoint(md) {
+      padding: 0 $spacing-6;
+    }
+  }
+  
+  &__title {
+    font-size: $font-size-xl;
+    font-weight: $font-weight-semibold;
+    color: $text-primary;
+    margin-bottom: $spacing-6;
+    text-align: center;
+    
+    @include breakpoint(md) {
+      text-align: left;
+    }
+  }
+  
+  &__controls {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-4;
+    margin-bottom: $spacing-6;
+    
+    @include breakpoint(md) {
+      flex-direction: row;
+      align-items: end;
+      gap: $spacing-6;
+    }
+  }
+  
+  &__group {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-2;
+    flex: 1;
+  }
+  
+  &__label {
+    font-size: $font-size-sm;
+    font-weight: $font-weight-semibold;
+    color: $text-primary;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  
+  &__select {
+    padding: $spacing-3 $spacing-4;
+    border: 2px solid $border-light;
+    border-radius: $border-radius;
+    background: $white;
+    color: $text-primary;
+    font-size: $font-size-base;
+    cursor: pointer;
+    transition: border-color $transition-base;
+    
+    &:focus {
+      outline: none;
+      border-color: $accent;
+    }
+    
+    &:hover {
+      border-color: $sage;
+    }
+  }
+  
+  &__clear {
+    @include button-base;
+    background: transparent;
+    color: $text-secondary;
+    border: 2px solid $border-light;
+    padding: $spacing-3 $spacing-4;
+    font-size: $font-size-sm;
+    
+    @include breakpoint(md) {
+      align-self: end;
+    }
+    
+    &:hover {
+      background: $background-light;
+      border-color: $sage;
+      color: $text-primary;
+    }
+  }
+  
+  &__results {
+    text-align: center;
+    font-size: $font-size-sm;
+    color: $text-secondary;
+    
+    @include breakpoint(md) {
+      text-align: left;
+    }
+  }
+}
+
+.shop-products {
+  padding: $spacing-12 0;
+  background: $cream;
+  
+  &__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: $spacing-6;
+    
+    @include breakpoint(sm) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    
+    @include breakpoint(md) {
+      grid-template-columns: repeat(3, 1fr);
+    }
+    
+    @include breakpoint(lg) {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+}
+
+// Product card enhancements for shop page
+.product-card {
+  &__button {
+    &--disabled {
+      background: $text-muted !important;
+      color: $white !important;
+      cursor: not-allowed;
+      
+      &:hover {
+        background: $text-muted !important;
+        transform: none !important;
+      }
+    }
+  }
+}
+
+// Loading and empty states
+.products-loading {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: $spacing-3;
+  padding: $spacing-16 0;
+  color: $text-muted;
+  
+  svg {
+    width: 24px;
+    height: 24px;
+    animation: spin 1s linear infinite;
+  }
+}
+
+.products-empty {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: $spacing-16 0;
+  color: $text-muted;
+  
+  svg {
+    width: 64px;
+    height: 64px;
+    margin-bottom: $spacing-4;
+    opacity: 0.5;
+  }
+  
+  h3 {
+    margin-bottom: $spacing-2;
+    color: $text-secondary;
+    font-size: $font-size-xl;
+  }
+  
+  p {
+    margin: 0;
+    font-size: $font-size-base;
+  }
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
