@@ -1,0 +1,54 @@
+### TASK
+Repair the cart implementation so that it works consistently on **every page (shop.html, product.html, cart.html) and on mobile & desktop**.  
+There are three visible bugs:
+
+1. **Cart badge**  
+   • Always shows 0 on page load, even when items are stored in localStorage  
+   • Does not increment/decrement when items are added or removed
+
+2. **Remove-item (🗑) button** on cart.html  
+   • Clicking it does nothing
+
+3. **cart.html header / menu**  
+   • The small-screen “hamburger” overlay renders twice, pushing content down  
+   • The header is missing the badge container, so the count never shows
+
+### WHAT TO DO
+1. **cart.js**
+   - Create a single source-of-truth cart array (`getCart()` / `saveCart()` helpers).  
+   - After **every** mutation (+/-/remove/clear) call `renderCart()`, **then** `updateCartBadge()`.  
+   - `updateCartBadge()` should:  
+     ```js
+     const badge = document.querySelector('[data-cart-badge]');
+     const totalQty = cart.reduce((sum, p) => sum + p.qty, 0);
+     badge.textContent = totalQty;
+     badge.classList.toggle('hidden', totalQty === 0);
+     ```
+   - Call `updateCartBadge()` on DOMContentLoaded for **shop.html, product.html, cart.html**.
+
+2. **Remove buttons**
+   - Delegate with an event listener on `table` (or `.cart-items`) so newly rendered rows work.  
+   - Filter the cart array by `id`, save, then re-render.
+
+3. **Header component**
+   - Extract the existing desktop header markup (logo, nav links, badge span with `data-cart-badge`) into **`partials/header.html`**.  
+   - Include it in **every** page (copy-paste is fine for now).  
+   - Ensure the mobile `<nav class="mobile-menu">` is inserted **once** and toggled with `.is-open`.
+
+4. **Styling tweaks**
+   - Add `.hidden { display:none !important; }` to `_utilities.scss`.  
+   - In `_header.scss` make sure the badge sits `position: relative; top:-6px;` so it doesn’t overlap the icon on mobile.
+
+5. **Testing hooks**
+   - Each “Add to Cart” button must include `data-product-id` so the JS can grab the id and qty.  
+   - Quantity ± buttons inside cart rows increment/decrement and trigger the badge refresh.
+
+### ACCEPTANCE CRITERIA  ( **do NOT mark complete until all succeed** )
+- Refresh any page after adding items ⇒ badge shows the correct non-zero quantity.
+- Add two different products ⇒ badge shows “2”. Remove one in cart ⇒ badge shows “1”.
+- Remove the last item ⇒ cart row disappears, badge hides, localStorage is empty.
+- Mobile nav opens only once; header + badge look identical on cart.html vs shop.html.
+- No console errors in Chrome dev-tools.
+
+*This is a surgical bug-fix; touch only the files listed above.*
+### END

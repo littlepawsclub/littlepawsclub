@@ -32,6 +32,10 @@
   border: 0;
 }
 
+.hidden {
+  display: none !important;
+}
+
 .container {
   max-width: $container-max-width;
   margin: 0 auto;
