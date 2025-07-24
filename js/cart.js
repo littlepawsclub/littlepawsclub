@@ -220,11 +220,11 @@ function buildCartPage() {
 }
 
 function attachCartEventListeners() {
-    const cartItemsList = document.querySelector('.cart-items-list');
-    if (!cartItemsList) return;
+    const cartContainer = document.getElementById('cart-items');
+    if (!cartContainer) return;
     
-    // Use event delegation for all cart interactions
-    cartItemsList.addEventListener('click', (e) => {
+    // Use event delegation on the entire cart container
+    cartContainer.addEventListener('click', (e) => {
         const target = e.target;
         const productId = target.dataset.id || target.closest('[data-id]')?.dataset.id;
         
@@ -233,51 +233,53 @@ function attachCartEventListeners() {
         // Remove button clicked
         if (target.classList.contains('cart-item__remove-btn') || target.closest('.cart-item__remove-btn')) {
             e.preventDefault();
+            e.stopPropagation();
             removeFromCart(productId);
-            renderCart();
-            updateCartBadge();
             return;
         }
         
         // Quantity plus button
         if (target.classList.contains('cart-item__qty-btn--plus')) {
             e.preventDefault();
+            e.stopPropagation();
             const input = document.getElementById(`qty-${productId}`);
-            const currentQty = parseInt(input.value) || 1;
-            const newQty = currentQty + 1;
-            input.value = newQty;
-            updateCartQuantity(productId, newQty);
-            renderCart();
-            updateCartBadge();
+            if (input) {
+                const currentQty = parseInt(input.value) || 1;
+                const newQty = Math.min(currentQty + 1, 99);
+                input.value = newQty;
+                updateCartQuantity(productId, newQty);
+            }
             return;
         }
         
         // Quantity minus button
         if (target.classList.contains('cart-item__qty-btn--minus')) {
             e.preventDefault();
+            e.stopPropagation();
             const input = document.getElementById(`qty-${productId}`);
-            const currentQty = parseInt(input.value) || 1;
-            const newQty = Math.max(1, currentQty - 1);
-            input.value = newQty;
-            updateCartQuantity(productId, newQty);
-            renderCart();
-            updateCartBadge();
+            if (input) {
+                const currentQty = parseInt(input.value) || 1;
+                const newQty = Math.max(1, currentQty - 1);
+                input.value = newQty;
+                updateCartQuantity(productId, newQty);
+            }
             return;
         }
     });
     
     // Handle quantity input changes
-    cartItemsList.addEventListener('change', (e) => {
+    cartContainer.addEventListener('change', (e) => {
         if (e.target.classList.contains('cart-item__qty-input')) {
             const productId = e.target.dataset.id;
             let newQty = parseInt(e.target.value);
             if (isNaN(newQty) || newQty < 1) {
                 newQty = 1;
                 e.target.value = newQty;
+            } else if (newQty > 99) {
+                newQty = 99;
+                e.target.value = newQty;
             }
             updateCartQuantity(productId, newQty);
-            renderCart();
-            updateCartBadge();
         }
     });
 }
@@ -292,7 +294,84 @@ document.addEventListener('DOMContentLoaded', function() {
         buildCartPage();
         attachCartEventListeners();
     }
+    
+    // Set up global add-to-cart event delegation
+    setupGlobalCartHandlers();
 });
+
+// Global event delegation for add-to-cart buttons
+function setupGlobalCartHandlers() {
+    // Handle add-to-cart button clicks anywhere on the page
+    document.addEventListener('click', function(e) {
+        // Check if clicked element or its parent is an add-to-cart button
+        const addToCartBtn = e.target.closest('[data-add-to-cart]') || e.target.closest('#add-to-cart-btn');
+        
+        if (addToCartBtn) {
+            e.preventDefault();
+            handleAddToCartClick(addToCartBtn);
+        }
+    });
+}
+
+// Centralized add-to-cart handler
+function handleAddToCartClick(button) {
+    // Get product data from various sources
+    let productData = {};
+    
+    // Method 1: From button's data attributes (for shop page)
+    if (button.dataset.productId) {
+        const productCard = button.closest('.product-card');
+        if (productCard) {
+            productData = {
+                id: button.dataset.productId,
+                name: button.dataset.productName,
+                price: parseFloat(button.dataset.productPrice),
+                image: button.dataset.productImage,
+                qty: 1
+            };
+        }
+    }
+    
+    // Method 2: From product page elements (for product.html)
+    else if (button.id === 'add-to-cart-btn') {
+        const quantityInput = document.getElementById('product-quantity');
+        const productTitle = document.getElementById('product-title');
+        const productPrice = document.querySelector('.product-detail__price .product-detail__price-current');
+        
+        if (productTitle && productPrice) {
+            productData = {
+                id: new URLSearchParams(window.location.search).get('id'),
+                name: productTitle.textContent,
+                price: parseFloat(productPrice.textContent.replace('£', '')),
+                image: 'https://via.placeholder.com/300x300', // Default placeholder
+                qty: quantityInput ? parseInt(quantityInput.value) : 1
+            };
+        }
+    }
+    
+    // Add to cart if we have valid product data
+    if (productData.id && productData.name && productData.price) {
+        addToCart(productData);
+        
+        // Visual feedback
+        const originalText = button.innerHTML;
+        button.innerHTML = '<i data-feather="check"></i> Added to Cart';
+        button.disabled = true;
+        
+        // Reset button after 2 seconds
+        setTimeout(() => {
+            button.innerHTML = originalText;
+            button.disabled = false;
+            if (window.feather) feather.replace();
+        }, 2000);
+    }
+}
+
+// Expose cart functions globally for compatibility
+window.addToCart = addToCart;
+window.removeFromCart = removeFromCart;
+window.updateCartQuantity = updateCartQuantity;
+window.updateCartBadge = updateCartBadge;
 
 // Global functions for other scripts
 window.SmallPawsCart = {

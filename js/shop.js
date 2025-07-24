@@ -213,36 +213,24 @@ const Shop = {
     `;
   },
 
-  // Attach cart event listeners
+  // Attach cart event listeners (now just sets data attributes)
   attachCartEventListeners() {
-    const addToCartButtons = document.querySelectorAll('.add-to-cart');
+    const productCards = document.querySelectorAll('.product-card');
     
-    addToCartButtons.forEach(button => {
-      const productId = button.closest('.product-card').dataset.productId;
+    productCards.forEach(card => {
+      const productId = card.dataset.productId;
       const product = this.products.find(p => p.id === productId);
+      const addButton = card.querySelector('.product-card__button');
       
-      if (product) {
-        button.dataset.id = product.id;
-        button.dataset.name = product.name;
-        button.dataset.price = product.price;
-        button.dataset.img = product.image;
-        
-        button.addEventListener('click', function(e) {
-          e.preventDefault();
-          e.stopPropagation();
-          
-          const productData = {
-            id: this.dataset.id,
-            name: this.dataset.name,
-            price: parseFloat(this.dataset.price),
-            image: this.dataset.img,
-            qty: 1
-          };
-          
-          if (window.SmallPawsCart && window.SmallPawsCart.addToCart) {
-            window.SmallPawsCart.addToCart(productData);
-          }
-        });
+      if (product && addButton && product.inStock) {
+        // Set data attributes for global cart handler
+        addButton.dataset.addToCart = 'true';
+        addButton.dataset.productId = product.id;
+        addButton.dataset.productName = product.title;
+        addButton.dataset.productPrice = product.price;
+        addButton.dataset.productImage = product.image || 'https://via.placeholder.com/300x300';
+        addButton.innerHTML = 'Add to Cart <i data-feather="shopping-cart"></i>';
+        addButton.setAttribute('aria-label', `Add ${product.title} to cart`);
       }
     });
   }

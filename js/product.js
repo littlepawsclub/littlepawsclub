@@ -194,43 +194,12 @@ const ProductPage = {
   
   // Initialize add to cart functionality
   initAddToCart() {
+    // No longer needed - handled by global cart delegation
+    // Just ensure the button has the right ID for global handler
     const addToCartBtn = document.getElementById('add-to-cart-btn');
-    if (addToCartBtn) {
-      addToCartBtn.addEventListener('click', () => this.addToCart());
+    if (addToCartBtn && this.product) {
+      addToCartBtn.setAttribute('data-product-ready', 'true');
     }
-  },
-
-  // Add product to cart with quantity
-  addToCart() {
-    if (!this.product || !this.product.inStock) return;
-    
-    const quantityInput = document.getElementById('product-quantity');
-    const quantity = quantityInput ? parseInt(quantityInput.value) : 1;
-    
-    const productData = {
-      id: this.product.id,
-      name: this.product.title,
-      price: parseFloat(this.product.price),
-      image: this.product.image,
-      qty: quantity
-    };
-    
-    if (window.SmallPawsCart && window.SmallPawsCart.addToCart) {
-      window.SmallPawsCart.addToCart(productData);
-    }
-
-    // Show visual feedback
-    const addToCartBtn = document.getElementById('add-to-cart-btn');
-    const originalText = addToCartBtn.innerHTML;
-    addToCartBtn.innerHTML = '<i data-feather="check"></i> Added to Cart';
-    addToCartBtn.disabled = true;
-    
-    // Reset button after 2 seconds
-    setTimeout(() => {
-      addToCartBtn.innerHTML = originalText;
-      addToCartBtn.disabled = false;
-      feather.replace();
-    }, 2000);
   },
 
   // Load related products (same category)
