@@ -61,68 +61,60 @@
 </head>
 <body>
     <!-- Navigation Header -->
-    <header class="nav-header">
+    <nav class="nav-header">
         <div class="nav-header__container">
-            <!-- Logo -->
             <div class="nav-header__logo">
                 <a href="index.html" class="nav-header__logo-link">
                     <span class="nav-header__logo-text">Small Paws Club</span>
                 </a>
             </div>
-
+            
             <!-- Desktop Navigation -->
-            <nav class="nav-header__menu--desktop" role="navigation" aria-label="Main navigation">
-                <ul class="nav-header__list">
-                    <li class="nav-header__item">
-                        <a href="index.html" class="nav-header__link">Home</a>
-                    </li>
-                    <li class="nav-header__item">
-                        <a href="shop.html" class="nav-header__link" aria-current="page">Shop</a>
-                    </li>
-                    <li class="nav-header__item">
-                        <a href="#about" class="nav-header__link">About</a>
-                    </li>
-                    <li class="nav-header__item">
-                        <a href="#contact" class="nav-header__link">Contact</a>
-                    </li>
-                </ul>
-            </nav>
-
-            <!-- Header Actions -->
+            <ul class="nav-header__menu nav-header__menu--desktop">
+                <li class="nav-header__item">
+                    <a href="index.html" class="nav-header__link">Home</a>
+                </li>
+                <li class="nav-header__item">
+                    <a href="shop.html" class="nav-header__link" aria-current="page">Shop</a>
+                </li>
+                <li class="nav-header__item">
+                    <a href="/about.html" class="nav-header__link">About</a>
+                </li>
+                <li class="nav-header__item">
+                    <a href="/contact.html" class="nav-header__link">Contact</a>
+                </li>
+            </ul>
+            
+            <!-- Cart & Mobile Toggle -->
             <div class="nav-header__actions">
-                <!-- Shopping Cart -->
-                <a href="#cart" class="nav-header__cart" aria-label="Shopping cart">
+                <a href="/cart.html" class="nav-header__cart" aria-label="Shopping Cart">
                     <i data-feather="shopping-bag"></i>
                     <span class="nav-header__cart-count">0</span>
                 </a>
-
-                <!-- Mobile Menu Toggle -->
-                <button class="nav-header__toggle" aria-label="Toggle mobile menu" aria-expanded="false">
+                <button class="nav-header__toggle" aria-label="Toggle Navigation" aria-expanded="false">
                     <i data-feather="menu"></i>
                 </button>
             </div>
         </div>
-
-        <!-- Mobile Drawer -->
+        
+        <!-- Mobile Navigation Drawer -->
         <div class="nav-header__drawer">
-            <nav class="nav-header__menu--mobile" role="navigation" aria-label="Mobile navigation">
-                <ul class="nav-header__list">
-                    <li class="nav-header__item">
-                        <a href="index.html" class="nav-header__link">Home</a>
-                    </li>
-                    <li class="nav-header__item">
-                        <a href="shop.html" class="nav-header__link" aria-current="page">Shop</a>
-                    </li>
-                    <li class="nav-header__item">
-                        <a href="#about" class="nav-header__link">About</a>
-                    </li>
-                    <li class="nav-header__item">
-                        <a href="#contact" class="nav-header__link">Contact</a>
-                    </li>
-                </ul>
-            </nav>
+            <ul class="nav-header__menu nav-header__menu--mobile">
+                <li class="nav-header__item">
+                    <a href="index.html" class="nav-header__link">Home</a>
+                </li>
+                <li class="nav-header__item">
+                    <a href="shop.html" class="nav-header__link" aria-current="page">Shop</a>
+                </li>
+                <li class="nav-header__item">
+                    <a href="/about.html" class="nav-header__link">About</a>
+                </li>
+                <li class="nav-header__item">
+                    <a href="/contact.html" class="nav-header__link">Contact</a>
+                </li>
+            </ul>
         </div>
-    </header>
+    </nav>
 
     <!-- Main Content -->
     <main>
