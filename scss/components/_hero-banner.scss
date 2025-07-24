@@ -3,7 +3,7 @@
 
 .hero-banner {
   padding: $spacing-16 0;
-  background: linear-gradient(135deg, $cream 0%, $blush 100%);
+  background: linear-gradient(to right, #FBF8F5, #F9D8D6);
   
   &__container {
     @include container;
