@@ -59,17 +59,21 @@ document.addEventListener("click", e => {
   updateBadge();
 });
 
-// Product page quantity controls (global delegation)
-document.addEventListener("click", e => {
+// Remove any existing quantity handlers and set up fresh
+document.removeEventListener("click", window.productQtyHandler);
+
+// Product page quantity controls handler
+window.productQtyHandler = function(e) {
   // Check if clicked element or its parent is a quantity button
   const qtyButton = e.target.closest('[data-plus], [data-minus]');
   
   if (qtyButton) {
-    console.log('Quantity button clicked!');
+    console.log('NEW Quantity button clicked!');
     e.preventDefault();
     e.stopPropagation();
     
     const isPlus = qtyButton.hasAttribute('data-plus');
+    const isMinus = qtyButton.hasAttribute('data-minus');
     const input = qtyButton.closest('.quantity-selector').querySelector('#product-quantity');
     if (!input) {
       console.log('Input not found!');
@@ -80,15 +84,15 @@ document.addEventListener("click", e => {
     const minQty = parseInt(input.min) || 1;
     const maxQty = parseInt(input.max) || 10;
     
-    console.log('Current qty:', qty, 'min:', minQty, 'max:', maxQty, 'isPlus:', isPlus);
+    console.log('Current qty:', qty, 'min:', minQty, 'max:', maxQty, 'isPlus:', isPlus, 'isMinus:', isMinus);
     
     if (isPlus && qty < maxQty) {
       qty += 1;
-    } else if (!isPlus && qty > minQty) {
+    } else if (isMinus && qty > minQty) {
       qty -= 1;
     }
     
-    console.log('Product qty-click handler', { isPlus, oldQty: input.value, newQty: qty });
+    console.log('Product qty-click handler', { isPlus, isMinus, oldQty: input.value, newQty: qty });
     input.value = qty;
     return; // Don't proceed to card navigation
   }
@@ -102,7 +106,10 @@ document.addEventListener("click", e => {
   // otherwise, treat it as a navigation click:
   const id = card.dataset.id;
   window.location.href = `product.html?id=${encodeURIComponent(id)}`;
-});
+};
+
+// Add the handler only once
+document.addEventListener("click", window.productQtyHandler);
 
 // When on cart page, render items + delegate qty/remove
 if (document.body.contains(document.querySelector("#cart-items"))) {
