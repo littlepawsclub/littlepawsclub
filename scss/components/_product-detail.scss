@@ -13,7 +13,7 @@
   &__grid {
     display: grid;
     grid-template-columns: 1fr;
-    gap: $spacing-8;
+    gap: $spacing-6;
     
     @include breakpoint(lg) {
       grid-template-columns: 1fr 1fr;
@@ -22,18 +22,20 @@
   }
   
   &__image {
-    order: 1;
+    order: 0; // Image first on mobile
+    margin-bottom: $spacing-4;
     
     @include breakpoint(lg) {
-      order: 0;
+      order: 0; // Image left on desktop
+      margin-bottom: 0;
     }
   }
   
   &__info {
-    order: 0;
+    order: 1; // Info second on mobile
     
     @include breakpoint(lg) {
-      order: 1;
+      order: 1; // Info right on desktop
     }
   }
 }
@@ -46,9 +48,13 @@
     background: $background-light;
     border-radius: $border-radius;
     overflow: hidden;
-    margin-bottom: $spacing-4;
+    margin-bottom: $spacing-3;
     
     @include card-shadow;
+    
+    @include breakpoint(lg) {
+      margin-bottom: $spacing-4;
+    }
   }
   
   &__placeholder {
@@ -77,9 +83,11 @@
     display: flex;
     gap: $spacing-2;
     justify-content: center;
+    margin-bottom: $spacing-6;
     
     @include breakpoint(lg) {
       justify-content: flex-start;
+      margin-bottom: 0;
     }
   }
   
@@ -119,6 +127,13 @@
 
 // Product Information
 .product-info {
+  // Add top padding on mobile for better spacing after image
+  padding-top: $spacing-2;
+  
+  @include breakpoint(lg) {
+    padding-top: 0;
+  }
+  
   &__category {
     display: inline-block;
     background: $sage;
@@ -224,10 +239,14 @@
   // Purchase Section
   &__purchase {
     background: $background-light;
-    padding: $spacing-6;
+    padding: $spacing-4;
     border-radius: $border-radius;
     margin-bottom: $spacing-6;
     border: 2px solid $border-light;
+    
+    @include breakpoint(lg) {
+      padding: $spacing-6;
+    }
   }
   
   &__quantity {

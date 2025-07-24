@@ -40,6 +40,8 @@ Preferred communication style: Simple, everyday language.
 - **Product Schema**: Includes pricing, descriptions, categories, badges, and inventory status
 - **Individual Product Pages**: Dynamic product detail pages using URL parameters
 - **Shop Page Filtering**: Real-time category and price filtering without page reloads
+- **Enhanced Product Details**: Quantity selector, related products, clickable breadcrumbs, image gallery placeholders
+- **Mobile-First Layout**: Product images display first on mobile, info below for optimal UX
 
 ### Brand Implementation
 - **Typography**: Poppins font family (400/600/700 weights)
