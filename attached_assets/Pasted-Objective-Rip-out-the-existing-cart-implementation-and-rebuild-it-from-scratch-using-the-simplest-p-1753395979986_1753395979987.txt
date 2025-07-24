@@ -1,0 +1,188 @@
+Objective: Rip out the existing cart implementation and rebuild it from scratch using the simplest possible vanilla-JS approach. Ensure product pages, shop page and cart page all talk to the same simpleCart.js module, no duplicate scripts, no SCSS, no complex event setup.
+
+1. Remove old cart code
+Delete any existing cart.js, _cart.scss, duplicate <script> tags, inline scripts, etc.
+
+Make sure only one script remains: simpleCart.js, referenced on every page just before </body>.
+
+2. Shop & Product pages
+In shop.html (and any standalone product.html), for each product’s “Add to Cart” button, use this exact markup:
+
+html
+Copy
+Edit
+<button 
+  class="add-to-cart" 
+  data-add 
+  data-id="p1" 
+  data-name="Collapsible Small-Pet Tunnel" 
+  data-price="17.99" 
+  data-img="img/tunnel.jpg">
+  Add to Cart
+</button>
+Attributes required:
+
+data-add (just a flag)
+
+data-id (unique product ID)
+
+data-name (string)
+
+data-price (number)
+
+data-img (relative URL or path)
+
+Confirm in the browser’s Inspector that each button carries those data- attributes exactly.
+
+3. Cart page markup
+In cart.html:
+
+html
+Copy
+Edit
+<h1>Shopping Cart</h1>
+<nav>…same nav as shop.html…</nav>
+
+<div id="cart-items"></div>
+
+<div id="cart-total"></div>
+No extra navigation headers, no leftover scripts.
+
+Keep it minimal: an empty #cart-items container and an empty #cart-total element.
+
+4. simpleCart.js
+Create a single JS file called simpleCart.js with this outline:
+
+js
+Copy
+Edit
+// simpleCart.js
+
+// Key for localStorage
+const CART_KEY = "spcCart";
+
+// Load cart array from storage (or empty)
+function loadCart() {
+  const raw = localStorage.getItem(CART_KEY);
+  return raw ? JSON.parse(raw) : [];
+}
+
+// Save cart array back to storage
+function saveCart(cart) {
+  localStorage.setItem(CART_KEY, JSON.stringify(cart));
+}
+
+// Update badge (single #cart-badge in nav)
+function updateBadge() {
+  const badge = document.querySelector("#cart-badge");
+  if (!badge) return;
+  const cart = loadCart();
+  badge.textContent = cart.reduce((sum, item) => sum + item.qty, 0);
+}
+
+// Global “Add to Cart” delegation
+document.addEventListener("click", e => {
+  const btn = e.target.closest("[data-add]");
+  if (!btn) return;
+  // grab product data
+  const id    = btn.dataset.id;
+  const name  = btn.dataset.name;
+  const price = parseFloat(btn.dataset.price);
+  const img   = btn.dataset.img;
+  // update cart array
+  const cart = loadCart();
+  const existing = cart.find(i => i.id === id);
+  if (existing) {
+    existing.qty++;
+  } else {
+    cart.push({ id, name, price, img, qty: 1 });
+  }
+  saveCart(cart);
+  updateBadge();
+});
+
+// When on cart page, render items + delegate qty/remove
+if (document.body.contains(document.querySelector("#cart-items"))) {
+  const container = document.querySelector("#cart-items");
+  const totalEl = document.querySelector("#cart-total");
+
+  function renderCart() {
+    const cart = loadCart();
+    container.innerHTML = "";
+    let subtotal = 0;
+    cart.forEach(item => {
+      subtotal += item.price * item.qty;
+      const el = document.createElement("div");
+      el.innerHTML = `
+        <img src="${item.img}" width="50" />
+        <strong>${item.name}</strong>
+        <button data-minus data-id="${item.id}">–</button>
+        <span>${item.qty}</span>
+        <button data-plus data-id="${item.id}">+</button>
+        <button data-remove data-id="${item.id}">🗑️</button>
+        <span>£${(item.price * item.qty).toFixed(2)}</span>
+      `;
+      container.append(el);
+    });
+    totalEl.textContent = `Subtotal: £${subtotal.toFixed(2)}`;
+  }
+
+  // Delegate plus/minus/remove
+  container.addEventListener("click", e => {
+    const cart = loadCart();
+    if (e.target.matches("[data-plus]")) {
+      const id = e.target.dataset.id;
+      cart.find(i => i.id === id).qty++;
+    }
+    if (e.target.matches("[data-minus]")) {
+      const id = e.target.dataset.id;
+      const it = cart.find(i => i.id === id);
+      if (it.qty > 1) it.qty--;
+    }
+    if (e.target.matches("[data-remove]")) {
+      const id = e.target.dataset.id;
+      const idx = cart.findIndex(i => i.id === id);
+      if (idx > -1) cart.splice(idx, 1);
+    }
+    saveCart(cart);
+    updateBadge();
+    renderCart();
+  });
+
+  // Initial render
+  updateBadge();
+  renderCart();
+}
+Key points:
+
+One global listener for additions.
+
+One static container listener for quantity / removal.
+
+Badge always pulls fresh loadCart().
+
+No re-attaching listeners after re-renders.
+
+Pure vanilla JS, minimal HTML structure.
+
+5. Verify & debug
+On shop.html:
+
+Click “Add to Cart” once per click.
+
+In DevTools Console, console.log(localStorage.getItem("spcCart")) should show [{…}].
+
+On any page:
+
+Badge #cart-badge updates immediately, persists on reload.
+
+On cart.html:
+
+Correct nav appears once.
+
+Items render with plus/minus/remove working repeatedly.
+
+Subtotal updates correctly.
+
+Removing an item deletes it from storage & DOM.
+
