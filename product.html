@@ -14,7 +14,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     
     <!-- Feather Icons -->
-    <script src="https://unpkg.com/feather-icons"></script>
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons@4.29.2/dist/feather.min.js"></script>
     
     <!-- Main CSS -->
     <link rel="stylesheet" href="css/main.css?v=999999">
@@ -159,10 +159,32 @@
                         <!-- Product Image -->
                         <div class="product-detail__image">
                             <div class="product-image">
-                                <div id="product-image-placeholder" class="product-image__placeholder">
-                                    <i data-feather="package"></i>
+                                <!-- Main Image -->
+                                <div class="product-image__main">
+                                    <div id="product-image-placeholder" class="product-image__placeholder">
+                                        <i data-feather="package"></i>
+                                    </div>
+                                    <img id="product-image" class="product-image__img" alt="" style="display: none;">
                                 </div>
-                                <img id="product-image" class="product-image__img" alt="" style="display: none;">
+                                
+                                <!-- Image Gallery Thumbnails (Placeholder for future enhancement) -->
+                                <div class="product-image__gallery">
+                                    <div class="product-image__thumbnail product-image__thumbnail--active">
+                                        <div class="product-image__thumbnail-placeholder">
+                                            <i data-feather="image"></i>
+                                        </div>
+                                    </div>
+                                    <div class="product-image__thumbnail">
+                                        <div class="product-image__thumbnail-placeholder">
+                                            <i data-feather="image"></i>
+                                        </div>
+                                    </div>
+                                    <div class="product-image__thumbnail">
+                                        <div class="product-image__thumbnail-placeholder">
+                                            <i data-feather="image"></i>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
@@ -190,12 +212,27 @@
                                 <!-- Badge -->
                                 <div id="product-badge" class="product-info__badge" style="display: none;"></div>
                                 
-                                <!-- Add to Cart -->
-                                <div class="product-info__actions">
-                                    <button id="add-to-cart-btn" class="product-card__button product-card__button--large">
-                                        <span>Add to Cart</span>
-                                        <i data-feather="shopping-cart"></i>
-                                    </button>
+                                <!-- Quantity and Add to Cart -->
+                                <div class="product-info__purchase">
+                                    <div class="product-info__quantity">
+                                        <label for="product-quantity" class="product-info__quantity-label">Quantity:</label>
+                                        <div class="quantity-selector">
+                                            <button type="button" class="quantity-selector__btn quantity-selector__btn--minus" aria-label="Decrease quantity">
+                                                <i data-feather="minus"></i>
+                                            </button>
+                                            <input type="number" id="product-quantity" class="quantity-selector__input" value="1" min="1" max="10" aria-label="Product quantity">
+                                            <button type="button" class="quantity-selector__btn quantity-selector__btn--plus" aria-label="Increase quantity">
+                                                <i data-feather="plus"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="product-info__actions">
+                                        <button id="add-to-cart-btn" class="product-card__button product-card__button--large">
+                                            <span>Add to Cart</span>
+                                            <i data-feather="shopping-cart"></i>
+                                        </button>
+                                    </div>
                                 </div>
                                 
                                 <!-- Product Features -->

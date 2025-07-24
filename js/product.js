@@ -8,6 +8,8 @@ const ProductPage = {
   // Initialize product page
   init() {
     this.loadProductData();
+    this.initQuantitySelector();
+    this.initAddToCart();
   },
 
   // Load products and find the specific product
@@ -37,6 +39,11 @@ const ProductPage = {
 
       this.renderProduct();
       this.loadRelatedProducts();
+      
+      // Replace feather icons after rendering
+      if (window.feather) {
+        feather.replace();
+      }
       
     } catch (error) {
       console.error('Error loading product:', error);
@@ -102,7 +109,7 @@ const ProductPage = {
     // Add to cart button
     const addToCartBtn = document.getElementById('add-to-cart-btn');
     if (!this.product.inStock) {
-      addToCartBtn.textContent = 'Out of Stock';
+      addToCartBtn.innerHTML = '<span>Out of Stock</span>';
       addToCartBtn.disabled = true;
       addToCartBtn.classList.add('product-card__button--disabled');
     } else {
@@ -134,15 +141,77 @@ const ProductPage = {
     }
   },
 
-  // Add product to cart (placeholder functionality)
+  // Initialize quantity selector
+  initQuantitySelector() {
+    const quantityInput = document.getElementById('product-quantity');
+    const minusBtn = document.querySelector('.quantity-selector__btn--minus');
+    const plusBtn = document.querySelector('.quantity-selector__btn--plus');
+    
+    if (!quantityInput || !minusBtn || !plusBtn) return;
+    
+    // Minus button
+    minusBtn.addEventListener('click', () => {
+      const currentValue = parseInt(quantityInput.value);
+      if (currentValue > 1) {
+        quantityInput.value = currentValue - 1;
+        this.updateQuantityButtons();
+      }
+    });
+    
+    // Plus button
+    plusBtn.addEventListener('click', () => {
+      const currentValue = parseInt(quantityInput.value);
+      const maxValue = parseInt(quantityInput.max);
+      if (currentValue < maxValue) {
+        quantityInput.value = currentValue + 1;
+        this.updateQuantityButtons();
+      }
+    });
+    
+    // Input change
+    quantityInput.addEventListener('change', () => {
+      this.updateQuantityButtons();
+    });
+    
+    this.updateQuantityButtons();
+  },
+  
+  // Update quantity button states
+  updateQuantityButtons() {
+    const quantityInput = document.getElementById('product-quantity');
+    const minusBtn = document.querySelector('.quantity-selector__btn--minus');
+    const plusBtn = document.querySelector('.quantity-selector__btn--plus');
+    
+    if (!quantityInput || !minusBtn || !plusBtn) return;
+    
+    const currentValue = parseInt(quantityInput.value);
+    const minValue = parseInt(quantityInput.min);
+    const maxValue = parseInt(quantityInput.max);
+    
+    minusBtn.disabled = currentValue <= minValue;
+    plusBtn.disabled = currentValue >= maxValue;
+  },
+  
+  // Initialize add to cart functionality
+  initAddToCart() {
+    const addToCartBtn = document.getElementById('add-to-cart-btn');
+    if (addToCartBtn) {
+      addToCartBtn.addEventListener('click', () => this.addToCart());
+    }
+  },
+
+  // Add product to cart with quantity
   addToCart() {
     if (!this.product || !this.product.inStock) return;
+    
+    const quantityInput = document.getElementById('product-quantity');
+    const quantity = quantityInput ? parseInt(quantityInput.value) : 1;
     
     // Update cart count in navigation
     const cartCountEl = document.querySelector('.nav-header__cart-count');
     if (cartCountEl) {
       const currentCount = parseInt(cartCountEl.textContent) || 0;
-      cartCountEl.textContent = currentCount + 1;
+      cartCountEl.textContent = currentCount + quantity;
     }
 
     // Show feedback
@@ -158,7 +227,7 @@ const ProductPage = {
       feather.replace();
     }, 2000);
 
-    console.log('Added to cart:', this.product.title);
+    console.log(`Added ${quantity}x ${this.product.title} to cart`);
   },
 
   // Load related products (same category)
@@ -181,38 +250,40 @@ const ProductPage = {
     feather.replace();
   },
 
-  // Create related product card
+  // Create related product card with proper linking
   createRelatedProductCard(product) {
     const hasOriginalPrice = product.originalPrice && product.originalPrice !== product.price;
     const isOutOfStock = !product.inStock;
     
     return `
       <article class="product-card ${isOutOfStock ? 'product-card--out-of-stock' : ''}" data-product-id="${product.id}">
-        <div class="product-card__image">
-          ${product.badge ? `<span class="product-card__badge">${product.badge}</span>` : ''}
-          <div class="product-card__image-placeholder">
-            <i data-feather="package"></i>
-          </div>
-        </div>
-        
-        <div class="product-card__content">
-          <div class="product-card__category">${product.category}</div>
-          <h3 class="product-card__title">${product.title}</h3>
-          <p class="product-card__description">${product.description.substring(0, 80)}...</p>
-          
-          <div class="product-card__footer">
-            <div class="product-card__price">
-              <span class="product-card__price-current">£${product.price}</span>
-              ${hasOriginalPrice ? `<span class="product-card__price-original">£${product.originalPrice}</span>` : ''}
+        <a href="product.html?id=${product.id}" class="product-card__link ${isOutOfStock ? 'product-card__link--disabled' : ''}" 
+           ${isOutOfStock ? 'aria-disabled="true"' : ''}>
+          <div class="product-card__image">
+            ${product.badge ? `<span class="product-card__badge">${product.badge}</span>` : ''}
+            <div class="product-card__image-placeholder">
+              <i data-feather="package"></i>
             </div>
-            
-            <a href="product.html?id=${product.id}" class="product-card__button ${isOutOfStock ? 'product-card__button--disabled' : ''}" 
-               ${isOutOfStock ? 'aria-disabled="true"' : ''}>
-              ${isOutOfStock ? 'Out of Stock' : 'View Product'}
-              ${!isOutOfStock ? '<i data-feather="arrow-right"></i>' : ''}
-            </a>
           </div>
-        </div>
+          
+          <div class="product-card__content">
+            <div class="product-card__category">${product.category}</div>
+            <h3 class="product-card__title">${product.title}</h3>
+            <p class="product-card__description">${product.description.substring(0, 80)}...</p>
+            
+            <div class="product-card__footer">
+              <div class="product-card__price">
+                <span class="product-card__price-current">£${product.price}</span>
+                ${hasOriginalPrice ? `<span class="product-card__price-original">£${product.originalPrice}</span>` : ''}
+              </div>
+              
+              <span class="product-card__button ${isOutOfStock ? 'product-card__button--disabled' : ''}">
+                ${isOutOfStock ? 'Out of Stock' : 'View Product'}
+                ${!isOutOfStock ? '<i data-feather="arrow-right"></i>' : ''}
+              </span>
+            </div>
+          </div>
+        </a>
       </article>
     `;
   },
@@ -222,6 +293,11 @@ const ProductPage = {
     document.getElementById('product-loading').style.display = 'none';
     document.getElementById('product-not-found').style.display = 'block';
     document.title = 'Product Not Found - Small Paws Club';
+    
+    // Replace feather icons
+    if (window.feather) {
+      feather.replace();
+    }
   }
 };
 
