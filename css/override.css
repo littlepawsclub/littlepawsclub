@@ -1,0 +1,56 @@
+/* Small Paws Club - Pastel Color Override */
+/* Forces pastel theme to display immediately */
+
+body {
+  background-color: #FBF8F5 !important;
+  color: #5A5A5A !important;
+}
+
+.hero-banner {
+  background: linear-gradient(to right, #FBF8F5, #F9D8D6) !important;
+}
+
+.trust-strip {
+  background: linear-gradient(135deg, #BFD8C2, #FBF8F5) !important;
+}
+
+.email-optin {
+  background: linear-gradient(135deg, #BFD8C2, #FBF8F5) !important;
+}
+
+.hero-banner__cta--primary,
+.email-optin__button,
+.featured-products__cta,
+.product-card__button {
+  background-color: #F4A269 !important;
+  color: white !important;
+}
+
+.nav-header {
+  background: #FBF8F5 !important;
+}
+
+.nav-header__drawer {
+  background: #FBF8F5 !important;
+}
+
+.featured-products {
+  background: #FBF8F5 !important;
+}
+
+.product-card {
+  background: #FBF8F5 !important;
+}
+
+/* Text colors */
+h1, h2, h3, h4, h5, h6 {
+  color: #5A5A5A !important;
+}
+
+p {
+  color: #7A7A7A !important;
+}
+
+.text-muted {
+  color: #9A9A9A !important;
+}
