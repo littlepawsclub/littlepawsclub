@@ -129,7 +129,7 @@ input, textarea, select {
   padding: $spacing-3;
   border: 2px solid $border-light;
   border-radius: $border-radius;
-  background: white;
+  background: $cream;
   transition: border-color $transition-base;
   
   &:focus {

@@ -2,7 +2,7 @@
 // Responsive navigation with mobile drawer
 
 .nav-header {
-  background: white;
+  background: $cream;
   border-bottom: 1px solid $border-light;
   position: sticky;
   top: 0;
@@ -149,7 +149,7 @@
     top: 71px;
     left: 0;
     right: 0;
-    background: white;
+    background: $cream;
     border-bottom: 1px solid $border-light;
     box-shadow: $shadow-lg;
     transform: translateY(-100%);
