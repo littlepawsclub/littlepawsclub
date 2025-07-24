@@ -97,43 +97,44 @@ async function loadFeaturedProducts() {
 
 function renderProducts(grid, products) {
     grid.innerHTML = products.map(product => `
-        <article class="product-card ${product.featured ? 'product-card--featured' : ''}">
-            <div class="product-card__image">
-                ${product.image ? 
-                    `<img src="${product.image}" alt="${product.title}" loading="lazy">` :
-                    `<div class="product-card__image-placeholder">
-                        <svg data-feather="package"></svg>
-                    </div>`
-                }
-                ${product.badge ? `<span class="product-card__badge">${product.badge}</span>` : ''}
-            </div>
-            
-            <div class="product-card__content">
-                ${product.category ? `<div class="product-card__category">${product.category}</div>` : ''}
-                
-                <h3 class="product-card__title">${product.title}</h3>
-                
-                ${product.description ? `<p class="product-card__description">${product.description}</p>` : ''}
-                
-                <div class="product-card__footer">
-                    <div class="product-card__price">
-                        <span class="product-card__price-current">£${product.price}</span>
-                        ${product.originalPrice ? 
-                            `<span class="product-card__price-original">£${product.originalPrice}</span>` : 
-                            ''
-                        }
-                    </div>
-                    
-                    <button class="product-card__button" 
-                            onclick="addToCart('${product.id}')"
-                            ${!product.inStock ? 'disabled' : ''}>
-                        ${product.inStock ? 
-                            `<svg data-feather="shopping-cart"></svg> Add to Cart` :
-                            'Out of Stock'
-                        }
-                    </button>
+        <article class="product-card ${product.featured ? 'product-card--featured' : ''}" data-product-id="${product.id}">
+            <a href="product.html?id=${product.id}" class="product-card__link ${!product.inStock ? 'product-card__link--disabled' : ''}" 
+               ${!product.inStock ? 'aria-disabled="true"' : ''}>
+                <div class="product-card__image">
+                    ${product.image ? 
+                        `<img src="${product.image}" alt="${product.title}" loading="lazy">` :
+                        `<div class="product-card__image-placeholder">
+                            <svg data-feather="package"></svg>
+                        </div>`
+                    }
+                    ${product.badge ? `<span class="product-card__badge">${product.badge}</span>` : ''}
                 </div>
-            </div>
+                
+                <div class="product-card__content">
+                    ${product.category ? `<div class="product-card__category">${product.category}</div>` : ''}
+                    
+                    <h3 class="product-card__title">${product.title}</h3>
+                    
+                    ${product.description ? `<p class="product-card__description">${product.description}</p>` : ''}
+                    
+                    <div class="product-card__footer">
+                        <div class="product-card__price">
+                            <span class="product-card__price-current">£${product.price}</span>
+                            ${product.originalPrice ? 
+                                `<span class="product-card__price-original">£${product.originalPrice}</span>` : 
+                                ''
+                            }
+                        </div>
+                        
+                        <span class="product-card__button ${!product.inStock ? 'product-card__button--disabled' : ''}">
+                            ${product.inStock ? 
+                                `<svg data-feather="arrow-right"></svg> View Product` :
+                                'Out of Stock'
+                            }
+                        </span>
+                    </div>
+                </div>
+            </a>
         </article>
     `).join('');
     
