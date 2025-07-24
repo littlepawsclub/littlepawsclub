@@ -126,6 +126,9 @@ const Shop = {
 
     grid.innerHTML = this.filteredProducts.map(product => this.createProductCard(product)).join('');
     
+    // Add event listeners for add-to-cart buttons
+    this.attachCartEventListeners();
+    
     // Replace feather icons after rendering
     if (window.feather) {
       feather.replace();
@@ -208,6 +211,40 @@ const Shop = {
         <p>Please try refreshing the page</p>
       </div>
     `;
+  },
+
+  // Attach cart event listeners
+  attachCartEventListeners() {
+    const addToCartButtons = document.querySelectorAll('.add-to-cart');
+    
+    addToCartButtons.forEach(button => {
+      const productId = button.closest('.product-card').dataset.productId;
+      const product = this.products.find(p => p.id === productId);
+      
+      if (product) {
+        button.dataset.id = product.id;
+        button.dataset.name = product.name;
+        button.dataset.price = product.price;
+        button.dataset.img = product.image;
+        
+        button.addEventListener('click', function(e) {
+          e.preventDefault();
+          e.stopPropagation();
+          
+          const productData = {
+            id: this.dataset.id,
+            name: this.dataset.name,
+            price: parseFloat(this.dataset.price),
+            image: this.dataset.img,
+            qty: 1
+          };
+          
+          if (window.SmallPawsCart && window.SmallPawsCart.addToCart) {
+            window.SmallPawsCart.addToCart(productData);
+          }
+        });
+      }
+    });
   }
 };
 

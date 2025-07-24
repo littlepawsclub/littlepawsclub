@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart - Small Paws Club</title>
+    <meta name="description" content="Review your selected items and complete your purchase at Small Paws Club.">
+    
+    <!-- Preconnect to external domains for performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Feather Icons -->
+    <script src="https://unpkg.com/feather-icons"></script>
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="css/main.css?v=999999">
+    <link rel="stylesheet" href="css/override.css?v=999999">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header__container">
+            <!-- Logo -->
+            <div class="header__logo">
+                <a href="index.html" aria-label="Small Paws Club - Home">
+                    <h1>Small Paws Club</h1>
+                </a>
+            </div>
+            
+            <!-- Desktop Navigation -->
+            <nav class="header__nav" aria-label="Main navigation">
+                <ul class="header__nav-list">
+                    <li><a href="index.html" class="header__nav-link">Home</a></li>
+                    <li><a href="shop.html" class="header__nav-link">Shop</a></li>
+                    <li><a href="#" class="header__nav-link">About</a></li>
+                    <li><a href="#" class="header__nav-link">Contact</a></li>
+                </ul>
+            </nav>
+            
+            <!-- Header Actions -->
+            <div class="header__actions">
+                <!-- Cart Icon -->
+                <a href="cart.html" class="header__cart" aria-label="Shopping cart">
+                    <i data-feather="shopping-cart" aria-hidden="true"></i>
+                    <span id="cart-count" class="header__cart-count" style="display: none;">0</span>
+                </a>
+                
+                <!-- Mobile Menu Button -->
+                <button class="header__menu-toggle" aria-label="Toggle navigation menu" aria-expanded="false">
+                    <i data-feather="menu" aria-hidden="true"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Mobile Navigation Drawer -->
+        <div class="header__drawer" id="mobile-drawer">
+            <div class="header__drawer-header">
+                <h2>Menu</h2>
+                <button class="header__drawer-close" aria-label="Close navigation menu">
+                    <i data-feather="x" aria-hidden="true"></i>
+                </button>
+            </div>
+            <nav class="header__drawer-nav" aria-label="Mobile navigation">
+                <ul class="header__drawer-list">
+                    <li><a href="index.html" class="header__drawer-link">Home</a></li>
+                    <li><a href="shop.html" class="header__drawer-link">Shop</a></li>
+                    <li><a href="#" class="header__drawer-link">About</a></li>
+                    <li><a href="#" class="header__drawer-link">Contact</a></li>
+                    <li><a href="cart.html" class="header__drawer-link">Cart</a></li>
+                </ul>
+            </nav>
+        </div>
+        
+        <!-- Mobile Navigation Overlay -->
+        <div class="header__overlay" id="mobile-overlay"></div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Cart Page -->
+        <section class="cart-page">
+            <div class="cart-page__header">
+                <h1>Shopping Cart</h1>
+                <nav aria-label="Breadcrumb">
+                    <ol class="breadcrumb">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="shop.html">Shop</a></li>
+                        <li aria-current="page">Cart</li>
+                    </ol>
+                </nav>
+            </div>
+            
+            <div class="cart-page__content">
+                <!-- Cart Items -->
+                <div id="cart-items">
+                    <!-- Cart items will be populated by JavaScript -->
+                </div>
+                
+                <!-- Cart Summary -->
+                <div id="cart-summary">
+                    <!-- Cart summary will be populated by JavaScript -->
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer__container">
+            <!-- Newsletter Section -->
+            <section class="footer__newsletter">
+                <div class="email-optin">
+                    <div class="email-optin__content">
+                        <h3 class="email-optin__title">Stay Updated</h3>
+                        <p class="email-optin__description">Get the latest pet care tips and exclusive offers delivered to your inbox.</p>
+                    </div>
+                    <form class="email-optin__form" aria-label="Newsletter signup">
+                        <div class="email-optin__input-group">
+                            <label for="email-signup" class="visually-hidden">Email address</label>
+                            <input 
+                                type="email" 
+                                id="email-signup"
+                                placeholder="Enter your email" 
+                                class="email-optin__input"
+                                required
+                                aria-describedby="email-help"
+                            >
+                            <button type="submit" class="email-optin__button">
+                                Subscribe
+                                <i data-feather="arrow-right" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                        <p id="email-help" class="email-optin__help">We respect your privacy. Unsubscribe anytime.</p>
+                    </form>
+                </div>
+            </section>
+            
+            <!-- Footer Content -->
+            <div class="footer__content">
+                <!-- Company Info -->
+                <div class="footer__section">
+                    <h4 class="footer__title">Small Paws Club</h4>
+                    <p class="footer__text">
+                        Dedicated to providing quality products for your beloved small pets. 
+                        From rabbits to ferrets, we've got everything you need.
+                    </p>
+                </div>
+                
+                <!-- Quick Links -->
+                <div class="footer__section">
+                    <h4 class="footer__title">Quick Links</h4>
+                    <ul class="footer__links">
+                        <li><a href="shop.html" class="footer__link">Shop All</a></li>
+                        <li><a href="#" class="footer__link">About Us</a></li>
+                        <li><a href="#" class="footer__link">Contact</a></li>
+                        <li><a href="#" class="footer__link">FAQ</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Categories -->
+                <div class="footer__section">
+                    <h4 class="footer__title">Pet Categories</h4>
+                    <ul class="footer__links">
+                        <li><a href="#" class="footer__link">Rabbits</a></li>
+                        <li><a href="#" class="footer__link">Guinea Pigs</a></li>
+                        <li><a href="#" class="footer__link">Hamsters</a></li>
+                        <li><a href="#" class="footer__link">Ferrets</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Contact Info -->
+                <div class="footer__section">
+                    <h4 class="footer__title">Get in Touch</h4>
+                    <div class="footer__contact">
+                        <p class="footer__contact-item">
+                            <i data-feather="mail" aria-hidden="true"></i>
+                            hello@smallpawsclub.co.uk
+                        </p>
+                        <p class="footer__contact-item">
+                            <i data-feather="phone" aria-hidden="true"></i>
+                            +44 20 1234 5678
+                        </p>
+                        <p class="footer__contact-item">
+                            <i data-feather="map-pin" aria-hidden="true"></i>
+                            London, United Kingdom
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Footer Bottom -->
+            <div class="footer__bottom">
+                <p class="footer__copyright">
+                    © 2024 Small Paws Club. All rights reserved.
+                </p>
+                <div class="footer__legal">
+                    <a href="#" class="footer__legal-link">Privacy Policy</a>
+                    <a href="#" class="footer__legal-link">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="js/main.js"></script>
+    <script src="js/cart.js"></script>
+    
+    <script>
+        // Initialize when DOM is ready
+        document.addEventListener('DOMContentLoaded', function() {
+            if (window.feather) {
+                feather.replace();
+            }
+        });
+    </script>
+</body>
+</html>

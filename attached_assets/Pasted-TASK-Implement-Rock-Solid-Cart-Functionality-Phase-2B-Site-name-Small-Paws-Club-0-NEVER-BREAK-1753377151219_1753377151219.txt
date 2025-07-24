@@ -1,0 +1,143 @@
+TASK: Implement Rock-Solid Cart Functionality (Phase 2B)
+Site name: Small Paws Club
+
+0 • NEVER BREAK THESE
+Do NOT delete or rename any existing files, CSS classes, or data files.
+
+Do NOT overwrite images or JSON – append / edit carefully.
+
+Code must work for both desktop and ≤ 375 px mobile without horizontal scroll.
+
+All new JS goes in js/cart.js (create if missing).
+
+All new SCSS goes in scss/components/_cart.scss then import it in scss/main.scss.
+
+Use vanilla JS only (no frameworks).
+
+Run sass main.scss ../css/main.css --style compressed after SCSS edits.
+
+When done, show a short, bullet proof-of-work log (add → cart, see count, open cart.html, totals correct).
+
+1 • DATA MODEL (localStorage key ="spcCart")
+js
+Copy
+Edit
+// example structure stored as JSON string
+{
+  "abc123": {          // product.id
+    id: "abc123",
+    name: "Collapsible Small-Pet Tunnel",
+    price: 17.99,
+    qty: 2,
+    image: "img/tunnel.jpg"
+  },
+  ...
+}
+2 • ADD-TO-CART BUTTONS
+File(s):
+
+js/shop.js AND js/product.js (if you created one)
+
+For every “.add-to-cart” button:
+
+Read data-id, data-name, data-price, data-img.
+
+If the product already exists in spcCart, increment qty; else create it with qty=1.
+
+Persist cart object back to localStorage.
+
+Call updateCartBadge() (see §3).
+
+3 • CART COUNT BADGE (header)
+File(s): js/cart.js
+
+Provide updateCartBadge() that:
+
+Calculates totalQty = Σ qty in spcCart.
+
+Injects totalQty into <span id="cart-count"> (already in header).
+
+Hides the span if totalQty === 0.
+
+Call this function on page load of every page and after any cart change.
+
+4 • cart.html PAGE
+Create cart.html (copy header/footer layout from shop.html).
+
+Add an empty <div id="cart-items"></div> and <div id="cart-summary"></div> .
+
+5 • CART PAGE LOGIC (js/cart.js)
+On DOMContentLoaded ONLY on cart.html:
+
+js
+Copy
+Edit
+buildCartPage();   // your function
+buildCartPage() must:
+
+Parse spcCart from storage; if empty show “Your cart is empty”.
+
+For each item create markup:
+
+Thumbnail, name (link back to product), unit price
+
+Quantity input (type number min = 1)
+
+Line total = qty × price
+
+Remove (🗑) button
+
+Attach change listeners to qty inputs:
+
+Update qty in storage, re-compute line total & summary totals, call updateCartBadge().
+
+Attach listener to remove buttons:
+
+Delete key, rebuild cart display, call updateCartBadge().
+
+Summary section shows Subtotal £xx.xx (2 decimals).
+
+Disable checkout button if cart empty (placeholder only).
+
+6 • SCSS
+_cart.scss — basic table / card styling, flex column on mobile, row on ≥ 640 px.
+
+Add:
+
+scss
+Copy
+Edit
+@import 'components/cart';
+at the bottom of main.scss.
+
+Re-compile CSS (rule 7).
+
+7 • ACCESSIBILITY & UX NITS
+Quantity buttons / inputs must be keyboard accessible.
+
+Use visually-hidden text for screen-reader labels on icons.
+
+Ensure color contrast ≥ WCAG AA (use existing palette variables).
+
+8 • DONE CHECK
+Before you claim success, manually test in the browser (devtools mobile + desktop):
+
+Visit /shop.html, click “Add to Cart” on two different products.
+
+Verify header badge shows correct total.
+
+Open /cart.html via header icon.
+
+Confirm items render with correct totals.
+
+Change qty, remove item – badge & subtotal update instantly (no refresh).
+
+Reload page — cart persists.
+
+Provide in chat a concise bullet list proving each step worked.
+
+9 • FUTURE PLACEHOLDER (no work now)
+Insert an empty <section id="checkout-options"></section> below summary for later Stripe/PayPal code.
+
+If anything fails the DONE CHECK, fix it before replying.
+Only then send the success log.

@@ -1,0 +1,380 @@
+// Small Paws Club - Cart Component Styles
+// Cart page, cart items, and cart notification styling
+
+// Cart notification (temporary popup)
+.cart-notification {
+  position: fixed;
+  top: 100px;
+  right: 20px;
+  z-index: 1000;
+  background: $sage;
+  color: white;
+  padding: $spacing-3 $spacing-4;
+  border-radius: $border-radius;
+  box-shadow: $shadow-lg;
+  transform: translateX(100%);
+  opacity: 0;
+  transition: all 0.3s ease;
+  max-width: 300px;
+  
+  &--show {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  
+  &__content {
+    display: flex;
+    align-items: center;
+    gap: $spacing-2;
+  }
+  
+  &__icon {
+    font-size: $font-size-lg;
+    font-weight: $font-weight-bold;
+  }
+  
+  &__text {
+    font-size: $font-size-sm;
+    font-weight: $font-weight-semibold;
+  }
+}
+
+// Cart page layout
+.cart-page {
+  @include container;
+  padding-top: $spacing-8;
+  padding-bottom: $spacing-12;
+  
+  &__header {
+    margin-bottom: $spacing-8;
+    text-align: center;
+    
+    h1 {
+      color: $text-primary;
+      margin-bottom: $spacing-4;
+    }
+  }
+  
+  &__content {
+    display: grid;
+    gap: $spacing-8;
+    
+    @include breakpoint(lg) {
+      grid-template-columns: 2fr 1fr;
+      gap: $spacing-12;
+    }
+  }
+}
+
+// Cart empty state
+.cart-empty {
+  text-align: center;
+  padding: $spacing-12 $spacing-4;
+  
+  &__content {
+    max-width: 400px;
+    margin: 0 auto;
+    
+    h2 {
+      color: $text-primary;
+      margin-bottom: $spacing-4;
+    }
+    
+    p {
+      color: $text-secondary;
+      margin-bottom: $spacing-6;
+    }
+  }
+}
+
+// Cart items container
+.cart-items-header {
+  margin-bottom: $spacing-6;
+  padding-bottom: $spacing-4;
+  border-bottom: 2px solid $border-light;
+  
+  h2 {
+    color: $text-primary;
+    margin: 0;
+  }
+}
+
+.cart-items-list {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-4;
+}
+
+// Individual cart item
+.cart-item {
+  display: grid;
+  grid-template-columns: 80px 1fr auto;
+  grid-template-areas: 
+    "image details remove"
+    "image quantity total";
+  gap: $spacing-3;
+  padding: $spacing-4;
+  background: white;
+  border: 2px solid $border-light;
+  border-radius: $border-radius;
+  transition: all $transition-base;
+  
+  @include breakpoint(sm) {
+    grid-template-columns: 100px 1fr auto auto auto;
+    grid-template-areas: "image details quantity total remove";
+    gap: $spacing-4;
+    align-items: center;
+  }
+  
+  &:hover {
+    border-color: $sage;
+    box-shadow: $shadow;
+  }
+  
+  &__image {
+    grid-area: image;
+    
+    img {
+      width: 100%;
+      height: 80px;
+      object-fit: cover;
+      border-radius: $border-radius-sm;
+      
+      @include breakpoint(sm) {
+        height: 100px;
+      }
+    }
+  }
+  
+  &__details {
+    grid-area: details;
+    min-width: 0; // Allow text truncation
+  }
+  
+  &__name {
+    font-size: $font-size-base;
+    font-weight: $font-weight-semibold;
+    margin: 0 0 $spacing-2 0;
+    
+    a {
+      color: $text-primary;
+      text-decoration: none;
+      
+      &:hover {
+        color: $accent;
+        text-decoration: underline;
+      }
+    }
+    
+    @include breakpoint(sm) {
+      font-size: $font-size-lg;
+    }
+  }
+  
+  &__price {
+    color: $text-secondary;
+    font-size: $font-size-sm;
+    margin: 0;
+    
+    @include breakpoint(sm) {
+      font-size: $font-size-base;
+    }
+  }
+  
+  &__quantity {
+    grid-area: quantity;
+    display: flex;
+    align-items: center;
+    gap: $spacing-1;
+    justify-self: start;
+    
+    @include breakpoint(sm) {
+      justify-self: center;
+    }
+  }
+  
+  &__qty-btn {
+    width: 32px;
+    height: 32px;
+    border: 2px solid $border-light;
+    background: white;
+    color: $text-primary;
+    border-radius: $border-radius-sm;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: $font-weight-bold;
+    cursor: pointer;
+    transition: all $transition-base;
+    
+    &:hover {
+      border-color: $sage;
+      background: $sage;
+      color: white;
+    }
+    
+    &:focus {
+      @include focus-ring;
+    }
+    
+    &:active {
+      transform: scale(0.95);
+    }
+  }
+  
+  &__qty-input {
+    width: 60px;
+    height: 32px;
+    border: 2px solid $border-light;
+    border-radius: $border-radius-sm;
+    text-align: center;
+    font-weight: $font-weight-semibold;
+    
+    &:focus {
+      border-color: $accent;
+      outline: none;
+    }
+    
+    // Hide spinner arrows
+    &::-webkit-outer-spin-button,
+    &::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+    
+    &[type=number] {
+      -moz-appearance: textfield;
+    }
+  }
+  
+  &__total {
+    grid-area: total;
+    font-weight: $font-weight-bold;
+    color: $accent;
+    font-size: $font-size-lg;
+    justify-self: end;
+    
+    @include breakpoint(sm) {
+      justify-self: center;
+    }
+  }
+  
+  &__remove {
+    grid-area: remove;
+    justify-self: end;
+    align-self: start;
+    
+    @include breakpoint(sm) {
+      align-self: center;
+    }
+  }
+  
+  &__remove-btn {
+    width: 40px;
+    height: 40px;
+    border: 2px solid $border-light;
+    background: white;
+    color: $text-secondary;
+    border-radius: $border-radius-sm;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all $transition-base;
+    
+    &:hover {
+      border-color: #ef4444;
+      background: #ef4444;
+      color: white;
+    }
+    
+    &:focus {
+      @include focus-ring;
+    }
+    
+    &:active {
+      transform: scale(0.95);
+    }
+  }
+}
+
+// Cart summary
+.cart-summary {
+  background: $background-light;
+  padding: $spacing-6;
+  border-radius: $border-radius;
+  border: 2px solid $border-light;
+  height: fit-content;
+  
+  &__title {
+    font-size: $font-size-xl;
+    font-weight: $font-weight-bold;
+    color: $text-primary;
+    margin: 0 0 $spacing-4 0;
+    padding-bottom: $spacing-3;
+    border-bottom: 2px solid $border-light;
+  }
+  
+  &__line {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: $spacing-3 0;
+    font-size: $font-size-base;
+    
+    &:not(:last-child) {
+      border-bottom: 1px solid $border-light;
+    }
+    
+    &--total {
+      font-weight: $font-weight-bold;
+      font-size: $font-size-lg;
+      color: $accent;
+      border-top: 2px solid $border-light;
+      margin-top: $spacing-2;
+      padding-top: $spacing-4;
+    }
+  }
+  
+  &__checkout {
+    margin-top: $spacing-6;
+    
+    &:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      
+      &:hover {
+        transform: none;
+        box-shadow: none;
+      }
+    }
+  }
+}
+
+// Checkout options placeholder
+#checkout-options {
+  margin-top: $spacing-6;
+  min-height: 1px; // Placeholder for future content
+}
+
+// Responsive adjustments
+@include breakpoint(sm) {
+  .cart-item {
+    padding: $spacing-6;
+  }
+  
+  .cart-summary {
+    padding: $spacing-8;
+  }
+}
+
+// Full width button utility
+.btn--full-width {
+  width: 100%;
+  justify-content: center;
+}
+
+// Visually hidden utility for accessibility
+.visually-hidden {
+  @include visually-hidden;
+}
