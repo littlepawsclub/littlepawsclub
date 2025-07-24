@@ -97,12 +97,18 @@ document.addEventListener('click', e => {
       qty += 1;
       console.log('Plus clicked, newQty=', qty);
     }
-  } else if (minusBtn) {
-    qty = Math.max(qty - 1, 1);
+  } else if (minusBtn && qty > 1) {
+    qty--;
     console.log('Minus clicked, newQty=', qty);
   }
   
   input.value = qty;
+  
+  // Update button disabled states based on new quantity
+  const minusButton = container.querySelector('[data-minus]');
+  const plusButton = container.querySelector('[data-plus]');
+  if (minusButton) minusButton.disabled = qty <= 1;
+  if (plusButton) plusButton.disabled = qty >= (parseInt(input.max) || 10);
 });
 
 // When on cart page, render items + delegate qty/remove
