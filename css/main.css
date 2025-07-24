@@ -2,32 +2,123 @@
 
 
 /* Cart Responsive Styles */
-#cart-items, .cart-row {
+#cart-items {
   width: 100%;
   max-width: 100%;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 0.5rem;
-  margin-bottom: 1rem;
-  padding: 0.5rem;
   overflow-x: hidden;
 }
 
-.cart-row > * {
-  flex: 1 1 100%;
-  min-width: 0;
-  max-width: 100%;
+.cart-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid #eee;
+  gap: 0.5rem;
+  overflow: hidden;
 }
 
-.cart-row img,
-.cart-row button,
-.cart-row input {
-  max-width: 100%;
+.cart-row .cart-image {
+  flex-shrink: 0;
+  width: 50px;
+  height: 50px;
+  border-radius: 4px;
+}
+
+.cart-row .cart-title {
+  flex: 1 1 auto;
+  min-width: 0;
+  font-weight: 600;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  hyphens: auto;
+}
+
+.cart-row .cart-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+
+.cart-row .cart-qty-btn {
+  width: 32px;
+  height: 32px;
+  border: 1px solid #ccc;
+  background: white;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cart-row .cart-qty-display {
+  min-width: 2rem;
+  text-align: center;
+  font-weight: 500;
+}
+
+.cart-row .cart-remove {
+  width: 32px;
+  height: 32px;
+  border: none;
+  background: #ff4444;
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+  flex-shrink: 0;
+  margin-left: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cart-row .cart-price {
+  min-width: 80px;
+  text-align: right;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+/* Mobile adjustments */
+@media (max-width: 479px) {
+  .cart-row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.75rem;
+  }
+  
+  .cart-row .cart-main {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    width: 100%;
+  }
+  
+  .cart-row .cart-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+  }
+  
+  .cart-row .cart-title {
+    font-size: 0.95rem;
+  }
+  
+  .cart-row .cart-price {
+    text-align: left;
+    font-size: 1.1rem;
+    color: #f4a269;
+  }
 }
 
 @media (min-width: 480px) {
-  .cart-row > * {
-    flex: 1 1 auto;
+  .cart-row {
+    flex-direction: row;
+    align-items: center;
   }
 }

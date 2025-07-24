@@ -150,15 +150,21 @@ if (document.body.contains(document.querySelector("#cart-items"))) {
     cart.forEach(item => {
       subtotal += item.price * item.qty;
       const el = document.createElement("div");
-      el.style.cssText = "display: flex; align-items: center; gap: 1rem; padding: 1rem; border-bottom: 1px solid #eee;";
+      el.className = "cart-row";
       el.innerHTML = `
-        <img src="${item.img}" width="50" style="border-radius: 4px;" />
-        <strong style="flex: 1;">${item.name}</strong>
-        <button data-minus data-id="${item.id}" style="width: 32px; height: 32px; border: 1px solid #ccc; background: white; border-radius: 4px; cursor: pointer;">–</button>
-        <span style="min-width: 2rem; text-align: center;">${item.qty}</span>
-        <button data-plus data-id="${item.id}" style="width: 32px; height: 32px; border: 1px solid #ccc; background: white; border-radius: 4px; cursor: pointer;">+</button>
-        <button data-remove data-id="${item.id}" style="width: 32px; height: 32px; border: none; background: #ff4444; color: white; border-radius: 4px; cursor: pointer;">🗑️</button>
-        <span style="min-width: 80px; text-align: right; font-weight: 600;">£${(item.price * item.qty).toFixed(2)}</span>
+        <div class="cart-main">
+          <img src="${item.img || 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-1.414-.586H14l-2-2"/></svg>'}" class="cart-image" alt="${item.name}" />
+          <div class="cart-title">${item.name}</div>
+        </div>
+        <div class="cart-actions">
+          <div class="cart-controls">
+            <button data-minus data-id="${item.id}" class="cart-qty-btn" aria-label="Decrease quantity">–</button>
+            <span class="cart-qty-display">${item.qty}</span>
+            <button data-plus data-id="${item.id}" class="cart-qty-btn" aria-label="Increase quantity">+</button>
+          </div>
+          <button data-remove data-id="${item.id}" class="cart-remove" aria-label="Remove item">🗑️</button>
+          <div class="cart-price">£${(item.price * item.qty).toFixed(2)}</div>
+        </div>
       `;
       container.append(el);
     });
