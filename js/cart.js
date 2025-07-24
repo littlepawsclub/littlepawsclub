@@ -45,7 +45,7 @@ function removeFromCart(productId) {
         delete cart[productId];
         saveCart(cart);
         
-        // Always re-render and update badge after mutation
+        // Full re-render needed when removing items
         if (window.location.pathname.includes('cart.html')) {
             renderCart();
         }
@@ -58,16 +58,14 @@ function updateCartQuantity(productId, newQty) {
     if (cart[productId] && newQty > 0) {
         cart[productId].qty = parseInt(newQty);
         saveCart(cart);
+        
+        // Update display without full re-render
+        updateCartItemDisplay(productId, newQty);
+        updateCartBadge();
     } else if (newQty <= 0) {
         removeFromCart(productId);
         return; // removeFromCart handles re-rendering
     }
-    
-    // Always re-render and update badge after mutation
-    if (window.location.pathname.includes('cart.html')) {
-        renderCart();
-    }
-    updateCartBadge();
 }
 
 function getCartTotalQty() {
@@ -217,16 +215,24 @@ function renderCart() {
 function buildCartPage() {
     renderCart();
     updateCartBadge();
+    // Event listeners are attached once globally, no need to re-attach
 }
 
+// Global cart event delegation - attached once to static parent
 function attachCartEventListeners() {
-    const cartContainer = document.getElementById('cart-items');
-    if (!cartContainer) return;
+    const cartPageSection = document.querySelector('.cart-page');
+    if (!cartPageSection) return;
     
-    // Use event delegation on the entire cart container
-    cartContainer.addEventListener('click', (e) => {
+    // Single event listener for the entire cart page section
+    cartPageSection.addEventListener('click', (e) => {
         const target = e.target;
-        const productId = target.dataset.id || target.closest('[data-id]')?.dataset.id;
+        
+        // Find the product ID from the clicked element or its parent
+        let productId = target.dataset.id;
+        if (!productId) {
+            const cartItem = target.closest('[data-id]');
+            productId = cartItem?.dataset.id;
+        }
         
         if (!productId) return;
         
@@ -268,7 +274,7 @@ function attachCartEventListeners() {
     });
     
     // Handle quantity input changes
-    cartContainer.addEventListener('change', (e) => {
+    cartPageSection.addEventListener('change', (e) => {
         if (e.target.classList.contains('cart-item__qty-input')) {
             const productId = e.target.dataset.id;
             let newQty = parseInt(e.target.value);
@@ -284,6 +290,58 @@ function attachCartEventListeners() {
     });
 }
 
+// Update individual cart item display without full re-render
+function updateCartItemDisplay(productId, newQty) {
+    const cart = getCart();
+    const item = cart[productId];
+    if (!item) return;
+    
+    // Update the total price for this item
+    const totalElement = document.querySelector(`[data-id="${productId}"] .cart-item__total`);
+    if (totalElement) {
+        totalElement.textContent = `£${(item.price * newQty).toFixed(2)}`;
+    }
+    
+    // Update cart summary
+    const cartSummary = document.getElementById('cart-summary');
+    if (cartSummary) {
+        updateCartSummary();
+    }
+    
+    // Update items count in header
+    const cartHeader = document.querySelector('.cart-items-header h2');
+    if (cartHeader) {
+        const totalItems = Object.values(cart).reduce((sum, item) => sum + item.qty, 0);
+        cartHeader.textContent = `Your Cart (${totalItems} items)`;
+    }
+}
+
+// Update only the cart summary section
+function updateCartSummary() {
+    const cart = getCart();
+    const cartSummaryContainer = document.getElementById('cart-summary');
+    if (!cartSummaryContainer) return;
+    
+    const subtotal = Object.values(cart).reduce((total, item) => total + (item.price * item.qty), 0);
+    cartSummaryContainer.innerHTML = `
+        <div class="cart-summary">
+            <h3 class="cart-summary__title">Order Summary</h3>
+            <div class="cart-summary__line">
+                <span>Subtotal</span>
+                <span>£${subtotal.toFixed(2)}</span>
+            </div>
+            <div class="cart-summary__line cart-summary__line--total">
+                <span>Total</span>
+                <span>£${subtotal.toFixed(2)}</span>
+            </div>
+            <button type="button" class="btn btn--primary btn--full-width cart-summary__checkout" disabled>
+                Checkout (Coming Soon)
+            </button>
+        </div>
+        <section id="checkout-options"></section>
+    `;
+}
+
 // Initialize cart on all pages
 document.addEventListener('DOMContentLoaded', function() {
     // Always update cart badge on page load
@@ -291,8 +349,10 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Initialize cart page if we're on cart.html
     if (window.location.pathname.includes('cart.html') || window.location.pathname.endsWith('cart')) {
-        buildCartPage();
+        // Attach event listeners first (to static container)
         attachCartEventListeners();
+        // Then build/render the cart content
+        buildCartPage();
     }
     
     // Set up global add-to-cart event delegation
