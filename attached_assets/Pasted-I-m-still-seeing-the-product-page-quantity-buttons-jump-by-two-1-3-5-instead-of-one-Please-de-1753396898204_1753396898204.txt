@@ -1,0 +1,39 @@
+I’m still seeing the product-page quantity buttons jump by two (1 → 3 → 5) instead of one. Please debug and fix the product-page quantity controls:
+
+1. **Remove duplicate listeners**  
+   - Search your code for any `document.querySelectorAll('.qty-plus')` or similar on the product page.  
+   - Ensure you only call `element.addEventListener('click', …)` **once** per button. If you see two registrations (e.g. one in an init function and another in page load), remove the extra.
+
+2. **Single event delegation**  
+   - Instead of attaching listeners to each button, attach **one** click handler to a static parent (e.g. `document`) and in it:  
+     ```js
+     document.addEventListener('click', e => {
+       if (!e.target.matches('[data-plus], [data-minus]')) return;
+       const isPlus = e.target.matches('[data-plus]');
+       const input = e.target.closest('.quantity-container').querySelector('.qty-value');
+       let qty = parseInt(input.value, 10) || 0;
+       qty = isPlus ? qty + 1 : Math.max(qty - 1, 1);
+       input.value = qty;
+       updateCartData(qty); // your function to sync state
+     });
+     ```
+
+3. **Prevent double handling**  
+   - If you have an `<a>` or `<button type="submit">`, add `e.preventDefault()` at the start of your handler.  
+   - Check for any other code (e.g. a framework or library) that may automatically re-trigger the click.
+
+4. **Verify with console logs**  
+   - Inside your click handler, temporarily add:  
+     ```js
+     console.log('qty-click handler', { isPlus, oldQty, newQty });
+     ```  
+   - Confirm it only logs **once** per physical click.
+
+5. **Test**  
+   - Reload the product page.  
+   - In DevTools, clear any existing handlers (if possible) or refresh to ensure no stale code.  
+   - Click “+” → expect 1 → 2  
+   - Click “+” again → 2 → 3  
+   - Click “–” → decrement by 1 down to 1.  
+
+Please apply this simpler, single-listener approach on the product page and ensure each click only changes quantity by exactly one. Thank you!  

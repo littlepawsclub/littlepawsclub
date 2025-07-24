@@ -59,8 +59,32 @@ document.addEventListener("click", e => {
   updateBadge();
 });
 
-// Product card navigation (click anywhere except add-to-cart)
+// Product page quantity controls (global delegation)
 document.addEventListener("click", e => {
+  if (e.target.matches('[data-plus], [data-minus]')) {
+    e.preventDefault();
+    e.stopPropagation();
+    
+    const isPlus = e.target.matches('[data-plus]');
+    const input = e.target.closest('.quantity-selector').querySelector('#product-quantity');
+    if (!input) return;
+    
+    let qty = parseInt(input.value, 10) || 1;
+    const minQty = parseInt(input.min) || 1;
+    const maxQty = parseInt(input.max) || 10;
+    
+    if (isPlus && qty < maxQty) {
+      qty += 1;
+    } else if (!isPlus && qty > minQty) {
+      qty -= 1;
+    }
+    
+    console.log('Product qty-click handler', { isPlus, oldQty: input.value, newQty: qty });
+    input.value = qty;
+    return; // Don't proceed to card navigation
+  }
+
+  // Product card navigation (click anywhere except add-to-cart)
   const card = e.target.closest(".product-card");
   if (!card) return;
   if (e.target.closest(".add-to-cart")) return;          // don't navigate when adding
@@ -144,7 +168,11 @@ if (document.body.contains(document.querySelector("#cart-items"))) {
   renderCart();
 }
 
-// Initialize badge on page load
-document.addEventListener('DOMContentLoaded', function() {
+// Initialize badge on page load (only once)
+if (!window.simpleCartInitialized) {
+  window.simpleCartInitialized = true;
+  
+  document.addEventListener('DOMContentLoaded', function() {
     updateBadge();
-});
+  });
+}

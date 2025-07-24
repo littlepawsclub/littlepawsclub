@@ -146,38 +146,9 @@ const ProductPage = {
     }
   },
 
-  // Initialize quantity selector
+  // Initialize quantity selector (delegated to simpleCart.js)
   initQuantitySelector() {
-    const quantityInput = document.getElementById('product-quantity');
-    const minusBtn = document.querySelector('.quantity-selector__btn--minus');
-    const plusBtn = document.querySelector('.quantity-selector__btn--plus');
-    
-    if (!quantityInput || !minusBtn || !plusBtn) return;
-    
-    // Minus button
-    minusBtn.addEventListener('click', () => {
-      const currentValue = parseInt(quantityInput.value);
-      if (currentValue > 1) {
-        quantityInput.value = currentValue - 1;
-        this.updateQuantityButtons();
-      }
-    });
-    
-    // Plus button
-    plusBtn.addEventListener('click', () => {
-      const currentValue = parseInt(quantityInput.value);
-      const maxValue = parseInt(quantityInput.max);
-      if (currentValue < maxValue) {
-        quantityInput.value = currentValue + 1;
-        this.updateQuantityButtons();
-      }
-    });
-    
-    // Input change
-    quantityInput.addEventListener('change', () => {
-      this.updateQuantityButtons();
-    });
-    
+    // Quantity controls are now handled by global delegation in simpleCart.js
     this.updateQuantityButtons();
   },
   
