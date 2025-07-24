@@ -125,6 +125,11 @@ const Shop = {
     }
 
     grid.innerHTML = this.filteredProducts.map(product => this.createProductCard(product)).join('');
+    
+    // Replace feather icons after rendering
+    if (window.feather) {
+      feather.replace();
+    }
   },
 
   // Create individual product card HTML

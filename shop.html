@@ -248,17 +248,25 @@
         </div>
     </footer>
 
+    <!-- Feather Icons -->
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons@4.29.2/dist/feather.min.js"></script>
+    
     <!-- JavaScript -->
     <script src="js/main.js"></script>
     <script src="js/shop.js"></script>
+    
     <script>
-        // Initialize Feather Icons
-        feather.replace();
-        
-        // Initialize Shop
-        if (typeof Shop !== 'undefined') {
-            Shop.init();
-        }
+        // Initialize Feather Icons and Shop functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            if (window.feather) {
+                feather.replace();
+            }
+            
+            // Initialize Shop
+            if (typeof Shop !== 'undefined') {
+                Shop.init();
+            }
+        });
     </script>
 </body>
 </html>

@@ -283,10 +283,19 @@
         </div>
     </footer>
 
+    <!-- Feather Icons -->
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons@4.29.2/dist/feather.min.js"></script>
+    
     <!-- JavaScript -->
     <script src="js/main.js"></script>
+    
     <script>
-        feather.replace();
+        // Initialize Feather icons
+        document.addEventListener('DOMContentLoaded', function() {
+            if (window.feather) {
+                feather.replace();
+            }
+        });
     </script>
 </body>
 </html>

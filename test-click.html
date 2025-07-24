@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Product Cards</title>
+    <style>
+        .product-card { border: 1px solid #ccc; margin: 10px; padding: 10px; }
+        .product-card__link { text-decoration: none; color: inherit; display: block; }
+    </style>
+</head>
+<body>
+    <h1>Test Product Card Links</h1>
+    
+    <article class="product-card">
+        <a href="product.html?id=test-1" class="product-card__link">
+            <h3>Test Product 1</h3>
+            <p>Click anywhere on this card</p>
+            <span>£19.99</span>
+        </a>
+    </article>
+
+    <article class="product-card">
+        <a href="product.html?id=test-2" class="product-card__link">
+            <h3>Test Product 2</h3>
+            <p>This should also be clickable</p>
+            <span>£24.99</span>
+        </a>
+    </article>
+
+    <script>
+        console.log('Test page loaded');
+        document.addEventListener('click', function(e) {
+            console.log('Clicked:', e.target);
+        });
+    </script>
+</body>
+</html>
