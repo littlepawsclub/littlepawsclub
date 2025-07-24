@@ -30,7 +30,7 @@ function updateBadge() {
   badge.style.display = total > 0 ? 'inline-flex' : 'none';
 }
 
-// Global "Add to Cart" delegation
+// Global "Add to Cart" delegation - works on both shop and product pages
 document.addEventListener("click", e => {
   const btn = e.target.closest("[data-add]");
   if (!btn) return;
@@ -38,78 +38,100 @@ document.addEventListener("click", e => {
   e.preventDefault(); // Prevent navigation when clicking add to cart
   e.stopPropagation();
   
-  // Get product data from the parent card
+  let id, name, price, img, qty = 1;
+  
+  // Check if we're on product page or shop page
   const card = btn.closest(".product-card");
-  if (!card) return;
+  if (card) {
+    // Shop page - get data from card
+    id = card.dataset.id;
+    name = card.dataset.name;
+    price = parseFloat(card.dataset.price);
+    img = card.dataset.img;
+    qty = 1;
+  } else {
+    // Product page - get data from page elements and button attributes
+    id = btn.dataset.id || document.querySelector('[data-product-id]')?.dataset.productId;
+    name = btn.dataset.name || document.querySelector('.product-info__title')?.textContent?.trim();
+    price = parseFloat(btn.dataset.price || document.querySelector('.product-info__price-current')?.textContent?.replace('£', ''));
+    img = btn.dataset.img || '';
+    qty = parseInt(document.querySelector('#product-quantity')?.value || '1', 10) || 1;
+  }
   
-  const id    = card.dataset.id;
-  const name  = card.dataset.name;
-  const price = parseFloat(card.dataset.price);
-  const img   = card.dataset.img;
+  if (!id || !name || !price) {
+    console.error('Missing product data for cart:', { id, name, price });
+    return;
+  }
   
-  // update cart array
+  // Update cart array
   const cart = loadCart();
   const existing = cart.find(i => i.id === id);
   if (existing) {
-    existing.qty++;
+    existing.qty += qty;
   } else {
-    cart.push({ id, name, price, img, qty: 1 });
+    cart.push({ id, name, price, img, qty });
   }
   saveCart(cart);
   updateBadge();
+  
+  console.log(`Added ${qty} × ${name} to cart. Total items:`, cart.reduce((sum, x) => sum + x.qty, 0));
 });
 
-// Single event delegation for quantity controls
-document.addEventListener('click', e => {
-  const plusBtn = e.target.closest('[data-plus]');
-  const minusBtn = e.target.closest('[data-minus]');
+// Single event delegation for quantity controls and navigation - prevent duplicate handlers
+if (!window.qtyNavHandlerAdded) {
+  window.qtyNavHandlerAdded = true;
   
-  if (!plusBtn && !minusBtn) {
-    // Product card navigation (click anywhere except add-to-cart)
-    const card = e.target.closest(".product-card");
-    if (!card) return;
-    if (e.target.closest(".add-to-cart")) return;          // don't navigate when adding
-    if (e.target.closest(".card-qty-controls")) return;   // don't navigate on qty clicks
+  document.addEventListener('click', e => {
+    const plusBtn = e.target.closest('[data-plus]');
+    const minusBtn = e.target.closest('[data-minus]');
     
-    // otherwise, treat it as a navigation click:
-    const id = card.dataset.id;
-    window.location.href = `product.html?id=${encodeURIComponent(id)}`;
-    return;
-  }
-  
-  // Quantity button clicked
-  e.preventDefault();
-  e.stopPropagation();
-  
-  const container = (plusBtn || minusBtn).closest('.quantity-selector');
-  const input = container.querySelector('#product-quantity');
-  
-  if (!input) {
-    console.log('Input not found!');
-    return;
-  }
-  
-  let qty = parseInt(input.value, 10) || 1;
-  
-  if (plusBtn) {
-    const maxQty = parseInt(input.max) || 10;
-    if (qty < maxQty) {
-      qty += 1;
-      console.log('Plus clicked, newQty=', qty);
+    if (!plusBtn && !minusBtn) {
+      // Product card navigation (click anywhere except add-to-cart)
+      const card = e.target.closest(".product-card");
+      if (!card) return;
+      if (e.target.closest(".add-to-cart")) return;          // don't navigate when adding
+      if (e.target.closest(".card-qty-controls")) return;   // don't navigate on qty clicks
+      
+      // otherwise, treat it as a navigation click:
+      const id = card.dataset.id;
+      window.location.href = `product.html?id=${encodeURIComponent(id)}`;
+      return;
     }
-  } else if (minusBtn && qty > 1) {
-    qty--;
-    console.log('Minus clicked, newQty=', qty);
-  }
-  
-  input.value = qty;
-  
-  // Update button disabled states based on new quantity
-  const minusButton = container.querySelector('[data-minus]');
-  const plusButton = container.querySelector('[data-plus]');
-  if (minusButton) minusButton.disabled = qty <= 1;
-  if (plusButton) plusButton.disabled = qty >= (parseInt(input.max) || 10);
-});
+    
+    // Quantity button clicked
+    e.preventDefault();
+    e.stopPropagation();
+    
+    const container = (plusBtn || minusBtn).closest('.quantity-selector');
+    const input = container.querySelector('#product-quantity');
+    
+    if (!input) {
+      console.log('Input not found!');
+      return;
+    }
+    
+    let qty = parseInt(input.value, 10) || 1;
+    
+    if (plusBtn) {
+      const maxQty = parseInt(input.max) || 10;
+      if (qty < maxQty) {
+        qty += 1;
+        console.log('Plus clicked, newQty=', qty);
+      }
+    } else if (minusBtn && qty > 1) {
+      qty--;
+      console.log('Minus clicked, newQty=', qty);
+    }
+    
+    input.value = qty;
+    
+    // Update button disabled states based on new quantity
+    const minusButton = container.querySelector('[data-minus]');
+    const plusButton = container.querySelector('[data-plus]');
+    if (minusButton) minusButton.disabled = qty <= 1;
+    if (plusButton) plusButton.disabled = qty >= (parseInt(input.max) || 10);
+  });
+}
 
 // When on cart page, render items + delegate qty/remove
 if (document.body.contains(document.querySelector("#cart-items"))) {

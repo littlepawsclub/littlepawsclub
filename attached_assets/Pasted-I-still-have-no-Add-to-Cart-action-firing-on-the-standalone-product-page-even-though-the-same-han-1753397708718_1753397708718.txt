@@ -1,0 +1,55 @@
+I still have no “Add to Cart” action firing on the standalone product page, even though the same handler works fine on the shop listing. It looks like we’re missing proper event delegation or selector targeting there.
+
+Please update our simpleCart.js (or whatever cart script) so that:
+
+The same click listener that watches for [data-add] on the shop page also picks up the product-page button.
+
+We correctly read the data-id, data-name, data-price, and current quantity from the product page’s DOM (e.g. from #product-id, #product-title, #product-price, and the qty input).
+
+On click, we append the item into localStorage.getItem('spcCart') (or create a new array if empty), then update the nav-badge immediately.
+
+We prevent default navigation so the user stays on the product page after adding.
+
+Example of what I’d expect in the script:
+
+js
+Copy
+Edit
+document.addEventListener('click', function(e) {
+  const btn = e.target.closest('[data-add]');
+  if (!btn) return;
+  e.preventDefault();
+
+  // On both shop and product pages the button has these attributes:
+  // data-add="true" data-id="..." data-name="..." data-price="..." data-img="..."
+  const id    = btn.dataset.id;
+  const name  = btn.dataset.name;
+  const price = parseFloat(btn.dataset.price);
+  let qty     = parseInt(
+                  document.querySelector('#product-qty')?.value ||
+                  btn.dataset.qty ||
+                  '1',
+                10) || 1;
+
+  // Load or init cart
+  let cart = JSON.parse(localStorage.getItem('spcCart') || '[]');
+  // Find existing
+  const existing = cart.find(item => item.id === id);
+  if (existing) {
+    existing.qty += qty;
+  } else {
+    cart.push({ id, name, price, qty, img: btn.dataset.img || '' });
+  }
+  localStorage.setItem('spcCart', JSON.stringify(cart));
+
+  // Update badge
+  const badge = document.querySelector('#cart-badge');
+  const totalItems = cart.reduce((sum, x) => sum + x.qty, 0);
+  badge.textContent = totalItems;
+
+  console.log(`Added ${qty} × ${name} to cart. Total items: ${totalItems}`);
+});
+– Make sure this runs on both shop.html and product.html
+– If needed, adjust selectors (#product-qty, etc.) to match our HTML.
+
+Give me the updated JS patch (and any tiny HTML tweaks) that ensures the “Add to Cart” button works properly on the product page. Thank you!

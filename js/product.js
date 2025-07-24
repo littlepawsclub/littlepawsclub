@@ -114,11 +114,15 @@ const ProductPage = {
       addToCartBtn.classList.add('product-card__button--disabled');
       addToCartBtn.removeAttribute('data-add');
     } else {
-      // Set data attributes for simple cart system
+      // Set data attributes for cart system
+      addToCartBtn.setAttribute('data-add', 'true');
       addToCartBtn.setAttribute('data-id', this.product.id);
       addToCartBtn.setAttribute('data-name', this.product.title);
       addToCartBtn.setAttribute('data-price', this.product.price);
       addToCartBtn.setAttribute('data-img', this.product.image || '');
+      addToCartBtn.innerHTML = '<span>Add to Cart</span><i data-feather="shopping-cart"></i>';
+      addToCartBtn.disabled = false;
+      addToCartBtn.classList.remove('product-card__button--disabled');
     }
 
     // Product image (placeholder for now)
