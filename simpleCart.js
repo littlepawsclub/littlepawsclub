@@ -100,24 +100,43 @@ if (document.body.contains(document.querySelector("#cart-items"))) {
 
   // Delegate plus/minus/remove
   container.addEventListener("click", e => {
+    e.preventDefault();
+    e.stopPropagation();
+    
     const cart = loadCart();
+    let cartUpdated = false;
+    
     if (e.target.matches("[data-plus]")) {
       const id = e.target.dataset.id;
-      cart.find(i => i.id === id).qty++;
-    }
-    if (e.target.matches("[data-minus]")) {
+      const item = cart.find(i => i.id === id);
+      if (item) {
+        console.log(`Plus clicked: ${item.name} qty ${item.qty} -> ${item.qty + 1}`);
+        item.qty += 1;
+        cartUpdated = true;
+      }
+    } else if (e.target.matches("[data-minus]")) {
       const id = e.target.dataset.id;
-      const it = cart.find(i => i.id === id);
-      if (it.qty > 1) it.qty--;
-    }
-    if (e.target.matches("[data-remove]")) {
+      const item = cart.find(i => i.id === id);
+      if (item && item.qty > 1) {
+        console.log(`Minus clicked: ${item.name} qty ${item.qty} -> ${item.qty - 1}`);
+        item.qty -= 1;
+        cartUpdated = true;
+      }
+    } else if (e.target.matches("[data-remove]")) {
       const id = e.target.dataset.id;
       const idx = cart.findIndex(i => i.id === id);
-      if (idx > -1) cart.splice(idx, 1);
+      if (idx > -1) {
+        console.log(`Remove clicked: ${cart[idx].name}`);
+        cart.splice(idx, 1);
+        cartUpdated = true;
+      }
     }
-    saveCart(cart);
-    updateBadge();
-    renderCart();
+    
+    if (cartUpdated) {
+      saveCart(cart);
+      updateBadge();
+      renderCart();
+    }
   });
 
   // Initial render
