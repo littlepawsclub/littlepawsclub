@@ -50,7 +50,7 @@
             <div class="nav-header__actions">
                 <a href="/cart.html" class="nav-header__cart" aria-label="Shopping Cart">
                     <i data-feather="shopping-bag"></i>
-                    <span class="nav-header__cart-count" data-cart-badge>0</span>
+                    <span id="cart-badge">0</span>
                 </a>
                 <button class="nav-header__toggle" aria-label="Toggle Navigation" aria-expanded="false">
                     <i data-feather="menu"></i>
@@ -93,18 +93,11 @@
             </div>
             
             <div class="cart-page__content">
-                <!-- Cart Container - Static parent for event delegation -->
-                <div id="cart-container">
-                    <!-- Cart Items -->
-                    <div id="cart-items">
-                        <!-- Cart items will be populated by JavaScript -->
-                    </div>
-                    
-                    <!-- Cart Summary -->
-                    <div id="cart-summary">
-                        <!-- Cart summary will be populated by JavaScript -->
-                    </div>
-                </div>
+                <h1>Shopping Cart</h1>
+                <div id="cart-items"></div>
+                <p id="empty-msg" style="display: none;">Your cart is empty</p>
+                <hr>
+                <p id="cart-total"></p>
             </div>
         </section>
     </main>
@@ -208,7 +201,7 @@
 
     <!-- JavaScript -->
     <script src="js/main.js"></script>
-    <script src="js/cart.js"></script>
+    <script src="simpleCart.js"></script>
     
     <script>
         // Initialize when DOM is ready

@@ -161,11 +161,12 @@ const Shop = {
                 ${hasOriginalPrice ? `<span class="product-card__price-original">£${product.originalPrice}</span>` : ''}
               </div>
               
-              <span class="product-card__button ${isOutOfStock ? 'product-card__button--disabled' : 'add-to-cart'}" 
-                    ${!isOutOfStock ? `data-product-id="${product.id}" data-product-name="${product.title}" data-product-price="${product.price}" data-product-image="${product.image || ''}"` : ''}>
+              <button class="product-card__button ${isOutOfStock ? 'product-card__button--disabled' : ''}" 
+                      ${!isOutOfStock ? `data-add="true" data-id="${product.id}" data-name="${product.title}" data-price="${product.price}" data-img="${product.image || ''}"` : ''}
+                      ${isOutOfStock ? 'disabled' : ''}>
                 ${isOutOfStock ? 'Out of Stock' : 'Add to Cart'}
                 ${!isOutOfStock ? '<i data-feather="shopping-cart"></i>' : ''}
-              </span>
+              </button>
             </div>
           </div>
         </div>

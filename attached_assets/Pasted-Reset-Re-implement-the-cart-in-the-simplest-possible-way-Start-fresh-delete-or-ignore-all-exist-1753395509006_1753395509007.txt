@@ -1,0 +1,71 @@
+Reset & Re-implement the cart in the simplest possible way
+
+Start fresh – delete or ignore all existing cart-related code
+• Remove js/cart.js, any cart logic in shop.js or product.js, cart.scss, and duplicate nav blocks you previously injected into cart.html.
+• You may keep the basic HTML shells of shop.html, product.html, and cart.html, but strip out any old cart markup other than an empty <div id="cart-items"></div> placeholder.
+
+Single lightweight file: create simpleCart.js (imported on every page in one <script src> tag just before </body>).
+The entire cart logic lives here.
+
+Data model (vanilla JS + localStorage only)
+
+js
+Copy
+Edit
+// Always read/write under this key:
+const CART_KEY = "spcCart";
+
+// Cart array structure:
+// [{ id: "p1", name: "Tunnel", price: 17.99, qty: 2, img: "img/tunnel.jpg" }, …]
+• Helper functions: loadCart(), saveCart(cart), findItem(id), updateBadge().
+• Expose addToCart(productObj), removeFromCart(id), changeQty(id, delta).
+
+Add-to-Cart buttons (shop & product pages)
+• Give each button data-id, data-name, data-price, data-img.
+• Attach one delegated event listener on document for clicks on [data-add].
+• On click → build product object → addToCart() → updateBadge().
+
+Badge
+• A single <span id="cart-badge"></span> lives in the header of every page.
+• updateBadge() shows total qty or hides the badge if zero.
+• Must persist after page refresh.
+
+cart.html layout
+
+php-template
+Copy
+Edit
+<header>…(same nav as shop.html, no duplicates)…</header>
+
+<main>
+  <h1>Shopping Cart</h1>
+  <div id="cart-items"></div>
+  <p id="empty-msg">Your cart is empty</p>
+  <hr>
+  <p id="cart-total"></p>
+</main>
+• Populate #cart-items by looping over loadCart().
+• For each item: thumbnail, name (link back to product page), price, qty controls (- +), and a small trash icon.
+• Attach one delegated listener on #cart-items for the qty buttons and trash icon.
+• After any change: re-render that single item row, update total, call updateBadge().
+
+No page re-renders, no duplicated listeners
+• Event listeners are attached once per page load and rely on event delegation (event.target.matches()).
+
+Absolutely no frameworks or SCSS dependencies
+• Plain CSS is fine, but minimal. Focus on functionality.
+
+Acceptance checklist (I will test all of these)
+Add three different items from shop.html → badge shows 3.
+
+Refresh any page → badge still shows 3.
+
+Open cart.html → single nav header, items rendered once, total correct.
+
+Click + twice on first item, - once, trash the second → badge, totals, and rows all update immediately and continue to work after multiple rapid clicks.
+
+Refresh cart page → state persists, listeners still work.
+
+No duplicate nav or menu elements anywhere.
+
+If any check fails, fix that specific part without introducing other changes.

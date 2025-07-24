@@ -112,8 +112,13 @@ const ProductPage = {
       addToCartBtn.innerHTML = '<span>Out of Stock</span>';
       addToCartBtn.disabled = true;
       addToCartBtn.classList.add('product-card__button--disabled');
+      addToCartBtn.removeAttribute('data-add');
     } else {
-      addToCartBtn.addEventListener('click', () => this.addToCart());
+      // Set data attributes for simple cart system
+      addToCartBtn.setAttribute('data-id', this.product.id);
+      addToCartBtn.setAttribute('data-name', this.product.title);
+      addToCartBtn.setAttribute('data-price', this.product.price);
+      addToCartBtn.setAttribute('data-img', this.product.image || '');
     }
 
     // Product image (placeholder for now)
