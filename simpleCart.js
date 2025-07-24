@@ -59,57 +59,51 @@ document.addEventListener("click", e => {
   updateBadge();
 });
 
-// Remove any existing quantity handlers and set up fresh
-document.removeEventListener("click", window.productQtyHandler);
-
-// Product page quantity controls handler
-window.productQtyHandler = function(e) {
-  // Check if clicked element or its parent is a quantity button
-  const qtyButton = e.target.closest('[data-plus], [data-minus]');
+// Single event delegation for quantity controls
+document.addEventListener('click', e => {
+  const plusBtn = e.target.closest('[data-plus]');
+  const minusBtn = e.target.closest('[data-minus]');
   
-  if (qtyButton) {
-    console.log('NEW Quantity button clicked!');
-    e.preventDefault();
-    e.stopPropagation();
+  if (!plusBtn && !minusBtn) {
+    // Product card navigation (click anywhere except add-to-cart)
+    const card = e.target.closest(".product-card");
+    if (!card) return;
+    if (e.target.closest(".add-to-cart")) return;          // don't navigate when adding
+    if (e.target.closest(".card-qty-controls")) return;   // don't navigate on qty clicks
     
-    const isPlus = qtyButton.hasAttribute('data-plus');
-    const isMinus = qtyButton.hasAttribute('data-minus');
-    const input = qtyButton.closest('.quantity-selector').querySelector('#product-quantity');
-    if (!input) {
-      console.log('Input not found!');
-      return;
-    }
-    
-    let qty = parseInt(input.value, 10) || 1;
-    const minQty = parseInt(input.min) || 1;
-    const maxQty = parseInt(input.max) || 10;
-    
-    console.log('Current qty:', qty, 'min:', minQty, 'max:', maxQty, 'isPlus:', isPlus, 'isMinus:', isMinus);
-    
-    if (isPlus && qty < maxQty) {
-      qty += 1;
-    } else if (isMinus && qty > minQty) {
-      qty -= 1;
-    }
-    
-    console.log('Product qty-click handler', { isPlus, isMinus, oldQty: input.value, newQty: qty });
-    input.value = qty;
-    return; // Don't proceed to card navigation
+    // otherwise, treat it as a navigation click:
+    const id = card.dataset.id;
+    window.location.href = `product.html?id=${encodeURIComponent(id)}`;
+    return;
   }
-
-  // Product card navigation (click anywhere except add-to-cart)
-  const card = e.target.closest(".product-card");
-  if (!card) return;
-  if (e.target.closest(".add-to-cart")) return;          // don't navigate when adding
-  if (e.target.closest(".card-qty-controls")) return;   // don't navigate on qty clicks
   
-  // otherwise, treat it as a navigation click:
-  const id = card.dataset.id;
-  window.location.href = `product.html?id=${encodeURIComponent(id)}`;
-};
-
-// Add the handler only once
-document.addEventListener("click", window.productQtyHandler);
+  // Quantity button clicked
+  e.preventDefault();
+  e.stopPropagation();
+  
+  const container = (plusBtn || minusBtn).closest('.quantity-selector');
+  const input = container.querySelector('#product-quantity');
+  
+  if (!input) {
+    console.log('Input not found!');
+    return;
+  }
+  
+  let qty = parseInt(input.value, 10) || 1;
+  
+  if (plusBtn) {
+    const maxQty = parseInt(input.max) || 10;
+    if (qty < maxQty) {
+      qty += 1;
+      console.log('Plus clicked, newQty=', qty);
+    }
+  } else if (minusBtn) {
+    qty = Math.max(qty - 1, 1);
+    console.log('Minus clicked, newQty=', qty);
+  }
+  
+  input.value = qty;
+});
 
 // When on cart page, render items + delegate qty/remove
 if (document.body.contains(document.querySelector("#cart-items"))) {
