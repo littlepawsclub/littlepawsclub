@@ -4,7 +4,6 @@
 .hero-banner {
   padding: $spacing-16 0;
   background: linear-gradient(135deg, $cream 0%, $blush 100%);
-  /* TEST: If you see this message, CSS is loading */
   
   &__container {
     @include container;
