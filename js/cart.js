@@ -12,6 +12,8 @@ function saveCart(cart) {
 }
 
 function addToCart(productData) {
+    console.log('addToCart called:', productData);
+    
     const cart = getCart();
     const productId = productData.id;
     
@@ -32,36 +34,54 @@ function addToCart(productData) {
     // Always re-render and update badge after mutation
     if (window.location.pathname.includes('cart.html')) {
         renderCart();
+        // Note: Event listeners stay attached to #cart-items, no need to reattach
     }
+    
+    // Always update badge after adding
     updateCartBadge();
     
     // Show visual feedback
     showCartNotification(cart[productId].name, cart[productId].qty);
+    
+    console.log('Item added to cart successfully');
 }
 
 function removeFromCart(productId) {
+    console.log('removeFromCart called:', productId);
+    
     const cart = getCart();
     if (cart[productId]) {
         delete cart[productId];
         saveCart(cart);
         
-        // Full re-render needed when removing items
+        // Full re-render needed when removing items but reattach listeners
         if (window.location.pathname.includes('cart.html')) {
             renderCart();
+            // Note: Event listeners stay attached to #cart-items, no need to reattach
         }
+        
+        // Always update badge after removal
         updateCartBadge();
+        
+        console.log('Item removed from cart successfully');
     }
 }
 
 function updateCartQuantity(productId, newQty) {
+    console.log('updateCartQuantity called:', productId, newQty);
+    
     const cart = getCart();
     if (cart[productId] && newQty > 0) {
         cart[productId].qty = parseInt(newQty);
         saveCart(cart);
         
-        // Update display without full re-render
+        // Update display without full re-render to preserve event listeners
         updateCartItemDisplay(productId, newQty);
+        
+        // Always update badge after quantity change
         updateCartBadge();
+        
+        console.log('Cart quantity updated successfully');
     } else if (newQty <= 0) {
         removeFromCart(productId);
         return; // removeFromCart handles re-rendering
@@ -79,21 +99,31 @@ function getCartTotalPrice() {
 }
 
 function updateCartBadge() {
-    const badge = document.querySelector('[data-cart-badge]') || document.getElementById('cart-count');
+    // Get fresh cart data from localStorage every time
     const cart = getCart();
     const totalQty = Object.values(cart).reduce((sum, p) => sum + p.qty, 0);
     
-    if (badge) {
-        badge.textContent = totalQty;
-        badge.classList.toggle('hidden', totalQty === 0);
-        if (totalQty > 0) {
-            badge.setAttribute('aria-label', `${totalQty} items in cart`);
-            badge.style.display = 'inline-flex';
-        } else {
-            badge.removeAttribute('aria-label');
-            badge.style.display = 'none';
+    // Update all possible badge elements
+    const badges = document.querySelectorAll('[data-cart-badge], #cart-count, .nav-header__cart-count');
+    
+    badges.forEach(badge => {
+        if (badge) {
+            badge.textContent = totalQty;
+            badge.classList.toggle('hidden', totalQty === 0);
+            
+            if (totalQty > 0) {
+                badge.setAttribute('aria-label', `${totalQty} items in cart`);
+                badge.style.display = 'inline-flex';
+                badge.style.visibility = 'visible';
+            } else {
+                badge.removeAttribute('aria-label');
+                badge.style.display = 'none';
+                badge.style.visibility = 'hidden';
+            }
         }
-    }
+    });
+    
+    console.log(`Cart badge updated: ${totalQty} items`);
 }
 
 function showCartNotification(productName, totalQty) {
@@ -218,76 +248,93 @@ function buildCartPage() {
     // Event listeners are attached once globally, no need to re-attach
 }
 
-// Global cart event delegation - attached once to static parent
+// Global cart event delegation - attached once to static container
 function attachCartEventListeners() {
-    const cartPageSection = document.querySelector('.cart-page');
-    if (!cartPageSection) return;
+    // Use #cart-items as the stable static parent
+    const cartContainer = document.getElementById('cart-items');
+    if (!cartContainer) return;
     
-    // Single event listener for the entire cart page section
-    cartPageSection.addEventListener('click', (e) => {
-        const target = e.target;
-        
-        // Find the product ID from the clicked element or its parent
-        let productId = target.dataset.id;
-        if (!productId) {
-            const cartItem = target.closest('[data-id]');
-            productId = cartItem?.dataset.id;
-        }
-        
-        if (!productId) return;
-        
-        // Remove button clicked
-        if (target.classList.contains('cart-item__remove-btn') || target.closest('.cart-item__remove-btn')) {
-            e.preventDefault();
-            e.stopPropagation();
-            removeFromCart(productId);
-            return;
-        }
-        
-        // Quantity plus button
-        if (target.classList.contains('cart-item__qty-btn--plus')) {
-            e.preventDefault();
-            e.stopPropagation();
-            const input = document.getElementById(`qty-${productId}`);
-            if (input) {
-                const currentQty = parseInt(input.value) || 1;
-                const newQty = Math.min(currentQty + 1, 99);
-                input.value = newQty;
-                updateCartQuantity(productId, newQty);
-            }
-            return;
-        }
-        
-        // Quantity minus button
-        if (target.classList.contains('cart-item__qty-btn--minus')) {
-            e.preventDefault();
-            e.stopPropagation();
-            const input = document.getElementById(`qty-${productId}`);
-            if (input) {
-                const currentQty = parseInt(input.value) || 1;
-                const newQty = Math.max(1, currentQty - 1);
-                input.value = newQty;
-                updateCartQuantity(productId, newQty);
-            }
-            return;
-        }
-    });
+    console.log('Attaching cart event listeners to #cart-items');
     
-    // Handle quantity input changes
-    cartPageSection.addEventListener('change', (e) => {
-        if (e.target.classList.contains('cart-item__qty-input')) {
-            const productId = e.target.dataset.id;
-            let newQty = parseInt(e.target.value);
-            if (isNaN(newQty) || newQty < 1) {
-                newQty = 1;
-                e.target.value = newQty;
-            } else if (newQty > 99) {
-                newQty = 99;
-                e.target.value = newQty;
-            }
+    // Single click event listener using true event delegation
+    cartContainer.addEventListener('click', handleCartClick);
+    
+    // Single change event listener for quantity inputs
+    cartContainer.addEventListener('change', handleCartChange);
+}
+
+function handleCartClick(e) {
+    const target = e.target;
+    
+    // Find the product ID from the clicked element or its parent
+    let productId = target.dataset.id;
+    if (!productId) {
+        const cartItem = target.closest('[data-id]');
+        productId = cartItem?.dataset.id;
+    }
+    
+    if (!productId) return;
+    
+    console.log('Cart click detected for product:', productId, 'target:', target.className);
+    
+    // Remove button clicked - check using matches()
+    if (target.matches('.cart-item__remove-btn') || target.closest('.cart-item__remove-btn')) {
+        e.preventDefault();
+        e.stopPropagation();
+        console.log('Remove button clicked for:', productId);
+        removeFromCart(productId);
+        return;
+    }
+    
+    // Quantity plus button - check using matches()
+    if (target.matches('.cart-item__qty-btn--plus')) {
+        e.preventDefault();
+        e.stopPropagation();
+        console.log('Plus button clicked for:', productId);
+        
+        const input = document.getElementById(`qty-${productId}`);
+        if (input) {
+            const currentQty = parseInt(input.value) || 1;
+            const newQty = Math.min(currentQty + 1, 99);
+            input.value = newQty;
             updateCartQuantity(productId, newQty);
         }
-    });
+        return;
+    }
+    
+    // Quantity minus button - check using matches()
+    if (target.matches('.cart-item__qty-btn--minus')) {
+        e.preventDefault();
+        e.stopPropagation();
+        console.log('Minus button clicked for:', productId);
+        
+        const input = document.getElementById(`qty-${productId}`);
+        if (input) {
+            const currentQty = parseInt(input.value) || 1;
+            const newQty = Math.max(1, currentQty - 1);
+            input.value = newQty;
+            updateCartQuantity(productId, newQty);
+        }
+        return;
+    }
+}
+
+function handleCartChange(e) {
+    if (e.target.matches('.cart-item__qty-input')) {
+        const productId = e.target.dataset.id;
+        let newQty = parseInt(e.target.value);
+        
+        if (isNaN(newQty) || newQty < 1) {
+            newQty = 1;
+            e.target.value = newQty;
+        } else if (newQty > 99) {
+            newQty = 99;
+            e.target.value = newQty;
+        }
+        
+        console.log('Quantity input changed for:', productId, 'new qty:', newQty);
+        updateCartQuantity(productId, newQty);
+    }
 }
 
 // Update individual cart item display without full re-render
