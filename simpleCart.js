@@ -61,17 +61,26 @@ document.addEventListener("click", e => {
 
 // Product page quantity controls (global delegation)
 document.addEventListener("click", e => {
-  if (e.target.matches('[data-plus], [data-minus]')) {
+  // Check if clicked element or its parent is a quantity button
+  const qtyButton = e.target.closest('[data-plus], [data-minus]');
+  
+  if (qtyButton) {
+    console.log('Quantity button clicked!');
     e.preventDefault();
     e.stopPropagation();
     
-    const isPlus = e.target.matches('[data-plus]');
-    const input = e.target.closest('.quantity-selector').querySelector('#product-quantity');
-    if (!input) return;
+    const isPlus = qtyButton.hasAttribute('data-plus');
+    const input = qtyButton.closest('.quantity-selector').querySelector('#product-quantity');
+    if (!input) {
+      console.log('Input not found!');
+      return;
+    }
     
     let qty = parseInt(input.value, 10) || 1;
     const minQty = parseInt(input.min) || 1;
     const maxQty = parseInt(input.max) || 10;
+    
+    console.log('Current qty:', qty, 'min:', minQty, 'max:', maxQty, 'isPlus:', isPlus);
     
     if (isPlus && qty < maxQty) {
       qty += 1;
