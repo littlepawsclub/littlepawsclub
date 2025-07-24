@@ -38,6 +38,8 @@ Preferred communication style: Simple, everyday language.
 - **JSON-Driven Products**: Featured products loaded from `data/featured-products.json`
 - **Dynamic Content**: JavaScript renders product cards from JSON data
 - **Product Schema**: Includes pricing, descriptions, categories, badges, and inventory status
+- **Individual Product Pages**: Dynamic product detail pages using URL parameters
+- **Shop Page Filtering**: Real-time category and price filtering without page reloads
 
 ### Brand Implementation
 - **Typography**: Poppins font family (400/600/700 weights)
@@ -55,7 +57,10 @@ Preferred communication style: Simple, everyday language.
 ### User Interactions
 1. **Navigation**: Mobile toggle, drawer controls, and menu interactions
 2. **Email Signup**: Newsletter subscription form handling
-3. **Accessibility**: ARIA labels, keyboard navigation, and screen reader support
+3. **Product Filtering**: Real-time filtering by category and price range
+4. **Product Details**: Dynamic loading of individual product pages
+5. **Shopping Cart**: Add to cart functionality with visual feedback
+6. **Accessibility**: ARIA labels, keyboard navigation, and screen reader support
 
 ## External Dependencies
 

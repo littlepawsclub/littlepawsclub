@@ -1,0 +1,357 @@
+// Small Paws Club - Product Detail Page Styles
+// Individual product page layout and components
+
+.product-breadcrumb {
+  padding: $spacing-4 0;
+  background: linear-gradient(135deg, $sage, $cream);
+  border-bottom: 1px solid $border-light;
+}
+
+.breadcrumb {
+  &__list {
+    display: flex;
+    align-items: center;
+    gap: $spacing-2;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  
+  &__item {
+    display: flex;
+    align-items: center;
+    
+    &:not(:last-child)::after {
+      content: '/';
+      margin-left: $spacing-2;
+      color: $text-muted;
+    }
+  }
+  
+  &__link {
+    color: $text-secondary;
+    text-decoration: none;
+    font-size: $font-size-sm;
+    
+    &:hover {
+      color: $accent;
+    }
+  }
+  
+  &__current {
+    color: $text-primary;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-semibold;
+  }
+}
+
+.product-detail {
+  padding: $spacing-12 0;
+  background: $cream;
+  
+  &__content {
+    max-width: $container-max-width;
+    margin: 0 auto;
+    padding: 0 $spacing-4;
+    
+    @include breakpoint(md) {
+      padding: 0 $spacing-6;
+    }
+  }
+  
+  &__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: $spacing-8;
+    
+    @include breakpoint(lg) {
+      grid-template-columns: 1fr 1fr;
+      gap: $spacing-12;
+    }
+  }
+  
+  &__image {
+    order: 1;
+    
+    @include breakpoint(lg) {
+      order: 0;
+    }
+  }
+  
+  &__info {
+    order: 0;
+    
+    @include breakpoint(lg) {
+      order: 1;
+    }
+  }
+}
+
+.product-image {
+  background: $white;
+  border-radius: $border-radius;
+  overflow: hidden;
+  border: 2px solid $border-light;
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  &__placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    background: $background-light;
+    color: $text-muted;
+    
+    svg {
+      width: 64px;
+      height: 64px;
+    }
+  }
+  
+  &__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+.product-info {
+  &__category {
+    display: inline-block;
+    background: $sage;
+    color: $text-primary;
+    padding: $spacing-1 $spacing-3;
+    border-radius: $border-radius;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-semibold;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: $spacing-4;
+  }
+  
+  &__title {
+    font-size: 2rem;
+    font-weight: $font-weight-bold;
+    color: $text-primary;
+    margin-bottom: $spacing-4;
+    line-height: 1.2;
+    
+    @include breakpoint(md) {
+      font-size: 2.5rem;
+    }
+  }
+  
+  &__description {
+    font-size: $font-size-lg;
+    color: $text-secondary;
+    line-height: 1.6;
+    margin-bottom: $spacing-6;
+  }
+  
+  &__price {
+    display: flex;
+    align-items: center;
+    gap: $spacing-3;
+    margin-bottom: $spacing-4;
+  }
+  
+  &__price-current {
+    font-size: 1.75rem;
+    font-weight: $font-weight-bold;
+    color: $accent;
+  }
+  
+  &__price-original {
+    font-size: $font-size-lg;
+    color: $text-muted;
+    text-decoration: line-through;
+  }
+  
+  &__stock {
+    display: flex;
+    align-items: center;
+    gap: $spacing-2;
+    margin-bottom: $spacing-4;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-semibold;
+    
+    &--in-stock {
+      color: #10B981;
+      
+      svg {
+        color: #10B981;
+      }
+    }
+    
+    &--out-of-stock {
+      color: #EF4444;
+      
+      svg {
+        color: #EF4444;
+      }
+    }
+    
+    svg {
+      width: 16px;
+      height: 16px;
+    }
+  }
+  
+  &__badge {
+    display: inline-block;
+    padding: $spacing-1 $spacing-3;
+    border-radius: $border-radius;
+    font-size: $font-size-xs;
+    font-weight: $font-weight-bold;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: $spacing-6;
+    
+    &--best-seller {
+      background: #FEF3C7;
+      color: #92400E;
+    }
+    
+    &--sale {
+      background: #FEE2E2;
+      color: #991B1B;
+    }
+    
+    &--new {
+      background: #DBEAFE;
+      color: #1E40AF;
+    }
+    
+    &--limited {
+      background: #F3E8FF;
+      color: #7C3AED;
+    }
+    
+    &--premium {
+      background: #F9FAFB;
+      color: #374151;
+      border: 1px solid $border-light;
+    }
+    
+    &--bundle {
+      background: #ECFDF5;
+      color: #065F46;
+    }
+  }
+  
+  &__actions {
+    margin-bottom: $spacing-8;
+  }
+  
+  &__features {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-3;
+  }
+}
+
+.product-feature {
+  display: flex;
+  align-items: center;
+  gap: $spacing-3;
+  padding: $spacing-3;
+  background: $white;
+  border-radius: $border-radius;
+  border: 1px solid $border-light;
+  color: $text-secondary;
+  font-size: $font-size-sm;
+  
+  svg {
+    width: 16px;
+    height: 16px;
+    color: $accent;
+    flex-shrink: 0;
+  }
+}
+
+// Button enhancement for product page
+.product-card__button--large {
+  padding: $spacing-4 $spacing-6;
+  font-size: $font-size-lg;
+  font-weight: $font-weight-semibold;
+  width: 100%;
+  justify-content: center;
+  
+  @include breakpoint(md) {
+    width: auto;
+    min-width: 200px;
+  }
+}
+
+// Related products
+.related-products {
+  padding: $spacing-12 0;
+  background: $cream;
+  border-top: 1px solid $border-light;
+  
+  &__title {
+    text-align: center;
+    font-size: 1.75rem;
+    font-weight: $font-weight-bold;
+    color: $text-primary;
+    margin-bottom: $spacing-8;
+  }
+  
+  &__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: $spacing-6;
+    
+    @include breakpoint(sm) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    
+    @include breakpoint(lg) {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+}
+
+// Loading and error states
+.product-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: $spacing-3;
+  padding: $spacing-16 0;
+  color: $text-muted;
+  
+  svg {
+    width: 24px;
+    height: 24px;
+    animation: spin 1s linear infinite;
+  }
+}
+
+.product-not-found {
+  text-align: center;
+  padding: $spacing-16 0;
+  color: $text-muted;
+  
+  svg {
+    width: 64px;
+    height: 64px;
+    margin-bottom: $spacing-4;
+    opacity: 0.5;
+  }
+  
+  h2 {
+    margin-bottom: $spacing-4;
+    color: $text-secondary;
+    font-size: 1.75rem;
+  }
+  
+  p {
+    margin-bottom: $spacing-6;
+    font-size: $font-size-lg;
+  }
+}

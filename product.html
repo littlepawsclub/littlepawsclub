@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="page-title">Product - Small Paws Club</title>
+    <meta name="description" id="page-description" content="Premium products for small mammals at Small Paws Club">
+    
+    <!-- Preconnect for performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Feather Icons -->
+    <script src="https://unpkg.com/feather-icons"></script>
+    
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="css/main.css?v=999999">
+    
+    <!-- Pastel Color Override -->
+    <link rel="stylesheet" href="css/override.css?v=999999">
+    
+    <!-- NUCLEAR PASTEL COLOR FIX - INLINE STYLES -->
+    <style>
+      body {
+        background-color: #FBF8F5 !important;
+        color: #5A5A5A !important;
+      }
+      .hero-banner {
+        background: linear-gradient(to right, #FBF8F5, #F9D8D6) !important;
+      }
+      .trust-strip, .email-optin {
+        background: linear-gradient(135deg, #BFD8C2, #FBF8F5) !important;
+      }
+      .hero-banner__cta--primary, .email-optin__button, .featured-products__cta, .product-card__button {
+        background-color: #F4A269 !important;
+        color: white !important;
+      }
+      .nav-header {
+        background: #FBF8F5 !important;
+      }
+      .featured-products {
+        background: #FBF8F5 !important;
+      }
+      .product-detail {
+        background: #FBF8F5 !important;
+        padding: 3rem 0;
+      }
+      .product-breadcrumb {
+        background: linear-gradient(135deg, #BFD8C2, #FBF8F5) !important;
+        padding: 1rem 0;
+      }
+    </style>
+    
+    <!-- Analytics Scripts (To be added in Phase 6) -->
+    <!-- Google Analytics will be added here -->
+    <!-- Meta Pixel (Facebook) will be added here -->
+</head>
+<body>
+    <!-- Navigation Header -->
+    <nav class="nav-header">
+        <div class="nav-header__container">
+            <div class="nav-header__logo">
+                <a href="index.html" class="nav-header__logo-link">
+                    <span class="nav-header__logo-text">Small Paws Club</span>
+                </a>
+            </div>
+            
+            <!-- Desktop Navigation -->
+            <ul class="nav-header__menu nav-header__menu--desktop">
+                <li class="nav-header__item">
+                    <a href="index.html" class="nav-header__link">Home</a>
+                </li>
+                <li class="nav-header__item">
+                    <a href="shop.html" class="nav-header__link">Shop</a>
+                </li>
+                <li class="nav-header__item">
+                    <a href="/about.html" class="nav-header__link">About</a>
+                </li>
+                <li class="nav-header__item">
+                    <a href="/contact.html" class="nav-header__link">Contact</a>
+                </li>
+            </ul>
+            
+            <!-- Cart & Mobile Toggle -->
+            <div class="nav-header__actions">
+                <a href="/cart.html" class="nav-header__cart" aria-label="Shopping Cart">
+                    <i data-feather="shopping-bag"></i>
+                    <span class="nav-header__cart-count">0</span>
+                </a>
+                <button class="nav-header__toggle" aria-label="Toggle Navigation" aria-expanded="false">
+                    <i data-feather="menu"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Mobile Navigation Drawer -->
+        <div class="nav-header__drawer">
+            <ul class="nav-header__menu nav-header__menu--mobile">
+                <li class="nav-header__item">
+                    <a href="index.html" class="nav-header__link">Home</a>
+                </li>
+                <li class="nav-header__item">
+                    <a href="shop.html" class="nav-header__link">Shop</a>
+                </li>
+                <li class="nav-header__item">
+                    <a href="/about.html" class="nav-header__link">About</a>
+                </li>
+                <li class="nav-header__item">
+                    <a href="/contact.html" class="nav-header__link">Contact</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Breadcrumb -->
+    <section class="product-breadcrumb">
+        <div class="container">
+            <nav class="breadcrumb" aria-label="Breadcrumb">
+                <ol class="breadcrumb__list">
+                    <li class="breadcrumb__item">
+                        <a href="index.html" class="breadcrumb__link">Home</a>
+                    </li>
+                    <li class="breadcrumb__item">
+                        <a href="shop.html" class="breadcrumb__link">Shop</a>
+                    </li>
+                    <li class="breadcrumb__item">
+                        <span id="breadcrumb-category" class="breadcrumb__current">Product</span>
+                    </li>
+                </ol>
+            </nav>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Product Detail -->
+        <section class="product-detail">
+            <div class="container">
+                <!-- Loading State -->
+                <div id="product-loading" class="product-loading">
+                    <i data-feather="loader"></i>
+                    <span>Loading product...</span>
+                </div>
+
+                <!-- Product Not Found -->
+                <div id="product-not-found" class="product-not-found" style="display: none;">
+                    <i data-feather="search"></i>
+                    <h2>Product Not Found</h2>
+                    <p>Sorry, we couldn't find the product you're looking for.</p>
+                    <a href="shop.html" class="product-card__button">Browse All Products</a>
+                </div>
+
+                <!-- Product Content -->
+                <div id="product-content" class="product-detail__content" style="display: none;">
+                    <div class="product-detail__grid">
+                        <!-- Product Image -->
+                        <div class="product-detail__image">
+                            <div class="product-image">
+                                <div id="product-image-placeholder" class="product-image__placeholder">
+                                    <i data-feather="package"></i>
+                                </div>
+                                <img id="product-image" class="product-image__img" alt="" style="display: none;">
+                            </div>
+                        </div>
+
+                        <!-- Product Info -->
+                        <div class="product-detail__info">
+                            <div class="product-info">
+                                <!-- Category Badge -->
+                                <span id="product-category" class="product-info__category"></span>
+                                
+                                <!-- Product Title -->
+                                <h1 id="product-title" class="product-info__title"></h1>
+                                
+                                <!-- Product Description -->
+                                <p id="product-description" class="product-info__description"></p>
+                                
+                                <!-- Price -->
+                                <div class="product-info__price">
+                                    <span id="product-price" class="product-info__price-current"></span>
+                                    <span id="product-original-price" class="product-info__price-original" style="display: none;"></span>
+                                </div>
+                                
+                                <!-- Stock Status -->
+                                <div id="product-stock" class="product-info__stock"></div>
+                                
+                                <!-- Badge -->
+                                <div id="product-badge" class="product-info__badge" style="display: none;"></div>
+                                
+                                <!-- Add to Cart -->
+                                <div class="product-info__actions">
+                                    <button id="add-to-cart-btn" class="product-card__button product-card__button--large">
+                                        <span>Add to Cart</span>
+                                        <i data-feather="shopping-cart"></i>
+                                    </button>
+                                </div>
+                                
+                                <!-- Product Features -->
+                                <div class="product-info__features">
+                                    <div class="product-feature">
+                                        <i data-feather="truck"></i>
+                                        <span>Free UK shipping on orders over £40</span>
+                                    </div>
+                                    <div class="product-feature">
+                                        <i data-feather="shield"></i>
+                                        <span>Safe and secure checkout</span>
+                                    </div>
+                                    <div class="product-feature">
+                                        <i data-feather="refresh-cw"></i>
+                                        <span>30-day return policy</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Related Products -->
+        <section class="related-products" style="display: none;">
+            <div class="container">
+                <h2 class="related-products__title">You Might Also Like</h2>
+                <div id="related-products-grid" class="related-products__grid">
+                    <!-- Related products will be loaded here -->
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Email Signup -->
+    <section class="email-optin">
+        <div class="email-optin__container">
+            <div class="email-optin__content">
+                <h2 class="email-optin__title">Stay Updated</h2>
+                <p class="email-optin__text">Get the latest products and care tips for your small pets</p>
+            </div>
+            <form class="email-optin__form" id="newsletter-form">
+                <div class="email-optin__input-group">
+                    <input 
+                        type="email" 
+                        class="email-optin__input" 
+                        placeholder="Enter your email address"
+                        required
+                        aria-label="Email address for newsletter"
+                    >
+                    <button type="submit" class="email-optin__button">
+                        <span>Subscribe</span>
+                        <i data-feather="send"></i>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer__container">
+            <div class="footer__content">
+                <!-- Company Info -->
+                <div class="footer__section">
+                    <h3 class="footer__title">Small Paws Club</h3>
+                    <p class="footer__text">Premium products for small mammals across the UK</p>
+                </div>
+
+                <!-- Quick Links -->
+                <div class="footer__section">
+                    <h4 class="footer__subtitle">Quick Links</h4>
+                    <ul class="footer__links">
+                        <li><a href="index.html" class="footer__link">Home</a></li>
+                        <li><a href="shop.html" class="footer__link">Shop</a></li>
+                        <li><a href="#about" class="footer__link">About</a></li>
+                        <li><a href="#contact" class="footer__link">Contact</a></li>
+                    </ul>
+                </div>
+
+                <!-- Customer Care -->
+                <div class="footer__section">
+                    <h4 class="footer__subtitle">Customer Care</h4>
+                    <ul class="footer__links">
+                        <li><a href="#shipping" class="footer__link">Shipping Info</a></li>
+                        <li><a href="#returns" class="footer__link">Returns</a></li>
+                        <li><a href="#support" class="footer__link">Support</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Copyright -->
+            <div class="footer__bottom">
+                <p class="footer__copyright">&copy; 2025 Small Paws Club. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="js/main.js"></script>
+    <script src="js/product.js"></script>
+    <script>
+        // Initialize Feather Icons
+        feather.replace();
+        
+        // Initialize Product Page
+        if (typeof ProductPage !== 'undefined') {
+            ProductPage.init();
+        }
+    </script>
+</body>
+</html>

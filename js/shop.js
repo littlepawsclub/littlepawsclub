@@ -152,10 +152,10 @@ const Shop = {
               ${hasOriginalPrice ? `<span class="product-card__price-original">£${product.originalPrice}</span>` : ''}
             </div>
             
-            <a href="product.html?id=${product.slug}" class="product-card__button ${isOutOfStock ? 'product-card__button--disabled' : ''}" 
+            <a href="product.html?id=${product.id}" class="product-card__button ${isOutOfStock ? 'product-card__button--disabled' : ''}" 
                ${isOutOfStock ? 'aria-disabled="true"' : ''}>
-              ${isOutOfStock ? 'Out of Stock' : 'Add to Cart'}
-              ${!isOutOfStock ? '<i data-feather="shopping-cart"></i>' : ''}
+              ${isOutOfStock ? 'Out of Stock' : 'View Product'}
+              ${!isOutOfStock ? '<i data-feather="eye"></i>' : ''}
             </a>
           </div>
         </div>
