@@ -1,0 +1,16 @@
+{
+  "name": "workspace",
+  "version": "1.0.0",
+  "description": "A responsive, static ecommerce homepage for Small Paws Club, a UK-based dropshipping store specializing in products for small mammals (rabbits, guinea pigs, hamsters, rats, and ferrets).",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "live-server": "^1.2.2",
+    "sass": "^1.89.2"
+  }
+}

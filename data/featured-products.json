@@ -1,0 +1,139 @@
+{
+  "products": [
+    {
+      "id": "collapsible-tunnel",
+      "title": "Collapsible Small-Pet Tunnel",
+      "description": "Perfect for exercise and exploration, this foldable tunnel provides safe adventure for rabbits, guinea pigs, and ferrets.",
+      "category": "Enrichment",
+      "price": "17.99",
+      "originalPrice": null,
+      "image": null,
+      "badge": "Best Seller",
+      "featured": true,
+      "inStock": true,
+      "slug": "collapsible-small-pet-tunnel"
+    },
+    {
+      "id": "chew-toy-pack",
+      "title": "Variety Chew-Toy Pack (10 pcs)",
+      "description": "Essential dental care for small mammals. Natural wood toys help maintain healthy teeth and prevent boredom.",
+      "category": "Dental Care",
+      "price": "10.99",
+      "originalPrice": "12.99",
+      "image": null,
+      "badge": "Sale",
+      "featured": true,
+      "inStock": true,
+      "slug": "variety-chew-toy-pack"
+    },
+    {
+      "id": "cuddle-cup-bed",
+      "title": "Plush Cuddle Cup Bed",
+      "description": "Ultra-soft snuggle spot that provides security and warmth. Machine washable and perfectly sized for small pets.",
+      "category": "Comfort",
+      "price": "21.99",
+      "originalPrice": null,
+      "image": null,
+      "badge": null,
+      "featured": true,
+      "inStock": true,
+      "slug": "plush-cuddle-cup-bed"
+    },
+    {
+      "id": "mini-grooming-kit",
+      "title": "Mini Grooming Kit",
+      "description": "Complete grooming solution with soft brush and safe nail clippers. Keep your small pet healthy and comfortable.",
+      "category": "Care Tools",
+      "price": "15.99",
+      "originalPrice": null,
+      "image": null,
+      "badge": null,
+      "featured": true,
+      "inStock": true,
+      "slug": "mini-grooming-kit"
+    },
+    {
+      "id": "forage-ball",
+      "title": "Treat-Dispensing Forage Ball",
+      "description": "Mental stimulation meets snack time! Hide treats inside for hours of engaging puzzle play.",
+      "category": "Puzzle Toys",
+      "price": "13.99",
+      "originalPrice": null,
+      "image": null,
+      "badge": "New",
+      "featured": true,
+      "inStock": true,
+      "slug": "treat-dispensing-forage-ball"
+    },
+    {
+      "id": "xs-harness-leash",
+      "title": "Harness & Leash (XS)",
+      "description": "Safe outdoor exploration for rabbits and guinea pigs. Adjustable, comfortable, and escape-proof design.",
+      "category": "Outdoor",
+      "price": "14.99",
+      "originalPrice": null,
+      "image": null,
+      "badge": null,
+      "featured": true,
+      "inStock": true,
+      "slug": "harness-leash-xs"
+    },
+    {
+      "id": "seasonal-costume",
+      "title": "Seasonal Small-Pet Costume",
+      "description": "Adorable 2-piece costume perfect for photos and special occasions. Gentle, comfortable fit for guinea pigs and rabbits.",
+      "category": "Novelty",
+      "price": "8.99",
+      "originalPrice": null,
+      "image": null,
+      "badge": "Limited",
+      "featured": false,
+      "inStock": true,
+      "slug": "seasonal-small-pet-costume"
+    },
+    {
+      "id": "foldable-playpen",
+      "title": "Foldable Indoor/Outdoor Playpen",
+      "description": "Expandable exercise area that sets up in seconds. Weather-resistant and perfect for supervised free-roam time.",
+      "category": "Exercise",
+      "price": "31.99",
+      "originalPrice": "35.99",
+      "image": null,
+      "badge": "Sale",
+      "featured": true,
+      "inStock": true,
+      "slug": "foldable-indoor-outdoor-playpen"
+    },
+    {
+      "id": "modular-hutch",
+      "title": "Modular Rabbit Hutch",
+      "description": "Stylish flat-pack home with multiple levels. Easy assembly, space-saving design perfect for modern apartments.",
+      "category": "Habitat",
+      "price": "47.99",
+      "originalPrice": null,
+      "image": null,
+      "badge": "Premium",
+      "featured": true,
+      "inStock": false,
+      "slug": "modular-rabbit-hutch"
+    },
+    {
+      "id": "starter-fun-pack",
+      "title": "Starter Fun Pack Bundle",
+      "description": "Everything you need to get started! Includes tunnel, chew toys, and treat dispenser. Perfect for new pet parents.",
+      "category": "Bundles",
+      "price": "29.99",
+      "originalPrice": "35.97",
+      "image": null,
+      "badge": "Bundle",
+      "featured": true,
+      "inStock": true,
+      "slug": "starter-fun-pack-bundle"
+    }
+  ],
+  "meta": {
+    "total": 10,
+    "featured": 8,
+    "lastUpdated": "2025-01-24T12:00:00Z"
+  }
+}

@@ -1,0 +1,208 @@
+// Small Paws Club - Navigation Header Component
+// Responsive navigation with mobile drawer
+
+.nav-header {
+  background: white;
+  border-bottom: 1px solid $border-light;
+  position: sticky;
+  top: 0;
+  z-index: $z-navigation;
+  
+  &__container {
+    @include container;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 70px;
+  }
+  
+  &__logo {
+    flex-shrink: 0;
+  }
+  
+  &__logo-link {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: $text-primary;
+    
+    &:hover {
+      color: $accent;
+    }
+  }
+  
+  &__logo-text {
+    font-size: $font-size-xl;
+    font-weight: $font-weight-bold;
+    color: $accent;
+  }
+  
+  // Desktop Menu
+  &__menu--desktop {
+    display: none;
+    align-items: center;
+    gap: $spacing-8;
+    
+    @include breakpoint(md) {
+      display: flex;
+    }
+  }
+  
+  &__link {
+    color: $text-primary;
+    font-weight: $font-weight-semibold;
+    text-decoration: none;
+    position: relative;
+    transition: color $transition-base;
+    
+    &:hover {
+      color: $accent;
+    }
+    
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: -8px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: $accent;
+      transition: width $transition-base;
+    }
+    
+    &:hover::after {
+      width: 100%;
+    }
+  }
+  
+  // Actions (Cart & Mobile Toggle)
+  &__actions {
+    display: flex;
+    align-items: center;
+    gap: $spacing-4;
+  }
+  
+  &__cart {
+    position: relative;
+    color: $text-primary;
+    padding: $spacing-2;
+    border-radius: $border-radius-sm;
+    transition: all $transition-base;
+    
+    &:hover {
+      color: $accent;
+      background: $background-light;
+    }
+    
+    svg {
+      width: 20px;
+      height: 20px;
+    }
+  }
+  
+  &__cart-count {
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    background: $accent;
+    color: white;
+    font-size: $font-size-xs;
+    font-weight: $font-weight-bold;
+    padding: 2px 6px;
+    border-radius: 10px;
+    min-width: 18px;
+    text-align: center;
+    line-height: 1.2;
+  }
+  
+  // Mobile Toggle
+  &__toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background: none;
+    border: none;
+    color: $text-primary;
+    border-radius: $border-radius-sm;
+    transition: all $transition-base;
+    
+    @include breakpoint(md) {
+      display: none;
+    }
+    
+    &:hover {
+      background: $background-light;
+      color: $accent;
+    }
+    
+    svg {
+      width: 20px;
+      height: 20px;
+    }
+  }
+  
+  // Mobile Drawer
+  &__drawer {
+    position: fixed;
+    top: 71px;
+    left: 0;
+    right: 0;
+    background: white;
+    border-bottom: 1px solid $border-light;
+    box-shadow: $shadow-lg;
+    transform: translateY(-100%);
+    opacity: 0;
+    visibility: hidden;
+    transition: all $transition-base;
+    z-index: $z-dropdown;
+    
+    @include breakpoint(md) {
+      display: none;
+    }
+    
+    &.is-open {
+      transform: translateY(0);
+      opacity: 1;
+      visibility: visible;
+    }
+  }
+  
+  &__menu--mobile {
+    padding: $spacing-6 $spacing-4;
+    
+    .nav-header__item {
+      margin-bottom: $spacing-4;
+      
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+    
+    .nav-header__link {
+      display: block;
+      padding: $spacing-3 0;
+      font-size: $font-size-lg;
+      border-bottom: 1px solid $border-light;
+      
+      &::after {
+        display: none;
+      }
+      
+      &:hover {
+        background: $background-light;
+        padding-left: $spacing-4;
+      }
+    }
+  }
+}
+
+// Mobile drawer open state
+.nav-drawer-open {
+  .nav-header__drawer {
+    transform: translateY(0);
+    opacity: 1;
+    visibility: visible;
+  }
+}

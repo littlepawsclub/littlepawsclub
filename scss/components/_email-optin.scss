@@ -1,0 +1,149 @@
+// Small Paws Club - Email Opt-in Component
+// Newsletter subscription form
+
+.email-optin {
+  padding: $spacing-16 0;
+  background: linear-gradient(135deg, $dusty-blue, $sage);
+  color: white;
+  
+  &__container {
+    @include container;
+    text-align: center;
+  }
+  
+  &__content {
+    margin-bottom: $spacing-8;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  &__title {
+    font-size: $font-size-2xl;
+    font-weight: $font-weight-bold;
+    margin-bottom: $spacing-4;
+    
+    @include breakpoint(md) {
+      font-size: $font-size-3xl;
+    }
+  }
+  
+  &__text {
+    font-size: $font-size-lg;
+    opacity: 0.9;
+    margin: 0;
+  }
+  
+  &__form {
+    max-width: 500px;
+    margin: 0 auto;
+  }
+  
+  &__input-group {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-3;
+    
+    @include breakpoint(sm) {
+      flex-direction: row;
+      gap: $spacing-2;
+    }
+  }
+  
+  &__input {
+    flex-grow: 1;
+    padding: $spacing-4;
+    border: 2px solid transparent;
+    border-radius: $border-radius;
+    font-size: $font-size-base;
+    background: white;
+    color: $text-primary;
+    
+    &:focus {
+      outline: none;
+      border-color: $accent;
+      box-shadow: 0 0 0 3px rgba($accent, 0.1);
+    }
+    
+    &::placeholder {
+      color: $text-muted;
+    }
+  }
+  
+  &__button {
+    @include button-base;
+    background: $accent;
+    color: white;
+    font-size: $font-size-base;
+    padding: $spacing-4 $spacing-6;
+    white-space: nowrap;
+    border: 2px solid transparent;
+    
+    @include breakpoint(sm) {
+      flex-shrink: 0;
+    }
+    
+    &:hover:not(:disabled) {
+      background: darken($accent, 10%);
+      transform: translateY(-1px);
+    }
+    
+    &:focus {
+      outline: none;
+      border-color: white;
+    }
+    
+    svg {
+      width: 16px;
+      height: 16px;
+    }
+  }
+  
+  // Form states
+  &__form {
+    &.is-submitting {
+      .email-optin__button {
+        opacity: 0.7;
+        cursor: not-allowed;
+      }
+    }
+    
+    &.is-success {
+      .email-optin__input-group {
+        opacity: 0.5;
+        pointer-events: none;
+      }
+    }
+  }
+  
+  // Success message
+  &__success {
+    background: rgba(white, 0.1);
+    border: 1px solid rgba(white, 0.2);
+    border-radius: $border-radius;
+    padding: $spacing-4;
+    margin-top: $spacing-4;
+    display: none;
+    
+    &.is-visible {
+      display: block;
+    }
+    
+    p {
+      margin: 0;
+      font-weight: $font-weight-semibold;
+    }
+  }
+  
+  // Error message
+  &__error {
+    color: #fed7d7;
+    font-size: $font-size-sm;
+    margin-top: $spacing-2;
+    display: none;
+    
+    &.is-visible {
+      display: block;
+    }
+  }
+}

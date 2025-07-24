@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Small Paws Club - Tiny paws, big love</title>
+    <meta name="description" content="Comfort, joy, and little treats for small mammals. UK dropshipping store for rabbits, guinea pigs, hamsters, rats and ferrets.">
+    
+    <!-- Preconnect to Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <!-- Google Fonts - Poppins -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Feather Icons -->
+    <script src="https://unpkg.com/feather-icons"></script>
+    
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+    <!-- Navigation Header -->
+    <nav class="nav-header">
+        <div class="nav-header__container">
+            <div class="nav-header__logo">
+                <a href="/" class="nav-header__logo-link">
+                    <span class="nav-header__logo-text">Small Paws Club</span>
+                </a>
+            </div>
+            
+            <!-- Desktop Navigation -->
+            <ul class="nav-header__menu nav-header__menu--desktop">
+                <li class="nav-header__item">
+                    <a href="/shop/" class="nav-header__link">Shop</a>
+                </li>
+                <li class="nav-header__item">
+                    <a href="/about.html" class="nav-header__link">About</a>
+                </li>
+                <li class="nav-header__item">
+                    <a href="/faqs.html" class="nav-header__link">FAQs</a>
+                </li>
+                <li class="nav-header__item">
+                    <a href="/contact.html" class="nav-header__link">Contact</a>
+                </li>
+            </ul>
+            
+            <!-- Cart & Mobile Toggle -->
+            <div class="nav-header__actions">
+                <a href="/cart.html" class="nav-header__cart" aria-label="Shopping Cart">
+                    <i data-feather="shopping-bag"></i>
+                    <span class="nav-header__cart-count">0</span>
+                </a>
+                <button class="nav-header__toggle" aria-label="Toggle Navigation" aria-expanded="false">
+                    <i data-feather="menu"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Mobile Navigation Drawer -->
+        <div class="nav-header__drawer">
+            <ul class="nav-header__menu nav-header__menu--mobile">
+                <li class="nav-header__item">
+                    <a href="/shop/" class="nav-header__link">Shop</a>
+                </li>
+                <li class="nav-header__item">
+                    <a href="/about.html" class="nav-header__link">About</a>
+                </li>
+                <li class="nav-header__item">
+                    <a href="/faqs.html" class="nav-header__link">FAQs</a>
+                </li>
+                <li class="nav-header__item">
+                    <a href="/contact.html" class="nav-header__link">Contact</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Free Shipping Banner -->
+    <div class="shipping-banner">
+        <div class="shipping-banner__container">
+            <p class="shipping-banner__text">
+                <i data-feather="truck"></i>
+                Free UK shipping on orders over £40
+            </p>
+        </div>
+    </div>
+
+    <!-- Hero Banner -->
+    <section class="hero-banner">
+        <div class="hero-banner__container">
+            <div class="hero-banner__content">
+                <h1 class="hero-banner__title">
+                    Tiny paws, <span class="hero-banner__title-accent">big love</span>
+                </h1>
+                <p class="hero-banner__subtitle">
+                    Comfort, joy, and little treats for the pets who mean the most. Curated products for rabbits, guinea pigs, hamsters, rats and ferrets.
+                </p>
+                <div class="hero-banner__actions">
+                    <a href="/shop/" class="hero-banner__cta hero-banner__cta--primary">
+                        Shop Now
+                    </a>
+                    <a href="/about.html" class="hero-banner__cta hero-banner__cta--secondary">
+                        Learn More
+                    </a>
+                </div>
+            </div>
+            <div class="hero-banner__image">
+                <!-- Using placeholder for now - will be replaced with actual pet photos -->
+                <div class="hero-banner__image-placeholder">
+                    <i data-feather="heart"></i>
+                    <p>Happy small pets with our products</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Trust Strip -->
+    <section class="trust-strip">
+        <div class="trust-strip__container">
+            <div class="trust-strip__item">
+                <div class="trust-strip__icon">
+                    <i data-feather="truck"></i>
+                </div>
+                <div class="trust-strip__content">
+                    <h3 class="trust-strip__title">Fast UK Delivery</h3>
+                    <p class="trust-strip__text">1-3 days on core items</p>
+                </div>
+            </div>
+            <div class="trust-strip__item">
+                <div class="trust-strip__icon">
+                    <i data-feather="shield-check"></i>
+                </div>
+                <div class="trust-strip__content">
+                    <h3 class="trust-strip__title">Vet-Approved Quality</h3>
+                    <p class="trust-strip__text">Safe for your tiny friends</p>
+                </div>
+            </div>
+            <div class="trust-strip__item">
+                <div class="trust-strip__icon">
+                    <i data-feather="refresh-cw"></i>
+                </div>
+                <div class="trust-strip__content">
+                    <h3 class="trust-strip__title">30-Day Returns</h3>
+                    <p class="trust-strip__text">Money-back guarantee</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Products -->
+    <section class="featured-products">
+        <div class="featured-products__container">
+            <div class="featured-products__header">
+                <h2 class="featured-products__title">Featured Products</h2>
+                <p class="featured-products__subtitle">Curated essentials for happy, healthy small pets</p>
+            </div>
+            <div class="featured-products__grid" id="products-grid">
+                <!-- Products will be loaded here via JavaScript -->
+            </div>
+            <div class="featured-products__actions">
+                <a href="/shop/" class="featured-products__cta">
+                    View All Products
+                    <i data-feather="arrow-right"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Email Opt-in Bar -->
+    <section class="email-optin">
+        <div class="email-optin__container">
+            <div class="email-optin__content">
+                <h3 class="email-optin__title">Join the Small Paws family</h3>
+                <p class="email-optin__text">Get pet care tips, exclusive offers, and be first to know about new arrivals</p>
+            </div>
+            <form class="email-optin__form" id="email-form">
+                <div class="email-optin__input-group">
+                    <input 
+                        type="email" 
+                        class="email-optin__input" 
+                        placeholder="Enter your email address"
+                        required
+                        aria-label="Email address"
+                    >
+                    <button type="submit" class="email-optin__button">
+                        Subscribe
+                        <i data-feather="arrow-right"></i>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer__container">
+            <div class="footer__grid">
+                <div class="footer__section">
+                    <h4 class="footer__title">Small Paws Club</h4>
+                    <p class="footer__text">
+                        Bringing comfort, joy and practical solutions to owners of small mammals across the UK.
+                    </p>
+                    <div class="footer__social">
+                        <a href="#" class="footer__social-link" aria-label="Facebook">
+                            <i data-feather="facebook"></i>
+                        </a>
+                        <a href="#" class="footer__social-link" aria-label="Instagram">
+                            <i data-feather="instagram"></i>
+                        </a>
+                        <a href="#" class="footer__social-link" aria-label="Twitter">
+                            <i data-feather="twitter"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="footer__section">
+                    <h4 class="footer__title">Shop</h4>
+                    <ul class="footer__links">
+                        <li><a href="/shop/" class="footer__link">All Products</a></li>
+                        <li><a href="/shop/?category=enrichment" class="footer__link">Enrichment</a></li>
+                        <li><a href="/shop/?category=comfort" class="footer__link">Comfort</a></li>
+                        <li><a href="/shop/?category=care" class="footer__link">Care & Grooming</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer__section">
+                    <h4 class="footer__title">Support</h4>
+                    <ul class="footer__links">
+                        <li><a href="/faqs.html" class="footer__link">FAQs</a></li>
+                        <li><a href="/contact.html" class="footer__link">Contact Us</a></li>
+                        <li><a href="/legal/shipping-returns.html" class="footer__link">Shipping & Returns</a></li>
+                        <li><a href="/legal/privacy.html" class="footer__link">Privacy Policy</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer__section">
+                    <h4 class="footer__title">Connect</h4>
+                    <ul class="footer__links">
+                        <li><a href="/about.html" class="footer__link">About Us</a></li>
+                        <li><a href="#" class="footer__link">Pet Care Tips</a></li>
+                        <li><a href="#" class="footer__link">Community</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer__bottom">
+                <p class="footer__copyright">
+                    © 2025 Small Paws Club. All rights reserved.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="js/main.js"></script>
+    <script>
+        feather.replace();
+    </script>
+</body>
+</html>

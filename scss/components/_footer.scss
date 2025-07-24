@@ -1,0 +1,132 @@
+// Small Paws Club - Footer Component
+// Site footer with links and branding
+
+.footer {
+  background: $text-primary;
+  color: white;
+  padding: $spacing-16 0 $spacing-8;
+  
+  &__container {
+    @include container;
+  }
+  
+  &__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: $spacing-8;
+    margin-bottom: $spacing-12;
+    
+    @include breakpoint(sm) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    
+    @include breakpoint(md) {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+  
+  &__section {
+    &:first-child {
+      @include breakpoint(md) {
+        grid-column: 1 / 2;
+      }
+    }
+  }
+  
+  &__title {
+    font-size: $font-size-lg;
+    font-weight: $font-weight-semibold;
+    margin-bottom: $spacing-4;
+    color: white;
+  }
+  
+  &__text {
+    font-size: $font-size-sm;
+    color: rgba(white, 0.8);
+    line-height: 1.6;
+    margin-bottom: $spacing-6;
+  }
+  
+  &__links {
+    list-style: none;
+    
+    li {
+      margin-bottom: $spacing-2;
+      
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+  
+  &__link {
+    color: rgba(white, 0.8);
+    text-decoration: none;
+    font-size: $font-size-sm;
+    transition: color $transition-base;
+    
+    &:hover {
+      color: $accent;
+    }
+  }
+  
+  // Social Links
+  &__social {
+    display: flex;
+    gap: $spacing-3;
+  }
+  
+  &__social-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background: rgba(white, 0.1);
+    color: rgba(white, 0.8);
+    border-radius: 50%;
+    text-decoration: none;
+    transition: all $transition-base;
+    
+    &:hover {
+      background: $accent;
+      color: white;
+      transform: translateY(-2px);
+    }
+    
+    svg {
+      width: 18px;
+      height: 18px;
+    }
+  }
+  
+  // Footer Bottom
+  &__bottom {
+    border-top: 1px solid rgba(white, 0.1);
+    padding-top: $spacing-6;
+    text-align: center;
+  }
+  
+  &__copyright {
+    font-size: $font-size-sm;
+    color: rgba(white, 0.6);
+    margin: 0;
+  }
+  
+  // Mobile adjustments
+  @include breakpoint(sm) {
+    .footer__section:first-child {
+      grid-column: 1 / -1;
+      text-align: center;
+      margin-bottom: $spacing-4;
+    }
+  }
+  
+  @include breakpoint(md) {
+    .footer__section:first-child {
+      grid-column: 1 / 2;
+      text-align: left;
+      margin-bottom: 0;
+    }
+  }
+}

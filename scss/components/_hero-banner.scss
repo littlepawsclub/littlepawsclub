@@ -1,0 +1,148 @@
+// Small Paws Club - Hero Banner Component
+// Main value proposition section
+
+.hero-banner {
+  padding: $spacing-16 0;
+  background: linear-gradient(135deg, $cream 0%, lighten($blush, 5%) 100%);
+  
+  &__container {
+    @include container;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: $spacing-12;
+    align-items: center;
+    
+    @include breakpoint(lg) {
+      grid-template-columns: 1fr 1fr;
+      gap: $spacing-16;
+    }
+  }
+  
+  &__content {
+    text-align: center;
+    
+    @include breakpoint(lg) {
+      text-align: left;
+    }
+  }
+  
+  &__title {
+    font-size: 2.5rem;
+    font-weight: $font-weight-bold;
+    color: $text-primary;
+    margin-bottom: $spacing-6;
+    line-height: 1.1;
+    
+    @include breakpoint(md) {
+      font-size: 3.5rem;
+    }
+    
+    @include breakpoint(lg) {
+      font-size: 4rem;
+    }
+  }
+  
+  &__title-accent {
+    color: $accent;
+    position: relative;
+    
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: linear-gradient(90deg, $accent, $blush);
+      border-radius: 2px;
+    }
+  }
+  
+  &__subtitle {
+    font-size: $font-size-lg;
+    color: $text-secondary;
+    margin-bottom: $spacing-8;
+    max-width: 500px;
+    
+    @include breakpoint(lg) {
+      margin-left: 0;
+      margin-right: auto;
+    }
+    
+    .hero-banner__content & {
+      @include breakpoint(lg) {
+        margin-left: 0;
+      }
+    }
+  }
+  
+  &__actions {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-4;
+    align-items: center;
+    
+    @include breakpoint(sm) {
+      flex-direction: row;
+      justify-content: center;
+    }
+    
+    @include breakpoint(lg) {
+      justify-content: flex-start;
+    }
+  }
+  
+  &__cta {
+    @include button-base;
+    min-width: 160px;
+    
+    &--primary {
+      @include button-primary;
+      font-size: $font-size-lg;
+      padding: $spacing-4 $spacing-8;
+    }
+    
+    &--secondary {
+      @include button-secondary;
+      font-size: $font-size-lg;
+      padding: $spacing-4 $spacing-8;
+    }
+  }
+  
+  // Hero Image/Placeholder
+  &__image {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    @include breakpoint(lg) {
+      order: 2;
+    }
+  }
+  
+  &__image-placeholder {
+    width: 100%;
+    max-width: 400px;
+    aspect-ratio: 1;
+    background: linear-gradient(135deg, $sage, $dusty-blue);
+    border-radius: $border-radius-lg;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    text-align: center;
+    padding: $spacing-8;
+    
+    svg {
+      width: 64px;
+      height: 64px;
+      margin-bottom: $spacing-4;
+    }
+    
+    p {
+      font-weight: $font-weight-semibold;
+      margin: 0;
+    }
+  }
+}
