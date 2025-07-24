@@ -34,11 +34,19 @@ function updateBadge() {
 document.addEventListener("click", e => {
   const btn = e.target.closest("[data-add]");
   if (!btn) return;
-  // grab product data
-  const id    = btn.dataset.id;
-  const name  = btn.dataset.name;
-  const price = parseFloat(btn.dataset.price);
-  const img   = btn.dataset.img;
+  
+  e.preventDefault(); // Prevent navigation when clicking add to cart
+  e.stopPropagation();
+  
+  // Get product data from the parent card
+  const card = btn.closest(".product-card");
+  if (!card) return;
+  
+  const id    = card.dataset.id;
+  const name  = card.dataset.name;
+  const price = parseFloat(card.dataset.price);
+  const img   = card.dataset.img;
+  
   // update cart array
   const cart = loadCart();
   const existing = cart.find(i => i.id === id);
@@ -49,6 +57,18 @@ document.addEventListener("click", e => {
   }
   saveCart(cart);
   updateBadge();
+});
+
+// Product card navigation (click anywhere except add-to-cart)
+document.addEventListener("click", e => {
+  const card = e.target.closest(".product-card");
+  if (!card) return;
+  if (e.target.closest(".add-to-cart")) return;          // don't navigate when adding
+  if (e.target.closest(".card-qty-controls")) return;   // don't navigate on qty clicks
+  
+  // otherwise, treat it as a navigation click:
+  const id = card.dataset.id;
+  window.location.href = `product.html?id=${encodeURIComponent(id)}`;
 });
 
 // When on cart page, render items + delegate qty/remove

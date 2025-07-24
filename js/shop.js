@@ -141,7 +141,12 @@ const Shop = {
     const isOutOfStock = !product.inStock;
     
     return `
-      <article class="product-card ${isOutOfStock ? 'product-card--out-of-stock' : ''}" data-product-id="${product.id}">
+      <a href="product.html?id=${product.id}" 
+         class="product-card ${isOutOfStock ? 'product-card--out-of-stock' : ''}" 
+         data-id="${product.id}"
+         data-name="${product.title}"
+         data-price="${product.price}"
+         data-img="${product.image || ''}">
         <div class="product-card__container">
           <div class="product-card__image">
             ${product.badge ? `<span class="product-card__badge">${product.badge}</span>` : ''}
@@ -161,16 +166,15 @@ const Shop = {
                 ${hasOriginalPrice ? `<span class="product-card__price-original">£${product.originalPrice}</span>` : ''}
               </div>
               
-              <button class="product-card__button ${isOutOfStock ? 'product-card__button--disabled' : ''}" 
-                      ${!isOutOfStock ? `data-add="true" data-id="${product.id}" data-name="${product.title}" data-price="${product.price}" data-img="${product.image || ''}"` : ''}
+              <button class="add-to-cart product-card__button ${isOutOfStock ? 'product-card__button--disabled' : ''}" 
+                      ${!isOutOfStock ? `data-add` : ''}
                       ${isOutOfStock ? 'disabled' : ''}>
-                ${isOutOfStock ? 'Out of Stock' : 'Add to Cart'}
-                ${!isOutOfStock ? '<i data-feather="shopping-cart"></i>' : ''}
+                ${isOutOfStock ? 'Out of Stock' : 'Add to Cart 🛒'}
               </button>
             </div>
           </div>
         </div>
-      </article>
+      </a>
     `;
   },
 
