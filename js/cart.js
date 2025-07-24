@@ -71,20 +71,21 @@ function updateCartQuantity(productId, newQty) {
     console.log('updateCartQuantity called:', productId, newQty);
     
     const cart = getCart();
-    if (cart[productId] && newQty > 0) {
-        cart[productId].qty = parseInt(newQty);
-        saveCart(cart);
-        
-        // Update display without full re-render to preserve event listeners
-        updateCartItemDisplay(productId, newQty);
-        
-        // Always update badge after quantity change
-        updateCartBadge();
-        
-        console.log('Cart quantity updated successfully');
-    } else if (newQty <= 0) {
-        removeFromCart(productId);
-        return; // removeFromCart handles re-rendering
+    if (cart[productId]) {
+        if (newQty > 0) {
+            // Update quantity
+            cart[productId].qty = parseInt(newQty);
+            saveCart(cart);
+            
+            // Update display without full re-render to preserve event listeners
+            updateCartItemDisplay(productId, newQty);
+            updateCartBadge();
+            
+            console.log('Cart quantity updated successfully');
+        } else {
+            // Remove item if quantity is 0 or less
+            removeFromCart(productId);
+        }
     }
 }
 
@@ -287,7 +288,7 @@ function handleCartClick(e) {
     }
     
     // Quantity plus button - check using matches()
-    if (target.matches('.cart-item__qty-btn--plus')) {
+    if (target.matches('.cart-item__qty-btn--plus') || target.matches('.qty-plus')) {
         e.preventDefault();
         e.stopPropagation();
         console.log('Plus button clicked for:', productId);
@@ -295,7 +296,7 @@ function handleCartClick(e) {
         const input = document.getElementById(`qty-${productId}`);
         if (input) {
             const currentQty = parseInt(input.value) || 1;
-            const newQty = Math.min(currentQty + 1, 99);
+            const newQty = currentQty + 1; // Remove max limit for now
             input.value = newQty;
             updateCartQuantity(productId, newQty);
         }
@@ -303,7 +304,7 @@ function handleCartClick(e) {
     }
     
     // Quantity minus button - check using matches()
-    if (target.matches('.cart-item__qty-btn--minus')) {
+    if (target.matches('.cart-item__qty-btn--minus') || target.matches('.qty-minus')) {
         e.preventDefault();
         e.stopPropagation();
         console.log('Minus button clicked for:', productId);
@@ -311,9 +312,12 @@ function handleCartClick(e) {
         const input = document.getElementById(`qty-${productId}`);
         if (input) {
             const currentQty = parseInt(input.value) || 1;
-            const newQty = Math.max(1, currentQty - 1);
-            input.value = newQty;
-            updateCartQuantity(productId, newQty);
+            if (currentQty > 1) {
+                const newQty = currentQty - 1;
+                input.value = newQty;
+                updateCartQuantity(productId, newQty);
+            }
+            // If qty = 1, don't reduce further (requirement: if qty > 1 then qty - 1)
         }
         return;
     }
@@ -406,23 +410,87 @@ document.addEventListener('DOMContentLoaded', function() {
     setupGlobalCartHandlers();
 });
 
-// Global event delegation for add-to-cart buttons
+// Global event delegation for add-to-cart buttons - SINGLE HANDLER
 function setupGlobalCartHandlers() {
-    // Handle add-to-cart button clicks anywhere on the page
+    console.log('Setting up global cart handlers');
+    
+    // Single click listener on document for all add-to-cart actions
     document.addEventListener('click', function(e) {
         // Check if clicked element or its parent is an add-to-cart button
-        const addToCartBtn = e.target.closest('[data-add-to-cart]') || e.target.closest('#add-to-cart-btn');
-        
-        if (addToCartBtn) {
+        if (e.target.closest('.add-to-cart')) {
             e.preventDefault();
-            handleAddToCartClick(addToCartBtn);
+            e.stopPropagation();
+            console.log('Add-to-cart clicked');
+            handleAddToCartClick(e.target.closest('.add-to-cart'));
+            return;
+        }
+        
+        // Handle product page add-to-cart button
+        if (e.target.closest('#add-to-cart-btn')) {
+            e.preventDefault();
+            e.stopPropagation();
+            console.log('Product page add-to-cart clicked');
+            handleProductPageAddToCart();
+            return;
         }
     });
 }
 
-// Centralized add-to-cart handler
+// Handle add-to-cart clicks from shop page product cards
 function handleAddToCartClick(button) {
-    // Get product data from various sources
+    console.log('handleAddToCartClick called');
+    
+    // Get product data from data attributes
+    const productId = button.dataset.productId;
+    const productName = button.dataset.productName;
+    const productPrice = button.dataset.productPrice;
+    const productImage = button.dataset.productImage;
+    
+    if (!productId || !productName || !productPrice) {
+        console.error('Missing product data attributes');
+        return;
+    }
+    
+    const shopProductData = {
+        id: productId,
+        name: productName,
+        price: parseFloat(productPrice),
+        qty: 1,
+        image: productImage || ''
+    };
+    
+    console.log('Adding product to cart:', shopProductData);
+    addToCart(shopProductData);
+}
+
+// Handle add-to-cart from product detail page
+function handleProductPageAddToCart() {
+    console.log('handleProductPageAddToCart called');
+    
+    // Get quantity from selector
+    const quantityInput = document.getElementById('product-quantity');
+    const quantity = quantityInput ? parseInt(quantityInput.value) || 1 : 1;
+    
+    // Get product data from page elements
+    const productId = document.getElementById('product-title')?.dataset.productId;
+    const productName = document.getElementById('product-title')?.textContent;
+    const productPrice = document.querySelector('.product-info__price-current')?.textContent.replace('£', '');
+    
+    if (!productId || !productName || !productPrice) {
+        console.error('Missing product data on product page');
+        return;
+    }
+    
+    const productPageData = {
+        id: productId,
+        name: productName,
+        price: parseFloat(productPrice),
+        qty: quantity,
+        image: ''
+    };
+    
+    console.log('Adding product from product page:', productPageData);
+    addToCart(productPageData);
     let productData = {};
     
     // Method 1: From button's data attributes (for shop page)

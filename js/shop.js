@@ -142,8 +142,7 @@ const Shop = {
     
     return `
       <article class="product-card ${isOutOfStock ? 'product-card--out-of-stock' : ''}" data-product-id="${product.id}">
-        <a href="product.html?id=${product.id}" class="product-card__link ${isOutOfStock ? 'product-card__link--disabled' : ''}" 
-           ${isOutOfStock ? 'aria-disabled="true"' : ''}>
+        <div class="product-card__container">
           <div class="product-card__image">
             ${product.badge ? `<span class="product-card__badge">${product.badge}</span>` : ''}
             <div class="product-card__image-placeholder">
@@ -162,13 +161,14 @@ const Shop = {
                 ${hasOriginalPrice ? `<span class="product-card__price-original">£${product.originalPrice}</span>` : ''}
               </div>
               
-              <span class="product-card__button ${isOutOfStock ? 'product-card__button--disabled' : ''}">
-                ${isOutOfStock ? 'Out of Stock' : 'View Product'}
-                ${!isOutOfStock ? '<i data-feather="arrow-right"></i>' : ''}
+              <span class="product-card__button ${isOutOfStock ? 'product-card__button--disabled' : 'add-to-cart'}" 
+                    ${!isOutOfStock ? `data-product-id="${product.id}" data-product-name="${product.title}" data-product-price="${product.price}" data-product-image="${product.image || ''}"` : ''}>
+                ${isOutOfStock ? 'Out of Stock' : 'Add to Cart'}
+                ${!isOutOfStock ? '<i data-feather="shopping-cart"></i>' : ''}
               </span>
             </div>
           </div>
-        </a>
+        </div>
       </article>
     `;
   },
@@ -213,26 +213,10 @@ const Shop = {
     `;
   },
 
-  // Attach cart event listeners (now just sets data attributes)
+  // No need for individual event listeners - handled globally
   attachCartEventListeners() {
-    const productCards = document.querySelectorAll('.product-card');
-    
-    productCards.forEach(card => {
-      const productId = card.dataset.productId;
-      const product = this.products.find(p => p.id === productId);
-      const addButton = card.querySelector('.product-card__button');
-      
-      if (product && addButton && product.inStock) {
-        // Set data attributes for global cart handler
-        addButton.dataset.addToCart = 'true';
-        addButton.dataset.productId = product.id;
-        addButton.dataset.productName = product.title;
-        addButton.dataset.productPrice = product.price;
-        addButton.dataset.productImage = product.image || 'https://via.placeholder.com/300x300';
-        addButton.innerHTML = 'Add to Cart <i data-feather="shopping-cart"></i>';
-        addButton.setAttribute('aria-label', `Add ${product.title} to cart`);
-      }
-    });
+    // Event listeners now handled by global cart delegation in cart.js
+    console.log('Shop products rendered - global cart handlers will manage add-to-cart');
   }
 };
 

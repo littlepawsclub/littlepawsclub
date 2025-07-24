@@ -1,0 +1,87 @@
+Goal: Resolve the remaining cart bugs once and for all.
+Outcome required: single nav on cart.html, reliable +/– buttons & remove button, correct badge count, and one-item-per-click add-to-cart.
+
+1 – Navigation duplication
+Open cart.html.
+
+Remove all hard-coded header/nav markup (logo, menu items, hamburger).
+
+Confirm the page now imports exactly the same shared header partial (or identical inline markup) used by shop.html.
+
+Verify in the live preview (mobile + desktop widths) that only one nav bar is rendered.
+
+2 – Global add-to-cart handler (shop & product pages)
+In shop.js and product.js make sure there is one and only one click listener attached (on document or a stable parent).
+
+The handler must use
+if (event.target.closest('.add-to-cart')) { … }
+so additional listeners are never registered on re-renders or updates.
+
+On each click add exactly 1 unit of that product to localStorage (spcCart). No double-adds.
+
+3 – Cart page event delegation
+All interactive buttons inside the cart (.qty-plus, .qty-minus, .remove-item) must be handled by one listener attached to the static parent container once on page load.
+
+Inside the handler use event.target.matches(...) or closest() to detect which button was pressed.
+
+Never re-attach listeners when the DOM updates; only update the item DOM fragment or text content.
+
+4 – Quantity logic
+When + is pressed: qty = qty + 1.
+
+When – is pressed: if qty > 1 then qty = qty – 1.
+
+Update localStorage first, then:
+
+update the item’s quantity field
+
+update line-item total
+
+update cart subtotal
+
+call updateCartBadge()
+
+Verify you can press + and – multiple times in a row without the buttons losing functionality.
+
+5 – Remove item button
+On click, delete that product from localStorage.
+
+Remove the corresponding DOM node.
+
+Recalculate subtotal & badge.
+
+If cart becomes empty show the “Your cart is empty” state.
+
+6 – Badge count (all pages)
+updateCartBadge() must:
+
+read spcCart directly from localStorage each time
+
+sum all qty values
+
+set the badge text (and hide the badge element if total = 0)
+
+Call updateCartBadge() after every add, remove, or qty change.
+
+Also call it once on DOMContentLoaded for every page so count persists on refresh.
+
+7 – QA checklist (agent must manually test before replying “fixed”)
+Add three DIFFERENT items from shop.html — badge should show 3.
+
+Navigate to cart.html — page has one header/nav.
+
+Click + twice, – twice on any item — quantity & totals update every click.
+
+Click the remove-trash icon — item disappears, badge & totals update.
+
+Refresh the browser — cart state and badge persist.
+
+Mobile viewport (≤ 480 px) — header duplicates do not return, buttons still clickable.
+
+8 – Debug logging
+Temporarily leave concise console.log() statements for:
+
+add-to-cart, qty change, remove, badge update.
+Remove them only after confirming everything passes the QA checklist.
+
+🚦 Do not answer “all fixed” until every step in Section 7 works exactly as described on both mobile and desktop preview.
