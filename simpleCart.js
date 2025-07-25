@@ -140,17 +140,15 @@ if (!window.qtyNavHandlerAdded) {
 
 // When on cart page, render items + delegate qty/remove
 if (document.body.contains(document.querySelector("#cart-items"))) {
-  const container = document.querySelector("#cart-items");
+  const cartContainer = document.getElementById('cart-items');
   const totalEl = document.querySelector("#cart-total");
 
   function renderCart() {
     const cart = loadCart();
-    container.innerHTML = "";
-    let subtotal = 0;
+    cartContainer.innerHTML = '';
     cart.forEach(item => {
-      subtotal += item.price * item.qty;
-      const row = document.createElement("div");
-      row.className = "cart-item";
+      const row = document.createElement('div');
+      row.className = 'cart-item';
       row.innerHTML = `
         <img src="${item.img}" alt="${item.name}" class="cart-image" />
         <div class="cart-details">
@@ -165,9 +163,11 @@ if (document.body.contains(document.querySelector("#cart-items"))) {
             <button class="remove-btn" data-action="remove" data-id="${item.id}">🗑️</button>
           </div>
         </div>`;
-      container.appendChild(row);
+      cartContainer.appendChild(row);
     });
-    totalEl.textContent = `Subtotal: £${subtotal.toFixed(2)}`;
+    if (totalEl) {
+      totalEl.textContent = `Subtotal: £${cart.reduce((sum, i) => sum + i.price * i.qty, 0).toFixed(2)}`;
+    }
   }
 
   function updateQty(id, delta) {
@@ -194,13 +194,13 @@ if (document.body.contains(document.querySelector("#cart-items"))) {
     }
   }
 
-  document.getElementById("cart-items").addEventListener("click", e => {
-    const btn = e.target.closest("button");
+  document.getElementById('cart-items').addEventListener('click', e => {
+    const btn = e.target.closest('button');
     if (!btn) return;
     const { action, id } = btn.dataset;
-    if (action === "plus")  updateQty(id, +1);
-    if (action === "minus") updateQty(id, -1);
-    if (action === "remove") removeFromCart(id);
+    if (action === 'plus') updateQty(id, +1);
+    if (action === 'minus') updateQty(id, -1);
+    if (action === 'remove') removeFromCart(id);
     renderCart();
   });
 
