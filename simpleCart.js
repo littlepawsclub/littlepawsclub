@@ -152,18 +152,22 @@ if (document.body.contains(document.querySelector("#cart-items"))) {
       const el = document.createElement("div");
       el.className = "cart-row";
       el.innerHTML = `
-        <div class="cart-main">
-          <img src="${item.img || 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-1.414-.586H14l-2-2"/></svg>'}" class="cart-image" alt="${item.name}" />
-          <div class="cart-title">${item.name}</div>
-        </div>
-        <div class="cart-actions">
-          <div class="cart-controls">
-            <button data-minus data-id="${item.id}" class="cart-qty-btn" aria-label="Decrease quantity">–</button>
-            <span class="cart-qty-display">${item.qty}</span>
-            <button data-plus data-id="${item.id}" class="cart-qty-btn" aria-label="Increase quantity">+</button>
+        <div class="cart-item">
+          <img
+            src="${item.img || 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-1.414-.586H14l-2-2"/></svg>'}"
+            class="cart-image"
+            alt="${item.name}"
+          />
+          <div class="cart-details">
+            <h3 class="cart-name">${item.name}</h3>
+            <div class="cart-qty-controls">
+              <button data-minus data-id="${item.id}" class="cart-qty-btn" aria-label="Decrease quantity">–</button>
+              <span class="cart-qty">${item.qty}</span>
+              <button data-plus data-id="${item.id}" class="cart-qty-btn" aria-label="Increase quantity">+</button>
+            </div>
+            <button data-remove data-id="${item.id}" class="cart-remove" aria-label="Remove item">🗑️</button>
+            <span class="cart-price">£${(item.price * item.qty).toFixed(2)}</span>
           </div>
-          <button data-remove data-id="${item.id}" class="cart-remove" aria-label="Remove item">🗑️</button>
-          <div class="cart-price">£${(item.price * item.qty).toFixed(2)}</div>
         </div>
       `;
       container.append(el);
@@ -171,8 +175,16 @@ if (document.body.contains(document.querySelector("#cart-items"))) {
     totalEl.textContent = `Subtotal: £${subtotal.toFixed(2)}`;
   }
 
-  // Delegate plus/minus/remove
+  // Delegate plus/minus/remove with debouncing
+  let lastCartClick = 0;
   container.addEventListener("click", e => {
+    // Debounce to prevent rapid clicks
+    const now = Date.now();
+    if (now - lastCartClick < 150) {
+      return;
+    }
+    lastCartClick = now;
+    
     e.preventDefault();
     e.stopPropagation();
     
