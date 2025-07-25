@@ -149,79 +149,59 @@ if (document.body.contains(document.querySelector("#cart-items"))) {
     let subtotal = 0;
     cart.forEach(item => {
       subtotal += item.price * item.qty;
-      const el = document.createElement("div");
-      el.className = "cart-row";
-      el.innerHTML = `
-        <div class="cart-item">
-          <img
-            src="${item.img || 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-1.414-.586H14l-2-2"/></svg>'}"
-            class="cart-image"
-            alt="${item.name}"
-          />
-          <div class="cart-details">
+      const row = document.createElement("div");
+      row.className = "cart-item";
+      row.innerHTML = `
+        <img src="${item.img}" alt="${item.name}" class="cart-image" />
+        <div class="cart-details">
+          <div class="cart-info">
             <h3 class="cart-name">${item.name}</h3>
-            <div class="cart-qty-controls">
-              <button data-minus data-id="${item.id}" class="cart-qty-btn" aria-label="Decrease quantity">–</button>
-              <span class="cart-qty">${item.qty}</span>
-              <button data-plus data-id="${item.id}" class="cart-qty-btn" aria-label="Increase quantity">+</button>
-            </div>
-            <button data-remove data-id="${item.id}" class="cart-remove" aria-label="Remove item">🗑️</button>
             <span class="cart-price">£${(item.price * item.qty).toFixed(2)}</span>
           </div>
-        </div>
-      `;
-      container.append(el);
+          <div class="cart-controls">
+            <button class="qty-btn" data-action="minus" data-id="${item.id}">–</button>
+            <span class="qty">${item.qty}</span>
+            <button class="qty-btn" data-action="plus" data-id="${item.id}">+</button>
+            <button class="remove-btn" data-action="remove" data-id="${item.id}">🗑️</button>
+          </div>
+        </div>`;
+      container.appendChild(row);
     });
     totalEl.textContent = `Subtotal: £${subtotal.toFixed(2)}`;
   }
 
-  // Delegate plus/minus/remove with debouncing
-  let lastCartClick = 0;
-  container.addEventListener("click", e => {
-    // Debounce to prevent rapid clicks
-    const now = Date.now();
-    if (now - lastCartClick < 150) {
-      return;
-    }
-    lastCartClick = now;
-    
-    e.preventDefault();
-    e.stopPropagation();
-    
+  function updateQty(id, delta) {
     const cart = loadCart();
-    let cartUpdated = false;
-    
-    if (e.target.matches("[data-plus]")) {
-      const id = e.target.dataset.id;
-      const item = cart.find(i => i.id === id);
-      if (item) {
-        console.log(`Plus clicked: ${item.name} qty ${item.qty} -> ${item.qty + 1}`);
-        item.qty += 1;
-        cartUpdated = true;
-      }
-    } else if (e.target.matches("[data-minus]")) {
-      const id = e.target.dataset.id;
-      const item = cart.find(i => i.id === id);
-      if (item && item.qty > 1) {
-        console.log(`Minus clicked: ${item.name} qty ${item.qty} -> ${item.qty - 1}`);
-        item.qty -= 1;
-        cartUpdated = true;
-      }
-    } else if (e.target.matches("[data-remove]")) {
-      const id = e.target.dataset.id;
-      const idx = cart.findIndex(i => i.id === id);
-      if (idx > -1) {
-        console.log(`Remove clicked: ${cart[idx].name}`);
-        cart.splice(idx, 1);
-        cartUpdated = true;
+    const item = cart.find(i => i.id === id);
+    if (item) {
+      item.qty += delta;
+      if (item.qty <= 0) {
+        removeFromCart(id);
+      } else {
+        saveCart(cart);
+        updateBadge();
       }
     }
-    
-    if (cartUpdated) {
+  }
+
+  function removeFromCart(id) {
+    const cart = loadCart();
+    const idx = cart.findIndex(i => i.id === id);
+    if (idx > -1) {
+      cart.splice(idx, 1);
       saveCart(cart);
       updateBadge();
-      renderCart();
     }
+  }
+
+  document.getElementById("cart-items").addEventListener("click", e => {
+    const btn = e.target.closest("button");
+    if (!btn) return;
+    const { action, id } = btn.dataset;
+    if (action === "plus")  updateQty(id, +1);
+    if (action === "minus") updateQty(id, -1);
+    if (action === "remove") removeFromCart(id);
+    renderCart();
   });
 
   // Initial render
