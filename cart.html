@@ -1,28 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shopping Cart - Small Paws Club</title>
-    <meta name="description" content="Review your selected items and complete your purchase at Small Paws Club.">
-    
-    <!-- Preconnect to external domains for performance -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-    
-    <!-- Feather Icons -->
-    <script src="https://unpkg.com/feather-icons"></script>
-    
-    <!-- Stylesheets -->
-    <link rel="stylesheet" href="css/main.css?v=999999">
-    <link rel="stylesheet" href="css/override.css?v=999999">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Your Cart – Small Paws Club</title>
+  <!-- your existing CSS -->
+  <link rel="stylesheet" href="css/main.css" />
 </head>
 <body>
-  <div id="cart-items"></div>
-  <p id="cart-subtotal"></p>
-  <script src="/simpleCart.js" type="module"></script>
+  <!-- (keep your site’s navbar here; just ensure it has a badge span) -->
+  <nav>
+    <!-- …other nav links… -->
+    <a href="cart.html">
+      Cart <span id="cart-badge">0</span>
+    </a>
+  </nav>
+
+  <main>
+    <h1>Your Shopping Cart</h1>
+
+    <!-- Where items will render -->
+    <section id="cart-items"></section>
+
+    <!-- Subtotal display -->
+    <div id="cart-subtotal">Subtotal: £0.00</div>
+  </main>
+
+  <!-- Include the simpleCart script -->
+  <!-- If simpleCart.js lives in your repo root: -->
+  <script src="simpleCart.js"></script>
+  <!-- Otherwise, if it’s in js/: -->
+  <!-- <script src="js/simpleCart.js"></script> -->
 </body>
 </html>
